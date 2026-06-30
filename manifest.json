@@ -2,7 +2,7 @@
   "name": "GYM LOG",
   "short_name": "GYM LOG",
   "description": "あすウェル三軒茶屋 パーソナルトレーニング記録",
-  "start_url": "/gym-log/",
+  "start_url": "/gym_log/",
   "display": "standalone",
   "background_color": "#0f0f13",
   "theme_color": "#0f0f13",

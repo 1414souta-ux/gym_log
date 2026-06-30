@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="theme-color" content="#0f0f13">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="GYM LOG">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <title>GYM LOG</title>
+  <style>
+    :root {
+      --bg: #0f0f13;
+      --surface: #1a1a22;
+      --surface2: #22222e;
+      --border: #2e2e3e;
+      --accent: #7c6af7;
+      --accent-dim: #3d3580;
+      --green: #3ecf8e;
+      --text: #e8e8f0;
+      --text-dim: #888899;
+      --text-muted: #555566;
+      --danger: #f75c5c;
+      --yellow: #f7c948;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, 'Helvetica Neue', sans-serif;
+      min-height: 100dvh;
+      overscroll-behavior: none;
+    }
+
+    /* ── Header ── */
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 20px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .header-logo {
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: 0.15em;
+      color: var(--accent);
+    }
+    .header-date {
+      font-size: 12px;
+      color: var(--text-dim);
+      letter-spacing: 0.05em;
+    }
+
+    /* ── Tab Nav ── */
+    .tab-nav {
+      display: flex;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .tab-nav::-webkit-scrollbar { display: none; }
+    .tab-btn {
+      flex: 1;
+      min-width: 80px;
+      padding: 13px 8px;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      transition: color 0.15s;
+      position: relative;
+    }
+    .tab-btn.active {
+      color: var(--accent);
+    }
+    .tab-btn.active::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 20%;
+      width: 60%;
+      height: 2px;
+      background: var(--accent);
+      border-radius: 2px 2px 0 0;
+    }
+    .tab-badge {
+      display: inline-block;
+      margin-left: 5px;
+      background: var(--accent-dim);
+      color: var(--accent);
+      font-size: 10px;
+      padding: 1px 5px;
+      border-radius: 10px;
+    }
+
+    /* ── Main ── */
+    .main { padding: 16px 16px 100px; }
+
+    /* ── Day Header ── */
+    .day-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+    .day-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .day-badge {
+      background: var(--accent);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 6px;
+      letter-spacing: 0.1em;
+    }
+    .day-label {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-dim);
+    }
+    .day-progress {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+    .day-progress span {
+      color: var(--green);
+      font-weight: 700;
+    }
+
+    /* ── Warmup / Cooldown Card ── */
+    .phase-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin-bottom: 12px;
+    }
+    .phase-title {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      color: var(--yellow);
+      margin-bottom: 10px;
+    }
+    .phase-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 5px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+      color: var(--text-dim);
+    }
+    .phase-item:last-child { border-bottom: none; }
+    .phase-item-count { color: var(--text-muted); font-size: 12px; }
+
+    /* ── Exercise Card ── */
+    .exercise-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      margin-bottom: 10px;
+      overflow: hidden;
+      transition: border-color 0.15s;
+    }
+    .exercise-card.done {
+      border-color: var(--green);
+      opacity: 0.75;
+    }
+
+    .exercise-header {
+      display: flex;
+      align-items: center;
+      padding: 14px 16px;
+      gap: 12px;
+      cursor: pointer;
+    }
+    .exercise-check {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: all 0.15s;
+    }
+    .exercise-card.done .exercise-check {
+      background: var(--green);
+      border-color: var(--green);
+    }
+    .check-icon { display: none; font-size: 12px; }
+    .exercise-card.done .check-icon { display: block; color: #fff; }
+
+    .exercise-info { flex: 1; min-width: 0; }
+    .exercise-name {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 3px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .exercise-meta {
+      font-size: 12px;
+      color: var(--text-muted);
+      display: flex;
+      gap: 10px;
+    }
+    .exercise-meta-item { display: flex; align-items: center; gap: 3px; }
+
+    .exercise-last {
+      text-align: right;
+      flex-shrink: 0;
+    }
+    .exercise-last-weight {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--accent);
+    }
+    .exercise-last-label {
+      font-size: 10px;
+      color: var(--text-muted);
+    }
+
+    /* ── Exercise Detail (expanded) ── */
+    .exercise-detail {
+      display: none;
+      padding: 0 16px 16px;
+      border-top: 1px solid var(--border);
+    }
+    .exercise-card.expanded .exercise-detail { display: block; }
+
+    .video-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--accent);
+      text-decoration: none;
+      margin: 12px 0 14px;
+      padding: 6px 12px;
+      background: var(--accent-dim);
+      border-radius: 20px;
+      opacity: 0.9;
+    }
+    .video-link:hover { opacity: 1; }
+
+    .set-table { width: 100%; margin-bottom: 14px; }
+    .set-table th {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      text-align: left;
+      padding: 0 0 8px;
+    }
+    .set-table td { padding: 4px 0; }
+    .set-num {
+      font-size: 12px;
+      color: var(--text-muted);
+      width: 30px;
+    }
+    .weight-input {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 15px;
+      font-weight: 600;
+      padding: 7px 10px;
+      width: 80px;
+      text-align: center;
+      -moz-appearance: textfield;
+    }
+    .weight-input:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+    .weight-input::-webkit-inner-spin-button,
+    .weight-input::-webkit-outer-spin-button { -webkit-appearance: none; }
+    .weight-unit {
+      font-size: 12px;
+      color: var(--text-muted);
+      padding-left: 4px;
+    }
+    .reps-target {
+      font-size: 12px;
+      color: var(--text-dim);
+      padding-left: 8px;
+    }
+
+    .btn-done {
+      width: 100%;
+      padding: 12px;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      letter-spacing: 0.05em;
+      transition: opacity 0.15s;
+    }
+    .btn-done:hover { opacity: 0.85; }
+    .btn-undone {
+      width: 100%;
+      padding: 12px;
+      background: var(--surface2);
+      color: var(--danger);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 8px;
+      transition: opacity 0.15s;
+    }
+
+    /* ── History Tab ── */
+    .history-empty {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--text-muted);
+      font-size: 14px;
+      line-height: 1.8;
+    }
+    .history-session {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      margin-bottom: 12px;
+      overflow: hidden;
+    }
+    .history-session-header {
+      padding: 14px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+    }
+    .history-session-date {
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .history-session-day {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 6px;
+      letter-spacing: 0.08em;
+    }
+    .day-a { background: #3d2d8a; color: #a891ff; }
+    .day-b { background: #1e4a35; color: #3ecf8e; }
+    .day-c { background: #4a2e1e; color: #f7a548; }
+
+    .history-session-body {
+      display: none;
+      padding: 0 16px 14px;
+      border-top: 1px solid var(--border);
+    }
+    .history-session.open .history-session-body { display: block; }
+    .history-exercise-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 7px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+    }
+    .history-exercise-row:last-child { border-bottom: none; }
+    .history-exercise-name { color: var(--text-dim); }
+    .history-exercise-sets { color: var(--text-muted); font-size: 12px; }
+
+    /* ── Bottom CTA ── */
+    .bottom-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+      background: linear-gradient(transparent, var(--bg) 30%);
+    }
+    .btn-finish {
+      width: 100%;
+      padding: 16px;
+      background: var(--green);
+      color: #0f1a14;
+      border: none;
+      border-radius: 14px;
+      font-size: 15px;
+      font-weight: 800;
+      cursor: pointer;
+      letter-spacing: 0.05em;
+      transition: opacity 0.15s;
+    }
+    .btn-finish:disabled {
+      background: var(--surface2);
+      color: var(--text-muted);
+      cursor: default;
+    }
+
+    /* ── Toast ── */
+    .toast {
+      position: fixed;
+      bottom: 100px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: var(--surface2);
+      border: 1px solid var(--green);
+      color: var(--green);
+      padding: 10px 20px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+      opacity: 0;
+      transition: all 0.3s;
+      pointer-events: none;
+      white-space: nowrap;
+      z-index: 200;
+    }
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* ── Streak ── */
+    .streak-bar {
+      display: flex;
+      gap: 6px;
+      padding: 14px 16px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .streak-bar::-webkit-scrollbar { display: none; }
+    .streak-day {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      min-width: 36px;
+    }
+    .streak-dot {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 9px;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+    .streak-dot.done-a { background: #3d2d8a; border-color: #7c6af7; color: #a891ff; }
+    .streak-dot.done-b { background: #1e4a35; border-color: #3ecf8e; color: #3ecf8e; }
+    .streak-dot.done-c { background: #4a2e1e; border-color: #f7a548; color: #f7a548; }
+    .streak-dot.today { border-width: 2px; border-color: var(--accent); }
+    .streak-label { font-size: 9px; color: var(--text-muted); }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-logo">GYM LOG</div>
+  <div class="header-date" id="headerDate"></div>
+</div>
+
+<div class="tab-nav">
+  <button class="tab-btn active" onclick="showTab('workout')" id="tab-workout">TODAY</button>
+  <button class="tab-btn" onclick="showTab('history')" id="tab-history">履歴</button>
+</div>
+
+<!-- ストリーク -->
+<div class="streak-bar" id="streakBar"></div>
+
+<div class="main" id="mainContent"></div>
+
+<div class="bottom-bar" id="bottomBar" style="display:none">
+  <button class="btn-finish" id="btnFinish" onclick="finishWorkout()">トレーニング完了！</button>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ── データ定義 ──────────────────────────────────
+const DAYS = {
+  A: {
+    label: '胸・肩・三頭筋',
+    color: 'day-a',
+    warmup: [
+      { name: 'バイク or ヴァリオ', count: '5分・軽め' },
+      { name: '肩回し（前後）', count: '各10回' },
+      { name: '体幹ツイスト', count: '左右10回' },
+      { name: 'レッグスウィング', count: '各10回' },
+      { name: '自重スクワット', count: '10回' },
+    ],
+    exercises: [
+      { id:'A1', name:'チェストプレス', machine:'チェストプレスマシン', sets:3, reps:12, weight:25, video:'https://www.youtube.com/watch?v=O0K65G6gqMg' },
+      { id:'A2', name:'インクラインチェストプレス', machine:'インクラインチェストプレス', sets:3, reps:12, weight:20, video:'https://www.youtube.com/watch?v=AdPmGWdun8Q' },
+      { id:'A3', name:'ショルダープレス', machine:'ショルダープレスマシン', sets:3, reps:12, weight:17, video:'https://www.youtube.com/watch?v=Leds7XNv6GM' },
+      { id:'A4', name:'ダンベルサイドレイズ', machine:'ダンベル', sets:2, reps:15, weight:4, video:'https://www.youtube.com/watch?v=BFWgqK72XPY' },
+      { id:'A5', name:'ケーブルプッシュダウン', machine:'ケーブルマシン', sets:3, reps:15, weight:18, video:'https://www.youtube.com/watch?v=NAry9DhipJA' },
+    ],
+    cooldown: [
+      { name: '胸・肩ストレッチ（壁で体をひねる）', count: '30秒×左右' },
+      { name: '股関節ストレッチ（片膝立ち）', count: '30秒×左右' },
+      { name: '体幹ストレッチ（仰向けで膝を倒す）', count: '30秒×左右' },
+    ]
+  },
+  B: {
+    label: '脚・臀部',
+    color: 'day-b',
+    warmup: [
+      { name: 'バイク or ヴァリオ', count: '5分・軽め' },
+      { name: 'レッグスウィング（前後）', count: '各10回' },
+      { name: 'ヒップサークル', count: '各5回' },
+      { name: '自重スクワット', count: '10回' },
+      { name: '体幹ツイスト', count: '左右10回' },
+    ],
+    exercises: [
+      { id:'B1', name:'レッグプレス', machine:'リニアレッグプレス', sets:4, reps:12, weight:50, video:'https://www.youtube.com/watch?v=BzxjkQ7W9wQ' },
+      { id:'B2', name:'レッグエクステンション', machine:'レッグエクステンションマシン', sets:3, reps:15, weight:25, video:'https://www.youtube.com/watch?v=HXyxz_WidQo' },
+      { id:'B3', name:'レッグカール', machine:'レッグカールマシン', sets:3, reps:15, weight:25, video:'https://www.youtube.com/watch?v=HXyxz_WidQo' },
+      { id:'B4', name:'グルートドライブ', machine:'グルート・ドライブ', sets:3, reps:15, weight:20, video:'https://www.youtube.com/watch?v=OGP3XK89E0k' },
+      { id:'B5', name:'アダクター', machine:'アダクターマシン', sets:2, reps:15, weight:20, video:'https://www.youtube.com/watch?v=Njp6xBkKGwE' },
+      { id:'B6', name:'アブダクター', machine:'アブダクターマシン', sets:2, reps:15, weight:20, video:'https://www.youtube.com/watch?v=Njp6xBkKGwE' },
+    ],
+    cooldown: [
+      { name: 'ハムストリングストレッチ（前屈）', count: '30秒' },
+      { name: '大腿四頭筋ストレッチ（踵を引く）', count: '30秒×左右' },
+      { name: '股関節ストレッチ（片膝立ち）', count: '30秒×左右' },
+      { name: '体幹ストレッチ（仰向けで膝を倒す）', count: '30秒×左右' },
+    ]
+  },
+  C: {
+    label: '背中・二頭筋',
+    color: 'day-c',
+    warmup: [
+      { name: 'バイク or ヴァリオ', count: '5分・軽め' },
+      { name: '肩回し（前後）', count: '各10回' },
+      { name: '体幹ツイスト', count: '左右10回' },
+      { name: 'レッグスウィング', count: '各10回' },
+      { name: 'ヒップサークル', count: '各5回' },
+    ],
+    exercises: [
+      { id:'C1', name:'ラットプルダウン', machine:'ラットプルダウンマシン', sets:4, reps:12, weight:30, video:'https://www.youtube.com/watch?v=mG1T29lwrNI' },
+      { id:'C2', name:'シーテッドケーブルロー', machine:'ケーブルマシン', sets:3, reps:12, weight:25, video:'https://www.youtube.com/watch?v=7BX-RNCB5Ew' },
+      { id:'C3', name:'アームカール', machine:'アームカールマシン', sets:3, reps:15, weight:10, video:'https://www.youtube.com/watch?v=w09NtPcZ5Gk' },
+      { id:'C4', name:'ロータリートーソ', machine:'ロータリートーソマシン', sets:2, reps:15, weight:15, video:'https://www.youtube.com/watch?v=D0vn5jDG0cM' },
+    ],
+    cooldown: [
+      { name: '広背筋ストレッチ（腕を上げて横に倒す）', count: '30秒×左右' },
+      { name: '股関節ストレッチ（片膝立ち）', count: '30秒×左右' },
+      { name: '体幹ストレッチ（仰向けで膝を倒す）', count: '30秒×左右' },
+    ]
+  }
+};
+
+const ROTATION = ['A','B','C','B','A','C','A','B','C','B','A','C'];
+
+// ── State ──────────────────────────────────────
+let currentTab = 'workout';
+let todayDay = getTodayDay();
+let sessionState = {}; // { exerciseId: { done: bool, weights: [kg...] } }
+let expandedId = null;
+
+function getTodayDay() {
+  const history = getHistory();
+  if (history.length === 0) return 'A';
+  const last = history[history.length - 1];
+  const nextIdx = (ROTATION.indexOf(last.day) + 1) % ROTATION.length;
+  return ROTATION[nextIdx];
+}
+
+function getHistory() {
+  try { return JSON.parse(localStorage.getItem('gymlog_history') || '[]'); } catch { return []; }
+}
+function saveHistory(h) { localStorage.setItem('gymlog_history', JSON.stringify(h)); }
+
+function getWeightMemory() {
+  try { return JSON.parse(localStorage.getItem('gymlog_weights') || '{}'); } catch { return {}; }
+}
+function saveWeightMemory(w) { localStorage.setItem('gymlog_weights', JSON.stringify(w)); }
+
+// ── Init ───────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  updateHeaderDate();
+  renderStreakBar();
+  renderWorkout();
+});
+
+function updateHeaderDate() {
+  const d = new Date();
+  const days = ['日','月','火','水','木','金','土'];
+  document.getElementById('headerDate').textContent =
+    `${d.getMonth()+1}/${d.getDate()}（${days[d.getDay()]}）`;
+}
+
+// ── Streak ─────────────────────────────────────
+function renderStreakBar() {
+  const history = getHistory();
+  const bar = document.getElementById('streakBar');
+  const today = new Date();
+  const days = ['日','月','火','水','木','金','土'];
+  let html = '';
+  for (let i = 13; i >= 0; i--) {
+    const d = new Date(today);
+    d.setDate(d.getDate() - i);
+    const key = d.toISOString().slice(0,10);
+    const rec = history.find(h => h.date === key);
+    const isToday = i === 0;
+    let cls = isToday ? ' today' : '';
+    let label = '';
+    if (rec) { cls += ` done-${rec.day.toLowerCase()}`; label = rec.day; }
+    html += `<div class="streak-day">
+      <div class="streak-dot${cls}">${label || (isToday ? '今' : '')}</div>
+      <div class="streak-label">${days[d.getDay()]}</div>
+    </div>`;
+  }
+  bar.innerHTML = html;
+}
+
+// ── Workout Tab ────────────────────────────────
+function renderWorkout() {
+  const day = DAYS[todayDay];
+  const weights = getWeightMemory();
+  // init session
+  sessionState = {};
+  day.exercises.forEach(ex => {
+    const lastWeights = weights[ex.id] || Array(ex.sets).fill(ex.weight);
+    sessionState[ex.id] = { done: false, weights: [...lastWeights].slice(0, ex.sets) };
+    while (sessionState[ex.id].weights.length < ex.sets) {
+      sessionState[ex.id].weights.push(ex.weight);
+    }
+  });
+
+  let html = `
+    <div class="day-header">
+      <div class="day-title">
+        <span class="day-badge">DAY ${todayDay}</span>
+        <span class="day-label">${day.label}</span>
+      </div>
+      <div class="day-progress">完了 <span id="doneCount">0</span>/${day.exercises.length}</div>
+    </div>
+
+    <div class="phase-card">
+      <div class="phase-title">🌅 ウォームアップ（10分）</div>
+      ${day.warmup.map(w => `
+        <div class="phase-item">
+          <span>${w.name}</span>
+          <span class="phase-item-count">${w.count}</span>
+        </div>`).join('')}
+    </div>`;
+
+  day.exercises.forEach((ex, i) => {
+    html += renderExerciseCard(ex, i);
+  });
+
+  html += `
+    <div class="phase-card" style="margin-top:8px">
+      <div class="phase-title">🌙 クールダウン（5〜10分）</div>
+      ${day.cooldown.map(c => `
+        <div class="phase-item">
+          <span>${c.name}</span>
+          <span class="phase-item-count">${c.count}</span>
+        </div>`).join('')}
+    </div>`;
+
+  document.getElementById('mainContent').innerHTML = html;
+  document.getElementById('bottomBar').style.display = 'block';
+  updateDoneCount();
+}
+
+function renderExerciseCard(ex, i) {
+  const s = sessionState[ex.id];
+  const isDone = s.done;
+  const isExpanded = expandedId === ex.id;
+  const lastWeight = s.weights[0];
+
+  let setsHtml = `<table class="set-table">
+    <tr><th>SET</th><th>重量</th><th></th></tr>`;
+  for (let j = 0; j < ex.sets; j++) {
+    setsHtml += `<tr>
+      <td class="set-num">${j+1}</td>
+      <td><input class="weight-input" type="number" inputmode="decimal"
+        value="${s.weights[j]}"
+        onchange="updateWeight('${ex.id}', ${j}, this.value)"
+        onclick="this.select()">
+        <span class="weight-unit">kg</span>
+      </td>
+      <td class="reps-target">× ${ex.reps}回</td>
+    </tr>`;
+  }
+  setsHtml += '</table>';
+
+  return `
+    <div class="exercise-card${isDone?' done':''}${isExpanded?' expanded':''}" id="card-${ex.id}">
+      <div class="exercise-header" onclick="toggleCard('${ex.id}')">
+        <div class="exercise-check">
+          <span class="check-icon">✓</span>
+        </div>
+        <div class="exercise-info">
+          <div class="exercise-name">${ex.name}</div>
+          <div class="exercise-meta">
+            <span class="exercise-meta-item">📍 ${ex.machine}</span>
+            <span class="exercise-meta-item">🔄 ${ex.sets}×${ex.reps}</span>
+          </div>
+        </div>
+        <div class="exercise-last">
+          <div class="exercise-last-weight">${lastWeight}kg</div>
+          <div class="exercise-last-label">前回</div>
+        </div>
+      </div>
+      <div class="exercise-detail">
+        <a class="video-link" href="${ex.video}" target="_blank" rel="noopener">
+          ▶ フォーム解説動画
+        </a>
+        ${setsHtml}
+        <button class="btn-done" onclick="markDone('${ex.id}')">
+          ${isDone ? '✓ 完了済み' : 'このセット完了！'}
+        </button>
+        ${isDone ? `<button class="btn-undone" onclick="markUndone('${ex.id}')">取り消し</button>` : ''}
+      </div>
+    </div>`;
+}
+
+function toggleCard(id) {
+  expandedId = (expandedId === id) ? null : id;
+  rerenderCards();
+}
+
+function updateWeight(id, setIndex, val) {
+  const v = parseFloat(val) || 0;
+  sessionState[id].weights[setIndex] = v;
+}
+
+function markDone(id) {
+  sessionState[id].done = true;
+  expandedId = null;
+  // save weight memory
+  const wm = getWeightMemory();
+  wm[id] = [...sessionState[id].weights];
+  saveWeightMemory(wm);
+  rerenderCards();
+  updateDoneCount();
+  showToast('✓ 完了！');
+}
+
+function markUndone(id) {
+  sessionState[id].done = false;
+  rerenderCards();
+  updateDoneCount();
+}
+
+function rerenderCards() {
+  const day = DAYS[todayDay];
+  day.exercises.forEach((ex, i) => {
+    const card = document.getElementById('card-' + ex.id);
+    if (card) {
+      const tmp = document.createElement('div');
+      tmp.innerHTML = renderExerciseCard(ex, i);
+      card.replaceWith(tmp.firstElementChild);
+    }
+  });
+}
+
+function updateDoneCount() {
+  const day = DAYS[todayDay];
+  const done = day.exercises.filter(ex => sessionState[ex.id]?.done).length;
+  const el = document.getElementById('doneCount');
+  if (el) el.textContent = done;
+  const btn = document.getElementById('btnFinish');
+  if (btn) {
+    btn.disabled = (done < day.exercises.length);
+    btn.textContent = done === day.exercises.length
+      ? `🎉 トレーニング完了！` : `完了（${done}/${day.exercises.length}）`;
+  }
+}
+
+function finishWorkout() {
+  const today = new Date().toISOString().slice(0,10);
+  const history = getHistory();
+  // 同日の重複を防ぐ
+  const filtered = history.filter(h => h.date !== today);
+  const day = DAYS[todayDay];
+  const summary = day.exercises.map(ex => ({
+    name: ex.name,
+    sets: ex.sets,
+    weights: sessionState[ex.id]?.weights || []
+  }));
+  filtered.push({ date: today, day: todayDay, exercises: summary });
+  saveHistory(filtered);
+
+  // 次のDayへ
+  todayDay = getTodayDay();
+  sessionState = {};
+  expandedId = null;
+
+  renderStreakBar();
+  renderWorkout();
+  showTab('history');
+  showToast('🎉 お疲れ様！');
+}
+
+// ── History Tab ────────────────────────────────
+function renderHistory() {
+  document.getElementById('bottomBar').style.display = 'none';
+  const history = getHistory().slice().reverse();
+  if (history.length === 0) {
+    document.getElementById('mainContent').innerHTML = `
+      <div class="history-empty">
+        まだ記録がありません。<br>最初のトレーニングを始めよう！
+      </div>`;
+    return;
+  }
+
+  const dayNames = { A: '胸・肩・三頭筋', B: '脚・臀部', C: '背中・二頭筋' };
+  let html = '';
+  history.forEach((rec, idx) => {
+    const d = new Date(rec.date);
+    const days = ['日','月','火','水','木','金','土'];
+    const dateStr = `${d.getMonth()+1}月${d.getDate()}日（${days[d.getDay()]}）`;
+    html += `
+      <div class="history-session" id="hs-${idx}">
+        <div class="history-session-header" onclick="toggleHistorySession(${idx})">
+          <div>
+            <div class="history-session-date">${dateStr}</div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px">${dayNames[rec.day]}</div>
+          </div>
+          <span class="history-session-day day-${rec.day.toLowerCase()}">DAY ${rec.day}</span>
+        </div>
+        <div class="history-session-body">
+          ${rec.exercises.map(ex => `
+            <div class="history-exercise-row">
+              <span class="history-exercise-name">${ex.name}</span>
+              <span class="history-exercise-sets">
+                ${ex.sets}セット・${ex.weights.map(w=>w+'kg').join(' / ')}
+              </span>
+            </div>`).join('')}
+        </div>
+      </div>`;
+  });
+  document.getElementById('mainContent').innerHTML = html;
+}
+
+function toggleHistorySession(idx) {
+  const el = document.getElementById('hs-' + idx);
+  el.classList.toggle('open');
+}
+
+// ── Tab ────────────────────────────────────────
+function showTab(tab) {
+  currentTab = tab;
+  document.getElementById('tab-workout').classList.toggle('active', tab==='workout');
+  document.getElementById('tab-history').classList.toggle('active', tab==='history');
+  if (tab === 'workout') {
+    document.getElementById('bottomBar').style.display = 'block';
+    renderWorkout();
+  } else {
+    renderHistory();
+  }
+}
+
+// ── Toast ──────────────────────────────────────
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2000);
+}
+</script>
+
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js').catch(()=>{});
+  });
+}
+</script>
+</body>
+</html>

@@ -19,466 +19,329 @@
       --accent: #7c6af7;
       --accent-dim: #3d3580;
       --green: #3ecf8e;
+      --orange: #f7a548;
       --text: #e8e8f0;
       --text-dim: #888899;
       --text-muted: #555566;
       --danger: #f75c5c;
       --yellow: #f7c948;
     }
-
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-
     body {
-      background: var(--bg);
-      color: var(--text);
+      background: var(--bg); color: var(--text);
       font-family: -apple-system, 'Helvetica Neue', sans-serif;
-      min-height: 100dvh;
-      overscroll-behavior: none;
+      min-height: 100dvh; overscroll-behavior: none;
     }
 
     /* ── Header ── */
     .header {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: var(--bg);
-      border-bottom: 1px solid var(--border);
+      position: sticky; top: 0; z-index: 100;
+      background: var(--bg); border-bottom: 1px solid var(--border);
       padding: 14px 20px 12px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      display: flex; align-items: center; justify-content: space-between;
     }
-    .header-logo {
-      font-size: 18px;
-      font-weight: 800;
-      letter-spacing: 0.15em;
-      color: var(--accent);
-    }
-    .header-date {
-      font-size: 12px;
-      color: var(--text-dim);
-      letter-spacing: 0.05em;
-    }
+    .header-logo { font-size: 18px; font-weight: 800; letter-spacing: 0.15em; color: var(--accent); }
+    .header-date { font-size: 12px; color: var(--text-dim); }
 
     /* ── Tab Nav ── */
-    .tab-nav {
-      display: flex;
-      background: var(--surface);
-      border-bottom: 1px solid var(--border);
-      overflow-x: auto;
-      scrollbar-width: none;
-    }
-    .tab-nav::-webkit-scrollbar { display: none; }
+    .tab-nav { display: flex; background: var(--surface); border-bottom: 1px solid var(--border); }
     .tab-btn {
-      flex: 1;
-      min-width: 80px;
-      padding: 13px 8px;
-      background: none;
-      border: none;
-      color: var(--text-muted);
-      font-size: 12px;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      cursor: pointer;
-      transition: color 0.15s;
-      position: relative;
+      flex: 1; padding: 14px 8px; background: none; border: none;
+      color: var(--text-muted); font-size: 13px; font-weight: 700;
+      letter-spacing: 0.08em; cursor: pointer; position: relative;
     }
-    .tab-btn.active {
-      color: var(--accent);
-    }
+    .tab-btn.active { color: var(--accent); }
     .tab-btn.active::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 20%;
-      width: 60%;
-      height: 2px;
-      background: var(--accent);
-      border-radius: 2px 2px 0 0;
-    }
-    .tab-badge {
-      display: inline-block;
-      margin-left: 5px;
-      background: var(--accent-dim);
-      color: var(--accent);
-      font-size: 10px;
-      padding: 1px 5px;
-      border-radius: 10px;
+      content: ''; position: absolute; bottom: 0; left: 25%;
+      width: 50%; height: 2px; background: var(--accent); border-radius: 2px 2px 0 0;
     }
 
-    /* ── Main ── */
-    .main { padding: 16px 16px 100px; }
+    .main { padding: 16px 16px 110px; }
 
-    /* ── Day Header ── */
-    .day-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 16px;
+    /* ── Program cards ── */
+    .section-label {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.12em;
+      color: var(--text-muted); margin: 18px 4px 10px;
     }
-    .day-title {
-      display: flex;
-      align-items: center;
-      gap: 10px;
+    .program-hero {
+      background: linear-gradient(135deg, #2a2260, #1a1a22);
+      border: 1px solid var(--accent-dim); border-radius: 16px;
+      padding: 18px; margin-bottom: 8px; cursor: pointer;
     }
+    .program-hero-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
     .day-badge {
-      background: var(--accent);
-      color: #fff;
-      font-size: 11px;
-      font-weight: 800;
-      padding: 4px 10px;
-      border-radius: 6px;
-      letter-spacing: 0.1em;
+      background: var(--accent); color: #fff; font-size: 11px; font-weight: 800;
+      padding: 4px 10px; border-radius: 6px; letter-spacing: 0.1em;
     }
-    .day-label {
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--text-dim);
+    .program-hero-title { font-size: 18px; font-weight: 800; margin-bottom: 4px; }
+    .program-hero-sub { font-size: 12px; color: var(--text-dim); }
+    .program-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .program-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; padding: 14px; cursor: pointer;
     }
-    .day-progress {
-      font-size: 12px;
-      color: var(--text-muted);
-    }
-    .day-progress span {
-      color: var(--green);
-      font-weight: 700;
-    }
+    .program-card-icon { font-size: 22px; margin-bottom: 6px; }
+    .program-card-name { font-size: 14px; font-weight: 700; margin-bottom: 2px; }
+    .program-card-count { font-size: 11px; color: var(--text-muted); }
 
-    /* ── Warmup / Cooldown Card ── */
+    /* ── Workout view ── */
+    .workout-nav {
+      display: flex; align-items: center; gap: 10px; margin-bottom: 14px;
+    }
+    .btn-back {
+      background: var(--surface); border: 1px solid var(--border); color: var(--text);
+      border-radius: 10px; padding: 8px 14px; font-size: 13px; cursor: pointer;
+    }
+    .workout-title { font-size: 16px; font-weight: 800; flex: 1; }
+    .day-progress { font-size: 12px; color: var(--text-muted); }
+    .day-progress span { color: var(--green); font-weight: 700; }
+
+    /* rest timer */
+    .timer-bar {
+      display: flex; gap: 8px; align-items: center; margin-bottom: 14px;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; padding: 10px 14px;
+    }
+    .timer-label { font-size: 12px; color: var(--text-dim); flex: 1; }
+    .timer-display { font-size: 18px; font-weight: 800; color: var(--yellow); min-width: 50px; text-align: center; }
+    .timer-btn {
+      background: var(--surface2); border: 1px solid var(--border); color: var(--text);
+      border-radius: 8px; padding: 6px 12px; font-size: 12px; font-weight: 700; cursor: pointer;
+    }
+    .timer-btn.active { border-color: var(--yellow); color: var(--yellow); }
+
+    /* phase card */
     .phase-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 14px 16px;
-      margin-bottom: 12px;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; padding: 14px 16px; margin-bottom: 12px;
     }
-    .phase-title {
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      color: var(--yellow);
-      margin-bottom: 10px;
-    }
+    .phase-title { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; color: var(--yellow); margin-bottom: 10px; }
     .phase-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 5px 0;
-      border-bottom: 1px solid var(--border);
-      font-size: 13px;
-      color: var(--text-dim);
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 6px 0; border-bottom: 1px solid var(--border);
+      font-size: 13px; color: var(--text-dim); gap: 8px;
     }
     .phase-item:last-child { border-bottom: none; }
-    .phase-item-count { color: var(--text-muted); font-size: 12px; }
+    .phase-item-count { color: var(--text-muted); font-size: 12px; flex-shrink: 0; }
+    .phase-video {
+      color: var(--accent); text-decoration: none; font-size: 12px; flex-shrink: 0;
+    }
 
-    /* ── Exercise Card ── */
+    /* exercise card */
     .exercise-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      margin-bottom: 10px;
-      overflow: hidden;
-      transition: border-color 0.15s;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; margin-bottom: 10px; overflow: hidden;
     }
-    .exercise-card.done {
-      border-color: var(--green);
-      opacity: 0.75;
-    }
-
-    .exercise-header {
-      display: flex;
-      align-items: center;
-      padding: 14px 16px;
-      gap: 12px;
-      cursor: pointer;
+    .exercise-card.done { border-color: var(--green); opacity: 0.75; }
+    .exercise-header { display: flex; align-items: center; padding: 14px 14px; gap: 10px; cursor: pointer; }
+    .order-badge {
+      width: 22px; height: 22px; border-radius: 6px;
+      background: var(--surface2); border: 1px solid var(--border);
+      color: var(--text-dim); font-size: 11px; font-weight: 800;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
     }
     .exercise-check {
-      width: 24px;
-      height: 24px;
-      border-radius: 50%;
+      width: 24px; height: 24px; border-radius: 50%;
       border: 2px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      transition: all 0.15s;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; transition: all 0.15s;
     }
-    .exercise-card.done .exercise-check {
-      background: var(--green);
-      border-color: var(--green);
-    }
+    .exercise-card.done .exercise-check { background: var(--green); border-color: var(--green); }
     .check-icon { display: none; font-size: 12px; }
     .exercise-card.done .check-icon { display: block; color: #fff; }
-
     .exercise-info { flex: 1; min-width: 0; }
-    .exercise-name {
-      font-size: 14px;
-      font-weight: 600;
-      margin-bottom: 3px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    .exercise-meta {
-      font-size: 12px;
-      color: var(--text-muted);
-      display: flex;
-      gap: 10px;
-    }
-    .exercise-meta-item { display: flex; align-items: center; gap: 3px; }
+    .exercise-name { font-size: 14px; font-weight: 600; margin-bottom: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .exercise-meta { font-size: 11px; color: var(--text-muted); display: flex; gap: 8px; flex-wrap: wrap; }
+    .exercise-last { text-align: right; flex-shrink: 0; }
+    .exercise-last-weight { font-size: 15px; font-weight: 700; color: var(--accent); }
+    .exercise-last-label { font-size: 10px; color: var(--text-muted); }
 
-    .exercise-last {
-      text-align: right;
-      flex-shrink: 0;
-    }
-    .exercise-last-weight {
-      font-size: 15px;
-      font-weight: 700;
-      color: var(--accent);
-    }
-    .exercise-last-label {
-      font-size: 10px;
-      color: var(--text-muted);
-    }
-
-    /* ── Exercise Detail (expanded) ── */
-    .exercise-detail {
-      display: none;
-      padding: 0 16px 16px;
-      border-top: 1px solid var(--border);
-    }
+    .exercise-detail { display: none; padding: 0 14px 16px; border-top: 1px solid var(--border); }
     .exercise-card.expanded .exercise-detail { display: block; }
 
-    .video-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 12px;
-      color: var(--accent);
-      text-decoration: none;
-      margin: 12px 0 14px;
-      padding: 6px 12px;
-      background: var(--accent-dim);
-      border-radius: 20px;
-      opacity: 0.9;
+    /* anim + guide */
+    .anim-box {
+      background: var(--surface2); border-radius: 12px;
+      display: flex; justify-content: center; padding: 10px;
+      margin: 12px 0;
     }
-    .video-link:hover { opacity: 1; }
+    .guide-grid { display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; }
+    .guide-item {
+      background: var(--surface2); border-radius: 10px; padding: 10px 12px;
+    }
+    .guide-item-label { font-size: 10px; font-weight: 800; letter-spacing: 0.1em; margin-bottom: 4px; }
+    .guide-prep .guide-item-label { color: var(--yellow); }
+    .guide-motion .guide-item-label { color: var(--accent); }
+    .guide-breath .guide-item-label { color: var(--green); }
+    .guide-item-text { font-size: 12px; color: var(--text-dim); line-height: 1.6; }
 
-    .set-table { width: 100%; margin-bottom: 14px; }
+    .video-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 12px; color: var(--accent); text-decoration: none;
+      margin-bottom: 12px; padding: 6px 12px;
+      background: var(--accent-dim); border-radius: 20px;
+    }
+
+    /* set table */
+    .set-table { width: 100%; margin-bottom: 8px; border-collapse: collapse; }
     .set-table th {
-      font-size: 10px;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      color: var(--text-muted);
-      text-align: left;
-      padding: 0 0 8px;
+      font-size: 10px; font-weight: 600; letter-spacing: 0.1em;
+      color: var(--text-muted); text-align: left; padding: 0 0 8px;
     }
-    .set-table td { padding: 4px 0; }
-    .set-num {
-      font-size: 12px;
-      color: var(--text-muted);
-      width: 30px;
-    }
-    .weight-input {
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      color: var(--text);
-      font-size: 15px;
-      font-weight: 600;
-      padding: 7px 10px;
-      width: 80px;
-      text-align: center;
+    .set-table td { padding: 4px 4px 4px 0; }
+    .set-num { font-size: 12px; color: var(--text-muted); width: 28px; }
+    .num-input {
+      background: var(--surface2); border: 1px solid var(--border); border-radius: 8px;
+      color: var(--text); font-size: 15px; font-weight: 600;
+      padding: 7px 6px; width: 64px; text-align: center;
       -moz-appearance: textfield;
     }
-    .weight-input:focus {
-      outline: none;
-      border-color: var(--accent);
+    .num-input:focus { outline: none; border-color: var(--accent); }
+    .num-input::-webkit-inner-spin-button, .num-input::-webkit-outer-spin-button { -webkit-appearance: none; }
+    .unit { font-size: 11px; color: var(--text-muted); padding: 0 2px; }
+
+    /* bulk confirm */
+    .bulk-confirm {
+      background: #2a2440; border: 1px solid var(--accent);
+      border-radius: 10px; padding: 10px 12px; margin-bottom: 10px;
+      font-size: 12px; color: var(--text);
     }
-    .weight-input::-webkit-inner-spin-button,
-    .weight-input::-webkit-outer-spin-button { -webkit-appearance: none; }
-    .weight-unit {
-      font-size: 12px;
-      color: var(--text-muted);
-      padding-left: 4px;
+    .bulk-confirm-btns { display: flex; gap: 8px; margin-top: 8px; }
+    .bulk-btn {
+      flex: 1; padding: 8px; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer;
     }
-    .reps-target {
-      font-size: 12px;
-      color: var(--text-dim);
-      padding-left: 8px;
-    }
+    .bulk-yes { background: var(--accent); color: #fff; border: none; }
+    .bulk-no { background: var(--surface2); color: var(--text-dim); border: 1px solid var(--border); }
 
     .btn-done {
-      width: 100%;
-      padding: 12px;
-      background: var(--accent);
-      color: #fff;
-      border: none;
-      border-radius: 10px;
-      font-size: 14px;
-      font-weight: 700;
-      cursor: pointer;
-      letter-spacing: 0.05em;
-      transition: opacity 0.15s;
+      width: 100%; padding: 12px; background: var(--accent); color: #fff;
+      border: none; border-radius: 10px; font-size: 14px; font-weight: 700;
+      cursor: pointer; letter-spacing: 0.05em;
     }
-    .btn-done:hover { opacity: 0.85; }
     .btn-undone {
-      width: 100%;
-      padding: 12px;
-      background: var(--surface2);
-      color: var(--danger);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-      margin-top: 8px;
-      transition: opacity 0.15s;
+      width: 100%; padding: 10px; background: var(--surface2); color: var(--danger);
+      border: 1px solid var(--border); border-radius: 10px;
+      font-size: 13px; font-weight: 600; cursor: pointer; margin-top: 8px;
     }
 
-    /* ── History Tab ── */
-    .history-empty {
-      text-align: center;
-      padding: 60px 20px;
-      color: var(--text-muted);
-      font-size: 14px;
-      line-height: 1.8;
+    /* bottom bar */
+    .bottom-bar {
+      position: fixed; bottom: 0; left: 0; right: 0;
+      padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+      background: linear-gradient(transparent, var(--bg) 30%);
+      display: none;
     }
+    .btn-finish {
+      width: 100%; padding: 16px; background: var(--green); color: #0f1a14;
+      border: none; border-radius: 14px; font-size: 15px; font-weight: 800;
+      cursor: pointer; letter-spacing: 0.05em;
+    }
+    .btn-finish:disabled { background: var(--surface2); color: var(--text-muted); }
+
+    /* ── Analysis tab ── */
+    .stats-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 4px; }
+    .stat-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; padding: 14px 10px; text-align: center;
+    }
+    .stat-value { font-size: 20px; font-weight: 800; color: var(--accent); }
+    .stat-label { font-size: 10px; color: var(--text-muted); margin-top: 4px; }
+
+    /* calendar */
+    .calendar-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; padding: 14px;
+    }
+    .calendar-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+    .calendar-month { font-size: 14px; font-weight: 800; }
+    .cal-nav-btn {
+      background: var(--surface2); border: 1px solid var(--border); color: var(--text);
+      border-radius: 8px; width: 32px; height: 32px; font-size: 14px; cursor: pointer;
+    }
+    .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+    .cal-dow { text-align: center; font-size: 10px; color: var(--text-muted); padding: 4px 0; }
+    .cal-day {
+      aspect-ratio: 1; display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      border-radius: 8px; font-size: 12px; color: var(--text-dim);
+      position: relative;
+    }
+    .cal-day.other { color: var(--text-muted); opacity: 0.3; }
+    .cal-day.today { border: 1px solid var(--accent); color: var(--accent); font-weight: 800; }
+    .cal-day.trained { font-weight: 700; color: var(--text); }
+    .cal-dot {
+      width: 6px; height: 6px; border-radius: 50%; margin-top: 2px;
+    }
+    .dot-a { background: #a891ff; }
+    .dot-b { background: #3ecf8e; }
+    .dot-c { background: #f7a548; }
+    .dot-p { background: #5ac8fa; }
+
+    /* recovery */
+    .recovery-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; padding: 14px 16px;
+    }
+    .recovery-row { display: flex; align-items: center; gap: 10px; padding: 6px 0; }
+    .recovery-name { font-size: 12px; color: var(--text-dim); width: 90px; flex-shrink: 0; }
+    .recovery-bar-bg {
+      flex: 1; height: 8px; background: var(--surface2); border-radius: 4px; overflow: hidden;
+    }
+    .recovery-bar {
+      height: 100%; border-radius: 4px; transition: width 0.3s;
+    }
+    .recovery-pct { font-size: 11px; font-weight: 700; width: 42px; text-align: right; }
+
+    /* history */
     .history-session {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      margin-bottom: 12px;
-      overflow: hidden;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; margin-bottom: 10px; overflow: hidden;
     }
-    .history-session-header {
-      padding: 14px 16px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      cursor: pointer;
-    }
-    .history-session-date {
-      font-size: 13px;
-      font-weight: 700;
-    }
-    .history-session-day {
-      font-size: 11px;
-      font-weight: 700;
-      padding: 3px 8px;
-      border-radius: 6px;
-      letter-spacing: 0.08em;
-    }
+    .history-session-header { padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+    .history-session-date { font-size: 13px; font-weight: 700; }
+    .history-session-day { font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 6px; letter-spacing: 0.08em; }
     .day-a { background: #3d2d8a; color: #a891ff; }
     .day-b { background: #1e4a35; color: #3ecf8e; }
     .day-c { background: #4a2e1e; color: #f7a548; }
-
-    .history-session-body {
-      display: none;
-      padding: 0 16px 14px;
-      border-top: 1px solid var(--border);
-    }
+    .day-p { background: #1e3a4a; color: #5ac8fa; }
+    .history-session-body { display: none; padding: 0 16px 14px; border-top: 1px solid var(--border); }
     .history-session.open .history-session-body { display: block; }
     .history-exercise-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 7px 0;
-      border-bottom: 1px solid var(--border);
-      font-size: 13px;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 7px 0; border-bottom: 1px solid var(--border); font-size: 12px; gap: 8px;
     }
     .history-exercise-row:last-child { border-bottom: none; }
     .history-exercise-name { color: var(--text-dim); }
-    .history-exercise-sets { color: var(--text-muted); font-size: 12px; }
+    .history-exercise-sets { color: var(--text-muted); font-size: 11px; text-align: right; }
+    .history-empty { text-align: center; padding: 40px 20px; color: var(--text-muted); font-size: 13px; }
 
-    /* ── Bottom CTA ── */
-    .bottom-bar {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
-      background: linear-gradient(transparent, var(--bg) 30%);
-    }
-    .btn-finish {
-      width: 100%;
-      padding: 16px;
-      background: var(--green);
-      color: #0f1a14;
-      border: none;
-      border-radius: 14px;
-      font-size: 15px;
-      font-weight: 800;
-      cursor: pointer;
-      letter-spacing: 0.05em;
-      transition: opacity 0.15s;
-    }
-    .btn-finish:disabled {
-      background: var(--surface2);
-      color: var(--text-muted);
-      cursor: default;
-    }
-
-    /* ── Toast ── */
+    /* toast */
     .toast {
-      position: fixed;
-      bottom: 100px;
-      left: 50%;
+      position: fixed; bottom: 100px; left: 50%;
       transform: translateX(-50%) translateY(20px);
-      background: var(--surface2);
-      border: 1px solid var(--green);
-      color: var(--green);
-      padding: 10px 20px;
-      border-radius: 20px;
-      font-size: 13px;
-      font-weight: 600;
-      opacity: 0;
-      transition: all 0.3s;
-      pointer-events: none;
-      white-space: nowrap;
-      z-index: 200;
+      background: var(--surface2); border: 1px solid var(--green); color: var(--green);
+      padding: 10px 20px; border-radius: 20px; font-size: 13px; font-weight: 600;
+      opacity: 0; transition: all 0.3s; pointer-events: none; white-space: nowrap; z-index: 200;
     }
-    .toast.show {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0);
-    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-    /* ── Streak ── */
-    .streak-bar {
-      display: flex;
-      gap: 6px;
-      padding: 14px 16px;
-      background: var(--surface);
-      border-bottom: 1px solid var(--border);
-      overflow-x: auto;
-      scrollbar-width: none;
-    }
-    .streak-bar::-webkit-scrollbar { display: none; }
-    .streak-day {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 4px;
-      min-width: 36px;
-    }
-    .streak-dot {
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 9px;
-      font-weight: 700;
-      color: var(--text-muted);
-    }
-    .streak-dot.done-a { background: #3d2d8a; border-color: #7c6af7; color: #a891ff; }
-    .streak-dot.done-b { background: #1e4a35; border-color: #3ecf8e; color: #3ecf8e; }
-    .streak-dot.done-c { background: #4a2e1e; border-color: #f7a548; color: #f7a548; }
-    .streak-dot.today { border-width: 2px; border-color: var(--accent); }
-    .streak-label { font-size: 9px; color: var(--text-muted); }
+    /* SVG animations */
+    @keyframes pressH { 0%,100% { transform: translateX(0); } 50% { transform: translateX(22px); } }
+    @keyframes pressV { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+    @keyframes pullDown { 0%,100% { transform: translateY(0); } 50% { transform: translateY(20px); } }
+    @keyframes rowPull { 0%,100% { transform: translateX(0); } 50% { transform: translateX(-20px); } }
+    @keyframes curlRot { 0%,100% { transform: rotate(0deg); } 50% { transform: rotate(-75deg); } }
+    @keyframes pushRot { 0%,100% { transform: rotate(-70deg); } 50% { transform: rotate(0deg); } }
+    @keyframes raiseRot { 0%,100% { transform: rotate(0deg); } 50% { transform: rotate(-80deg); } }
+    @keyframes legExtRot { 0%,100% { transform: rotate(60deg); } 50% { transform: rotate(0deg); } }
+    @keyframes legCurlRot { 0%,100% { transform: rotate(0deg); } 50% { transform: rotate(70deg); } }
+    @keyframes hipUp { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-14px); } }
+    @keyframes legsClose { 0%,100% { transform: rotate(18deg); } 50% { transform: rotate(2deg); } }
+    @keyframes legsOpen { 0%,100% { transform: rotate(2deg); } 50% { transform: rotate(18deg); } }
+    @keyframes torsoRot { 0%,100% { transform: rotate(-18deg); } 50% { transform: rotate(18deg); } }
+    @keyframes flyClose { 0%,100% { transform: rotate(0deg); } 50% { transform: rotate(55deg); } }
+    @keyframes legPressExt { 0%,100% { transform: translate(0,0); } 50% { transform: translate(16px,-12px); } }
+    .anim-part { animation-duration: 2.2s; animation-iteration-count: infinite; animation-timing-function: ease-in-out; }
   </style>
 </head>
 <body>
@@ -489,411 +352,857 @@
 </div>
 
 <div class="tab-nav">
-  <button class="tab-btn active" onclick="showTab('workout')" id="tab-workout">TODAY</button>
-  <button class="tab-btn" onclick="showTab('history')" id="tab-history">履歴</button>
+  <button class="tab-btn active" id="tab-program" onclick="showTab('program')">💪 プログラム</button>
+  <button class="tab-btn" id="tab-analysis" onclick="showTab('analysis')">📊 分析</button>
 </div>
-
-<!-- ストリーク -->
-<div class="streak-bar" id="streakBar"></div>
 
 <div class="main" id="mainContent"></div>
 
-<div class="bottom-bar" id="bottomBar" style="display:none">
+<div class="bottom-bar" id="bottomBar">
   <button class="btn-finish" id="btnFinish" onclick="finishWorkout()">トレーニング完了！</button>
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
-// ── データ定義 ──────────────────────────────────
-const DAYS = {
-  A: {
-    label: '胸・肩・三頭筋',
-    color: 'day-a',
-    warmup: [
-      { name: 'バイク or ヴァリオ', count: '5分・軽め' },
-      { name: '肩回し（前後）', count: '各10回' },
-      { name: '体幹ツイスト', count: '左右10回' },
-      { name: 'レッグスウィング', count: '各10回' },
-      { name: '自重スクワット', count: '10回' },
-    ],
-    exercises: [
-      { id:'A1', name:'チェストプレス', machine:'チェストプレスマシン', sets:3, reps:12, weight:25, video:'https://www.youtube.com/watch?v=O0K65G6gqMg' },
-      { id:'A2', name:'インクラインチェストプレス', machine:'インクラインチェストプレス', sets:3, reps:12, weight:20, video:'https://www.youtube.com/watch?v=AdPmGWdun8Q' },
-      { id:'A3', name:'ショルダープレス', machine:'ショルダープレスマシン', sets:3, reps:12, weight:17, video:'https://www.youtube.com/watch?v=Leds7XNv6GM' },
-      { id:'A4', name:'ダンベルサイドレイズ', machine:'ダンベル', sets:2, reps:15, weight:4, video:'https://www.youtube.com/watch?v=BFWgqK72XPY' },
-      { id:'A5', name:'ケーブルプッシュダウン', machine:'ケーブルマシン', sets:3, reps:15, weight:18, video:'https://www.youtube.com/watch?v=NAry9DhipJA' },
-    ],
-    cooldown: [
-      { name: '胸・肩ストレッチ（壁で体をひねる）', count: '30秒×左右' },
-      { name: '股関節ストレッチ（片膝立ち）', count: '30秒×左右' },
-      { name: '体幹ストレッチ（仰向けで膝を倒す）', count: '30秒×左右' },
-    ]
-  },
-  B: {
-    label: '脚・臀部',
-    color: 'day-b',
-    warmup: [
-      { name: 'バイク or ヴァリオ', count: '5分・軽め' },
-      { name: 'レッグスウィング（前後）', count: '各10回' },
-      { name: 'ヒップサークル', count: '各5回' },
-      { name: '自重スクワット', count: '10回' },
-      { name: '体幹ツイスト', count: '左右10回' },
-    ],
-    exercises: [
-      { id:'B1', name:'レッグプレス', machine:'リニアレッグプレス', sets:4, reps:12, weight:50, video:'https://www.youtube.com/watch?v=BzxjkQ7W9wQ' },
-      { id:'B2', name:'レッグエクステンション', machine:'レッグエクステンションマシン', sets:3, reps:15, weight:25, video:'https://www.youtube.com/watch?v=HXyxz_WidQo' },
-      { id:'B3', name:'レッグカール', machine:'レッグカールマシン', sets:3, reps:15, weight:25, video:'https://www.youtube.com/watch?v=HXyxz_WidQo' },
-      { id:'B4', name:'グルートドライブ', machine:'グルート・ドライブ', sets:3, reps:15, weight:20, video:'https://www.youtube.com/watch?v=OGP3XK89E0k' },
-      { id:'B5', name:'アダクター', machine:'アダクターマシン', sets:2, reps:15, weight:20, video:'https://www.youtube.com/watch?v=Njp6xBkKGwE' },
-      { id:'B6', name:'アブダクター', machine:'アブダクターマシン', sets:2, reps:15, weight:20, video:'https://www.youtube.com/watch?v=Njp6xBkKGwE' },
-    ],
-    cooldown: [
-      { name: 'ハムストリングストレッチ（前屈）', count: '30秒' },
-      { name: '大腿四頭筋ストレッチ（踵を引く）', count: '30秒×左右' },
-      { name: '股関節ストレッチ（片膝立ち）', count: '30秒×左右' },
-      { name: '体幹ストレッチ（仰向けで膝を倒す）', count: '30秒×左右' },
-    ]
-  },
-  C: {
-    label: '背中・二頭筋',
-    color: 'day-c',
-    warmup: [
-      { name: 'バイク or ヴァリオ', count: '5分・軽め' },
-      { name: '肩回し（前後）', count: '各10回' },
-      { name: '体幹ツイスト', count: '左右10回' },
-      { name: 'レッグスウィング', count: '各10回' },
-      { name: 'ヒップサークル', count: '各5回' },
-    ],
-    exercises: [
-      { id:'C1', name:'ラットプルダウン', machine:'ラットプルダウンマシン', sets:4, reps:12, weight:30, video:'https://www.youtube.com/watch?v=mG1T29lwrNI' },
-      { id:'C2', name:'シーテッドケーブルロー', machine:'ケーブルマシン', sets:3, reps:12, weight:25, video:'https://www.youtube.com/watch?v=7BX-RNCB5Ew' },
-      { id:'C3', name:'アームカール', machine:'アームカールマシン', sets:3, reps:15, weight:10, video:'https://www.youtube.com/watch?v=w09NtPcZ5Gk' },
-      { id:'C4', name:'ロータリートーソ', machine:'ロータリートーソマシン', sets:2, reps:15, weight:15, video:'https://www.youtube.com/watch?v=D0vn5jDG0cM' },
-    ],
-    cooldown: [
-      { name: '広背筋ストレッチ（腕を上げて横に倒す）', count: '30秒×左右' },
-      { name: '股関節ストレッチ（片膝立ち）', count: '30秒×左右' },
-      { name: '体幹ストレッチ（仰向けで膝を倒す）', count: '30秒×左右' },
-    ]
-  }
+'use strict';
+// ═══════════════════════════════════════════════
+// 種目データベース
+// ═══════════════════════════════════════════════
+function ytSearch(q){ return 'https://www.youtube.com/results?search_query=' + encodeURIComponent(q); }
+
+const EX_DB = {
+  chest_press: { name:'チェストプレス', machine:'チェストプレスマシン', muscles:['chest','triceps'], anim:'pressH',
+    video:'https://www.youtube.com/watch?v=O0K65G6gqMg',
+    guide:{ prep:'シート高さを調整し、グリップが胸の高さに来るように。肩甲骨を寄せて胸を張り、足裏全体を床につける。',
+      motion:'胸で押し出すイメージで前方へ。肘は伸ばし切らず、戻すときは3秒かけてゆっくり。胸のストレッチを感じる位置まで。',
+      breath:'押すときに吐く、戻すときに吸う。' } },
+  incline_press: { name:'インクラインチェストプレス', machine:'インクラインチェストプレス', muscles:['chest','shoulders'], anim:'pressV',
+    video:'https://www.youtube.com/watch?v=AdPmGWdun8Q',
+    guide:{ prep:'シートに深く座り、グリップが鎖骨〜胸上部の高さに来るよう調整。胸を張る。',
+      motion:'斜め上方向へ押し上げる。胸の上部を意識。下ろすときは重さに耐えながらゆっくり。',
+      breath:'押すときに吐く、下ろすときに吸う。' } },
+  shoulder_press: { name:'ショルダープレス', machine:'ショルダープレスマシン', muscles:['shoulders','triceps'], anim:'pressV',
+    video:'https://www.youtube.com/watch?v=Leds7XNv6GM',
+    guide:{ prep:'グリップが耳の高さに来るようシート調整。背中はパッドにつけ、腰を反らない。',
+      motion:'真上に押し上げ、肘は伸ばし切らない。下ろすときは耳の高さまでゆっくり。',
+      breath:'押すときに吐く、下ろすときに吸う。' } },
+  side_raise: { name:'ダンベルサイドレイズ', machine:'ダンベル', muscles:['shoulders'], anim:'raise',
+    video:'https://www.youtube.com/watch?v=BFWgqK72XPY',
+    guide:{ prep:'ダンベルを体の横に持ち、肘を軽く曲げて固定。肩をすくめない。',
+      motion:'肩の高さまで横に上げる。小指側をやや上に。下ろすときは重力に逆らってゆっくり。',
+      breath:'上げるときに吐く、下ろすときに吸う。' } },
+  cable_pushdown: { name:'ケーブルプッシュダウン', machine:'ケーブルマシン', muscles:['triceps'], anim:'pushdown',
+    video:'https://www.youtube.com/watch?v=NAry9DhipJA',
+    guide:{ prep:'ケーブルを高い位置にセット。肘を体側に固定し、脇を締める。',
+      motion:'肘の位置を動かさず、前腕だけで押し下げる。伸ばし切ったら1秒キープ。',
+      breath:'押し下げるときに吐く、戻すときに吸う。' } },
+  leg_press: { name:'レッグプレス', machine:'リニアレッグプレス', muscles:['quads','glutes'], anim:'legpress',
+    video:'https://www.youtube.com/watch?v=BzxjkQ7W9wQ',
+    guide:{ prep:'足は肩幅でプレートの中央に。膝とつま先の向きを揃える。腰はシートに密着。',
+      motion:'膝が90度になる位置まで下ろし、かかとで押し上げる。膝は伸ばし切らない。',
+      breath:'押すときに吐く、下ろすときに吸う。' } },
+  leg_ext: { name:'レッグエクステンション', machine:'レッグエクステンションマシン', muscles:['quads'], anim:'legext',
+    video:'https://www.youtube.com/watch?v=HXyxz_WidQo',
+    guide:{ prep:'膝の位置とマシンの回転軸を合わせる。パッドは足首の上に。',
+      motion:'太もも前で蹴り上げ、伸ばし切ったら1秒キープ。下ろすときは3秒かけて。',
+      breath:'上げるときに吐く、下ろすときに吸う。' } },
+  leg_curl: { name:'レッグカール', machine:'レッグカールマシン', muscles:['hams'], anim:'legcurl',
+    video:'https://www.youtube.com/watch?v=HXyxz_WidQo',
+    guide:{ prep:'膝とマシンの回転軸を合わせ、パッドはかかとの上あたりに。',
+      motion:'もも裏でパッドを巻き込むように曲げる。戻すときはゆっくり耐える。',
+      breath:'曲げるときに吐く、戻すときに吸う。' } },
+  glute_drive: { name:'グルートドライブ', machine:'グルート・ドライブ', muscles:['glutes'], anim:'hipthrust',
+    video:'https://www.youtube.com/watch?v=OGP3XK89E0k',
+    guide:{ prep:'ベルトを腰骨に合わせ、肩甲骨をパッドに。足は肩幅、かかと重心。',
+      motion:'お尻を締めながら腰を持ち上げ、トップで1秒キープ。腰を反らない。',
+      breath:'上げるときに吐く、下ろすときに吸う。' } },
+  adductor: { name:'アダクター（内もも）', machine:'アダクターマシン', muscles:['adductors'], anim:'legsClose',
+    video:'https://www.youtube.com/watch?v=Njp6xBkKGwE',
+    guide:{ prep:'パッドを内ももに当て、開いた状態からスタート。背筋を伸ばす。',
+      motion:'内ももで脚を閉じる。閉じ切ったら1秒キープ、開くときはゆっくり。',
+      breath:'閉じるときに吐く、開くときに吸う。' } },
+  abductor: { name:'アブダクター（外もも）', machine:'アブダクターマシン', muscles:['glutes'], anim:'legsOpen',
+    video:'https://www.youtube.com/watch?v=Njp6xBkKGwE',
+    guide:{ prep:'パッドを外ももに当て、閉じた状態からスタート。上体を少し前傾させるとお尻に効きやすい。',
+      motion:'お尻の横で脚を開く。開き切ったら1秒キープ、閉じるときはゆっくり。',
+      breath:'開くときに吐く、閉じるときに吸う。' } },
+  lat_pulldown: { name:'ラットプルダウン', machine:'ラットプルダウンマシン', muscles:['back','biceps'], anim:'pulldown',
+    video:'https://www.youtube.com/watch?v=mG1T29lwrNI',
+    guide:{ prep:'バーは肩幅より広めに握る。太ももパッドを調整し体を固定。胸を張る。',
+      motion:'肘を下に引くイメージで鎖骨に向かって引く。肩甲骨を寄せて下げる。戻すときはゆっくり。',
+      breath:'引くときに吐く、戻すときに吸う。' } },
+  seated_row: { name:'シーテッドケーブルロー', machine:'ケーブルマシン', muscles:['back','biceps'], anim:'row',
+    video:'https://www.youtube.com/watch?v=7BX-RNCB5Ew',
+    guide:{ prep:'膝を軽く曲げ、背筋を伸ばして座る。腕を伸ばし肩甲骨を開いた状態からスタート。',
+      motion:'肘を後ろに引き、おへそに向かって引く。肩甲骨をしっかり寄せる。上体は倒さない。',
+      breath:'引くときに吐く、戻すときに吸う。' } },
+  arm_curl: { name:'アームカール', machine:'アームカールマシン', muscles:['biceps'], anim:'curl',
+    video:'https://www.youtube.com/watch?v=w09NtPcZ5Gk',
+    guide:{ prep:'脇をパッドに密着させ、肘の位置と回転軸を合わせる。',
+      motion:'力こぶで巻き上げる。トップで1秒キープ。下ろすときは3秒かけて耐える。',
+      breath:'上げるときに吐く、下ろすときに吸う。' } },
+  rotary_torso: { name:'ロータリートーソ', machine:'ロータリートーソマシン', muscles:['core'], anim:'torso',
+    video:'https://www.youtube.com/watch?v=D0vn5jDG0cM',
+    guide:{ prep:'骨盤を固定し、パッドに上体をセット。可動域を無理のない範囲に設定。',
+      motion:'脇腹の力でゆっくりひねる。反動を使わない。左右均等に。',
+      breath:'ひねるときに吐く、戻すときに吸う。' } },
+  abdominal: { name:'アブドミナルクランチ', machine:'アブドミナルクランチマシン', muscles:['core'], anim:'curl',
+    video:ytSearch('アブドミナルクランチマシン 使い方'),
+    guide:{ prep:'胸の前でパッドを持ち、背中を丸められる姿勢にセット。',
+      motion:'おへそを覗き込むように背中を丸める。腹筋の収縮を感じたら1秒キープ。',
+      breath:'丸めるときに吐き切る、戻すときに吸う。' } },
+  cable_fly: { name:'ケーブルフライ', machine:'ケーブルマシン', muscles:['chest'], anim:'fly',
+    video:ytSearch('ケーブルフライ やり方 フォーム'),
+    guide:{ prep:'ケーブルを胸の高さにセット。一歩前に出て軽く前傾、肘は軽く曲げて固定。',
+      motion:'胸で腕を閉じるイメージで前方へ。閉じたら1秒キープ、開くときは胸のストレッチを感じながら。',
+      breath:'閉じるときに吐く、開くときに吸う。' } },
+  dumbbell_fly: { name:'ダンベルフライ', machine:'ダンベル＋ベンチ', muscles:['chest'], anim:'fly',
+    video:ytSearch('ダンベルフライ やり方 初心者'),
+    guide:{ prep:'ベンチに仰向けになり、ダンベルを胸の上に。肘は軽く曲げて固定。',
+      motion:'弧を描くように横に開き、胸のストレッチを感じたら閉じる。重量は軽めから。',
+      breath:'開くときに吸う、閉じるときに吐く。' } },
+  plate_row: { name:'プレートロウ', machine:'プレートロウマシン', muscles:['back','biceps'], anim:'row',
+    video:ytSearch('プレートロウ マシン 使い方'),
+    guide:{ prep:'胸をパッドにつけ、グリップを握る。肩甲骨を開いた状態からスタート。',
+      motion:'肘を後ろに引き、肩甲骨を寄せる。背中の収縮を感じたらゆっくり戻す。',
+      breath:'引くときに吐く、戻すときに吸う。' } },
+  vertical_traction: { name:'ヴァーティカルトラクション', machine:'ヴァーティカルトラクション', muscles:['back','biceps'], anim:'pulldown',
+    video:ytSearch('バーチカルトラクション 使い方'),
+    guide:{ prep:'シート高さを調整し、グリップを握る。胸を張る。',
+      motion:'肘を下に引くイメージで引き下げる。背中の広がりを意識。',
+      breath:'引くときに吐く、戻すときに吸う。' } },
+  rear_raise: { name:'リアレイズ', machine:'ダンベル＋ベンチ', muscles:['shoulders','back'], anim:'raise',
+    video:ytSearch('リアレイズ ダンベル やり方'),
+    guide:{ prep:'ベンチに座って前傾、または立って前傾。ダンベルを下げた状態から。',
+      motion:'肩の後ろで横に開くように上げる。反動を使わない。軽い重量でOK。',
+      breath:'上げるときに吐く、下ろすときに吸う。' } },
+  hammer_curl: { name:'ハンマーカール', machine:'ダンベル', muscles:['biceps'], anim:'curl',
+    video:ytSearch('ハンマーカール やり方'),
+    guide:{ prep:'ダンベルを縦向き（親指が上）に持つ。肘は体側に固定。',
+      motion:'縦向きのまま巻き上げる。前腕と力こぶの外側に効く。下ろすときはゆっくり。',
+      breath:'上げるときに吐く、下ろすときに吸う。' } },
+  scott_curl: { name:'スコットカール', machine:'スコットベンチ＋ダンベル', muscles:['biceps'], anim:'curl',
+    video:ytSearch('スコットカール プリーチャーカール やり方'),
+    guide:{ prep:'スコットベンチに脇を固定し、腕をパッドに沿わせる。',
+      motion:'反動が使えない分、力こぶだけで巻き上げる。下ろすときは伸ばし切る手前まで。',
+      breath:'上げるときに吐く、下ろすときに吸う。' } },
+  lower_back: { name:'ローワーバック', machine:'ローワーバックマシン', muscles:['core','back'], anim:'legcurl',
+    video:ytSearch('ローワーバックマシン 使い方'),
+    guide:{ prep:'パッドを背中上部に合わせ、骨盤を固定。',
+      motion:'腰の力でゆっくり後ろに倒す。反動は使わず、可動域は無理なく。',
+      breath:'倒すときに吐く、戻すときに吸う。' } },
+  leg_raise: { name:'レッグレイズ', machine:'アブドミナルベンチ', muscles:['core'], anim:'legext',
+    video:ytSearch('レッグレイズ ベンチ やり方'),
+    guide:{ prep:'ベンチに仰向けになり、頭側の端を手で掴む。脚を伸ばす。',
+      motion:'下腹部の力で脚を上げる。下ろすときは床につけずゆっくり。腰が反らないように。',
+      breath:'上げるときに吐く、下ろすときに吸う。' } },
 };
 
-const ROTATION = ['A','B','C','B','A','C','A','B','C','B','A','C'];
+// ═══════════════════════════════════════════════
+// プログラム定義
+// ═══════════════════════════════════════════════
+const WARMUP_COMMON = [
+  { name:'バイク or ヴァリオ', count:'5分・軽め', video:ytSearch('エアロバイク ウォームアップ 5分') },
+  { name:'肩回し（前後）', count:'各10回', video:ytSearch('肩甲骨 動的ストレッチ 肩回し') },
+  { name:'体幹ツイスト', count:'左右10回', video:ytSearch('体幹ツイスト 動的ストレッチ') },
+  { name:'レッグスウィング', count:'各10回', video:ytSearch('レッグスイング 動的ストレッチ') },
+  { name:'自重スクワット', count:'10回', video:ytSearch('自重スクワット 正しいフォーム') },
+];
+const WARMUP_LEG = [
+  { name:'バイク or ヴァリオ', count:'5分・軽め', video:ytSearch('エアロバイク ウォームアップ 5分') },
+  { name:'レッグスウィング（前後・横）', count:'各10回', video:ytSearch('レッグスイング 動的ストレッチ') },
+  { name:'ヒップサークル', count:'各5回', video:ytSearch('ヒップサークル 股関節 ストレッチ') },
+  { name:'自重スクワット', count:'10回', video:ytSearch('自重スクワット 正しいフォーム') },
+  { name:'ランジ（その場）', count:'各5回', video:ytSearch('フロントランジ やり方') },
+];
+const COOL_UPPER = [
+  { name:'胸・肩ストレッチ（壁で体をひねる）', count:'30秒×左右', video:ytSearch('胸 肩 ストレッチ 壁') },
+  { name:'広背筋ストレッチ（腕を上げて横に倒す）', count:'30秒×左右', video:ytSearch('広背筋 ストレッチ') },
+  { name:'体幹ストレッチ（仰向けで膝を倒す）', count:'30秒×左右', video:ytSearch('腰 ストレッチ 仰向け 膝倒し') },
+];
+const COOL_LEG = [
+  { name:'ハムストリングストレッチ（前屈）', count:'30秒', video:ytSearch('ハムストリング ストレッチ 前屈') },
+  { name:'大腿四頭筋ストレッチ（踵を引く）', count:'30秒×左右', video:ytSearch('大腿四頭筋 ストレッチ') },
+  { name:'股関節ストレッチ（片膝立ち）', count:'30秒×左右', video:ytSearch('腸腰筋 ストレッチ 片膝立ち') },
+  { name:'お尻ストレッチ（足を組んで引き寄せ）', count:'30秒×左右', video:ytSearch('臀部 ストレッチ 仰向け') },
+];
 
-// ── State ──────────────────────────────────────
-let currentTab = 'workout';
-let todayDay = getTodayDay();
-let sessionState = {}; // { exerciseId: { done: bool, weights: [kg...] } }
-let expandedId = null;
+// e: [exId, sets, reps, weight]
+const PROGRAMS = {
+  dayA: { id:'dayA', label:'DAY A', name:'胸・肩・三頭筋', color:'a', warmup:WARMUP_COMMON, cooldown:COOL_UPPER,
+    exercises:[ ['chest_press',3,12,25], ['incline_press',3,12,20], ['shoulder_press',3,12,17], ['side_raise',2,15,4], ['cable_pushdown',3,15,18] ] },
+  dayB: { id:'dayB', label:'DAY B', name:'脚・臀部', color:'b', warmup:WARMUP_LEG, cooldown:COOL_LEG,
+    exercises:[ ['leg_press',4,12,50], ['leg_ext',3,15,25], ['leg_curl',3,15,25], ['glute_drive',3,15,20], ['adductor',2,15,20], ['abductor',2,15,20] ] },
+  dayC: { id:'dayC', label:'DAY C', name:'背中・二頭筋', color:'c', warmup:WARMUP_COMMON, cooldown:COOL_UPPER,
+    exercises:[ ['lat_pulldown',4,12,30], ['seated_row',3,12,25], ['arm_curl',3,15,10], ['rotary_torso',2,15,15] ] },
+  chest: { id:'chest', label:'部位別', name:'胸', icon:'🫁', color:'p', warmup:WARMUP_COMMON, cooldown:COOL_UPPER,
+    exercises:[ ['chest_press',3,12,25], ['incline_press',3,12,20], ['dumbbell_fly',3,15,6], ['cable_fly',3,15,10] ] },
+  back: { id:'back', label:'部位別', name:'背中', icon:'🦾', color:'p', warmup:WARMUP_COMMON, cooldown:COOL_UPPER,
+    exercises:[ ['lat_pulldown',4,12,30], ['seated_row',3,12,25], ['plate_row',3,12,20], ['vertical_traction',3,12,20], ['lower_back',2,15,20] ] },
+  shoulders: { id:'shoulders', label:'部位別', name:'肩', icon:'🏔', color:'p', warmup:WARMUP_COMMON, cooldown:COOL_UPPER,
+    exercises:[ ['shoulder_press',4,12,17], ['side_raise',3,15,4], ['rear_raise',3,15,4] ] },
+  arms: { id:'arms', label:'部位別', name:'腕', icon:'💪', color:'p', warmup:WARMUP_COMMON, cooldown:COOL_UPPER,
+    exercises:[ ['arm_curl',3,12,10], ['scott_curl',3,12,6], ['hammer_curl',3,12,6], ['cable_pushdown',3,15,18] ] },
+  legs: { id:'legs', label:'部位別', name:'脚・臀部', icon:'🦵', color:'p', warmup:WARMUP_LEG, cooldown:COOL_LEG,
+    exercises:[ ['leg_press',4,12,50], ['leg_ext',3,15,25], ['leg_curl',3,15,25], ['glute_drive',3,15,20], ['adductor',2,15,20], ['abductor',2,15,20] ] },
+  abs: { id:'abs', label:'部位別', name:'腹筋・体幹', icon:'🧱', color:'p', warmup:WARMUP_COMMON, cooldown:COOL_UPPER,
+    exercises:[ ['abdominal',3,15,15], ['rotary_torso',3,15,15], ['leg_raise',3,12,0], ['lower_back',2,15,20] ] },
+};
+const MAIN_ROTATION = ['dayA','dayB','dayC'];
+const PART_PROGRAMS = ['chest','back','shoulders','arms','legs','abs'];
 
-function getTodayDay() {
-  const history = getHistory();
-  if (history.length === 0) return 'A';
-  const last = history[history.length - 1];
-  const nextIdx = (ROTATION.indexOf(last.day) + 1) % ROTATION.length;
-  return ROTATION[nextIdx];
-}
+// 筋肉グループ（回復状況表示用）
+const MUSCLES = {
+  chest:{ name:'胸', hours:72 }, shoulders:{ name:'肩', hours:48 },
+  triceps:{ name:'三頭筋', hours:48 }, back:{ name:'背中', hours:72 },
+  biceps:{ name:'二頭筋', hours:48 }, quads:{ name:'太もも前', hours:72 },
+  hams:{ name:'もも裏', hours:72 }, glutes:{ name:'臀部', hours:72 },
+  adductors:{ name:'内もも', hours:48 }, core:{ name:'体幹・腹筋', hours:48 },
+};
 
-function getHistory() {
-  try { return JSON.parse(localStorage.getItem('gymlog_history') || '[]'); } catch { return []; }
-}
-function saveHistory(h) { localStorage.setItem('gymlog_history', JSON.stringify(h)); }
-
-function getWeightMemory() {
-  try { return JSON.parse(localStorage.getItem('gymlog_weights') || '{}'); } catch { return {}; }
-}
-function saveWeightMemory(w) { localStorage.setItem('gymlog_weights', JSON.stringify(w)); }
-
-// ── Init ───────────────────────────────────────
-document.addEventListener('DOMContentLoaded', () => {
-  updateHeaderDate();
-  renderStreakBar();
-  renderWorkout();
-});
-
-function updateHeaderDate() {
-  const d = new Date();
-  const days = ['日','月','火','水','木','金','土'];
-  document.getElementById('headerDate').textContent =
-    `${d.getMonth()+1}/${d.getDate()}（${days[d.getDay()]}）`;
-}
-
-// ── Streak ─────────────────────────────────────
-function renderStreakBar() {
-  const history = getHistory();
-  const bar = document.getElementById('streakBar');
-  const today = new Date();
-  const days = ['日','月','火','水','木','金','土'];
-  let html = '';
-  for (let i = 13; i >= 0; i--) {
-    const d = new Date(today);
-    d.setDate(d.getDate() - i);
-    const key = d.toISOString().slice(0,10);
-    const rec = history.find(h => h.date === key);
-    const isToday = i === 0;
-    let cls = isToday ? ' today' : '';
-    let label = '';
-    if (rec) { cls += ` done-${rec.day.toLowerCase()}`; label = rec.day; }
-    html += `<div class="streak-day">
-      <div class="streak-dot${cls}">${label || (isToday ? '今' : '')}</div>
-      <div class="streak-label">${days[d.getDay()]}</div>
-    </div>`;
+// ═══════════════════════════════════════════════
+// SVGアニメーション
+// ═══════════════════════════════════════════════
+function animSVG(type) {
+  const W = 160, H = 100;
+  const wrap = (inner) => `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">${inner}</svg>`;
+  const seat = `<rect x="30" y="62" width="34" height="6" rx="2" fill="#3a3a4e"/><rect x="30" y="68" width="6" height="24" rx="2" fill="#3a3a4e"/>`;
+  const bodySeated = `<circle cx="52" cy="30" r="7" fill="#a891ff"/><line x1="52" y1="37" x2="50" y2="62" stroke="#a891ff" stroke-width="5" stroke-linecap="round"/><line x1="50" y1="62" x2="66" y2="64" stroke="#a891ff" stroke-width="5" stroke-linecap="round"/><line x1="66" y1="64" x2="64" y2="88" stroke="#a891ff" stroke-width="5" stroke-linecap="round"/>`;
+  switch(type) {
+    case 'pressH': return wrap(`${seat}${bodySeated}
+      <g class="anim-part" style="animation-name:pressH">
+        <line x1="54" y1="42" x2="86" y2="42" stroke="#7c6af7" stroke-width="5" stroke-linecap="round"/>
+        <rect x="84" y="30" width="7" height="24" rx="3" fill="#f7c948"/>
+      </g>`);
+    case 'pressV': return wrap(`${seat}${bodySeated}
+      <g class="anim-part" style="animation-name:pressV">
+        <line x1="52" y1="40" x2="70" y2="24" stroke="#7c6af7" stroke-width="5" stroke-linecap="round"/>
+        <rect x="60" y="14" width="22" height="7" rx="3" fill="#f7c948"/>
+      </g>`);
+    case 'pulldown': return wrap(`${seat}${bodySeated}
+      <g class="anim-part" style="animation-name:pullDown">
+        <rect x="42" y="8" width="44" height="6" rx="3" fill="#f7c948"/>
+        <line x1="54" y1="38" x2="64" y2="14" stroke="#7c6af7" stroke-width="5" stroke-linecap="round"/>
+      </g>`);
+    case 'row': return wrap(`${seat}${bodySeated}
+      <g class="anim-part" style="animation-name:rowPull">
+        <line x1="56" y1="46" x2="92" y2="46" stroke="#7c6af7" stroke-width="5" stroke-linecap="round"/>
+        <rect x="90" y="36" width="7" height="20" rx="3" fill="#f7c948"/>
+      </g>
+      <line x1="100" y1="46" x2="130" y2="46" stroke="#3a3a4e" stroke-width="3" stroke-dasharray="4 3"/>`);
+    case 'curl': return wrap(`${seat}${bodySeated}
+      <line x1="52" y1="40" x2="62" y2="56" stroke="#a891ff" stroke-width="5" stroke-linecap="round"/>
+      <g class="anim-part" style="animation-name:curlRot;transform-origin:62px 56px">
+        <line x1="62" y1="56" x2="86" y2="58" stroke="#7c6af7" stroke-width="5" stroke-linecap="round"/>
+        <circle cx="88" cy="58" r="7" fill="#f7c948"/>
+      </g>`);
+    case 'pushdown': return wrap(`${seat}${bodySeated}
+      <line x1="52" y1="40" x2="60" y2="54" stroke="#a891ff" stroke-width="5" stroke-linecap="round"/>
+      <line x1="66" y1="6" x2="66" y2="26" stroke="#3a3a4e" stroke-width="3" stroke-dasharray="4 3"/>
+      <g class="anim-part" style="animation-name:pushRot;transform-origin:60px 54px">
+        <line x1="60" y1="54" x2="86" y2="58" stroke="#7c6af7" stroke-width="5" stroke-linecap="round"/>
+        <rect x="82" y="52" width="12" height="6" rx="3" fill="#f7c948"/>
+      </g>`);
+    case 'raise': return wrap(`
+      <circle cx="70" cy="24" r="7" fill="#a891ff"/>
+      <line x1="70" y1="31" x2="70" y2="66" stroke="#a891ff" stroke-width="5" stroke-linecap="round"/>
+      <line x1="70" y1="66" x2="62" y2="92" stroke="#a891ff" stroke-width="5" stroke-linecap="round"/>
+      <line x1="70" y1="66" x2="78" y2="92" stroke="#a891ff" stroke-width="5" stroke-linecap="round"/>
+      <g class="anim-part" style="animation-name:raiseRot;transform-origin:70px 38px">
+        <line x1="70" y1="38" x2="70" y2="62" stroke="#7c6af7" stroke-width="5" stroke-linecap="round"/>
+        <circle cx="70" cy="64" r="6" fill="#f7c948"/>
+      </g>`);
+    case 'legpress': return wrap(`
+      <rect x="14" y="56" width="40" height="8" rx="3" transform="rotate(-18 34 60)" fill="#3a3a4e"/>
+      <circle cx="34" cy="36" r="7" fill="#a891ff"/>
+      <line x1="38" y1="42" x2="56" y2="58" stroke="#a891ff" stroke-width="5" stroke-linecap="round"/>
+      <g class="anim-part" style="animation-name:legPressExt">
+        <line x1="56" y1="58" x2="82" y2="52" stroke="#7c6af7" stroke-width="5" stroke-linecap="round"/>
+        <rect x="84" y="34" width="8" height="34" rx="3" transform="rotate(18 88 50)" fill="#f7c948"/>
+      </g>`);
+    case 'legext': return wrap(`${seat}
+      <circle cx="46" cy="26" r="7" fill="#a891ff"/><line x1="46" y1="33" x2="46" y2="62" stroke="#a891ff" stroke-width="5" stroke-linecap="round"/>
+      <line x1="46" y1="62" x2="64" y2="64" stroke="#a891ff" stroke-width="5" stroke-linecap="round"/>
+      <g class="anim-part" style="animation-name:legExtRot;transform-origin:64px 64px">
+        <line x1="64" y1="64" x2="90" y2="66" stroke="#7c6af7" stroke-width="5" stroke-linecap="round"/>
+        <circle cx="92" cy="66" r="6" fill="#f7c948"/>
+      </g>`);
+    case 'legcurl': return wrap(`${seat}
+      <circle cx="46" cy="26" r="7" fill="#a891ff"/><line x1="46" y1="33" x2="46" y2="62" stroke="#a891ff" stroke-width="5" stroke-linecap="round"/>
+      <line x1="46" y1="62" x2="66" y2="62" stroke="#a891ff" stroke-width="5" stroke-linecap="round"/>
+      <g class="anim-part" style="animation-name:legCurlRot;transform-origin:66px 62px">
+        <line x1="66" y1="62" x2="92" y2="60" stroke="#7c6af7" stroke-width="5" stroke-linecap="round"/>
+        <circle cx="94" cy="60" r="6" fill="#f7c948"/>
+      </g>`);
+    case 'hipthrust': return wrap(`
+      <rect x="18" y="36" width="8" height="42" rx="2" fill="#3a3a4e"/>
+      <circle cx="34" cy="34" r="7" fill="#a891ff"/>
+      <g class="anim-part" style="animation-name:hipUp">
+        <line x1="38" y1="42" x2="66" y2="52" stroke="#a891ff" stroke-width="5" stroke-linecap="round"/>
+        <rect x="52" y="38" width="24" height="7" rx="3" fill="#f7c948"/>
+      </g>
+      <line x1="66" y1="52" x2="66" y2="82" stroke="#a891ff" stroke-width="5" stroke-linecap="round"/>`);
+    case 'legsClose': return wrap(`
+      <circle cx="80" cy="20" r="7" fill="#a891ff"/><line x1="80" y1="27" x2="80" y2="48" stroke="#a891ff" stroke-width="5" stroke-linecap="round"/>
+      <g class="anim-part" style="animation-name:legsClose;transform-origin:80px 48px">
+        <line x1="80" y1="48" x2="62" y2="86" stroke="#7c6af7" stroke-width="5" stroke-linecap="round"/>
+      </g>
+      <g class="anim-part" style="animation-name:legsClose;transform-origin:80px 48px;animation-direction:reverse">
+      </g>
+      <g class="anim-part" style="animation-name:legsOpen;transform-origin:80px 48px;animation-name:legsClose">
+      </g>
+      <g style="transform-origin:80px 48px;transform:scaleX(-1) translateX(-160px)">
+        <g class="anim-part" style="animation-name:legsClose;transform-origin:80px 48px">
+          <line x1="80" y1="48" x2="62" y2="86" stroke="#7c6af7" stroke-width="5" stroke-linecap="round"/>
+        </g>
+      </g>`);
+    case 'legsOpen': return wrap(`
+      <circle cx="80" cy="20" r="7" fill="#a891ff"/><line x1="80" y1="27" x2="80" y2="48" stroke="#a891ff" stroke-width="5" stroke-linecap="round"/>
+      <g class="anim-part" style="animation-name:legsOpen;transform-origin:80px 48px">
+        <line x1="80" y1="48" x2="62" y2="86" stroke="#7c6af7" stroke-width="5" stroke-linecap="round"/>
+      </g>
+      <g style="transform-origin:80px 48px;transform:scaleX(-1) translateX(-160px)">
+        <g class="anim-part" style="animation-name:legsOpen;transform-origin:80px 48px">
+          <line x1="80" y1="48" x2="62" y2="86" stroke="#7c6af7" stroke-width="5" stroke-linecap="round"/>
+        </g>
+      </g>`);
+    case 'torso': return wrap(`
+      <line x1="80" y1="60" x2="80" y2="90" stroke="#a891ff" stroke-width="5" stroke-linecap="round"/>
+      <g class="anim-part" style="animation-name:torsoRot;transform-origin:80px 58px">
+        <circle cx="80" cy="24" r="7" fill="#a891ff"/>
+        <line x1="80" y1="31" x2="80" y2="58" stroke="#7c6af7" stroke-width="5" stroke-linecap="round"/>
+        <line x1="62" y1="42" x2="98" y2="42" stroke="#7c6af7" stroke-width="4" stroke-linecap="round"/>
+      </g>`);
+    case 'fly': return wrap(`
+      <circle cx="80" cy="24" r="7" fill="#a891ff"/>
+      <line x1="80" y1="31" x2="80" y2="66" stroke="#a891ff" stroke-width="5" stroke-linecap="round"/>
+      <g class="anim-part" style="animation-name:flyClose;transform-origin:80px 40px">
+        <line x1="80" y1="40" x2="50" y2="44" stroke="#7c6af7" stroke-width="5" stroke-linecap="round"/>
+        <circle cx="48" cy="44" r="6" fill="#f7c948"/>
+      </g>
+      <g style="transform:scaleX(-1) translateX(-160px)">
+        <g class="anim-part" style="animation-name:flyClose;transform-origin:80px 40px">
+          <line x1="80" y1="40" x2="50" y2="44" stroke="#7c6af7" stroke-width="5" stroke-linecap="round"/>
+          <circle cx="48" cy="44" r="6" fill="#f7c948"/>
+        </g>
+      </g>`);
+    default: return wrap(`${seat}${bodySeated}`);
   }
-  bar.innerHTML = html;
 }
 
-// ── Workout Tab ────────────────────────────────
-function renderWorkout() {
-  const day = DAYS[todayDay];
-  const weights = getWeightMemory();
-  // init session
-  sessionState = {};
-  day.exercises.forEach(ex => {
-    const lastWeights = weights[ex.id] || Array(ex.sets).fill(ex.weight);
-    sessionState[ex.id] = { done: false, weights: [...lastWeights].slice(0, ex.sets) };
-    while (sessionState[ex.id].weights.length < ex.sets) {
-      sessionState[ex.id].weights.push(ex.weight);
+// ═══════════════════════════════════════════════
+// State / Storage
+// ═══════════════════════════════════════════════
+let currentTab = 'program';
+let currentProgram = null;   // program id or null (= program list)
+let sessionState = {};
+let expandedId = null;
+let pendingBulk = null;      // {exKey, field, value, setIndex}
+let calYear, calMonth;
+let timerInterval = null, timerRemain = 0;
+
+function getHistory() { try { return JSON.parse(localStorage.getItem('gymlog_history') || '[]'); } catch { return []; } }
+function saveHistoryAll(h) { localStorage.setItem('gymlog_history', JSON.stringify(h)); }
+function getMem(key) { try { return JSON.parse(localStorage.getItem(key) || '{}'); } catch { return {}; } }
+function saveMem(key, v) { localStorage.setItem(key, JSON.stringify(v)); }
+
+// ── 履歴の事前登録（6/30 DayA・7/1 DayB）＋旧データ移行 ──
+function seedHistory() {
+  let h = getHistory();
+  let changed = false;
+  // 旧形式(day:'A')→新形式(programId)へ移行
+  h.forEach(rec => {
+    if (!rec.programId && rec.day) {
+      rec.programId = 'day' + rec.day;
+      rec.label = PROGRAMS['day' + rec.day]?.name || '';
+      rec.color = rec.day.toLowerCase();
+      changed = true;
     }
   });
+  const seeds = [
+    { date:'2026-06-30', pid:'dayA' },
+    { date:'2026-07-01', pid:'dayB' },
+  ];
+  seeds.forEach(s => {
+    if (!h.find(r => r.date === s.date)) {
+      const p = PROGRAMS[s.pid];
+      h.push({
+        date: s.date, programId: s.pid, label: p.name, color: p.color,
+        exercises: p.exercises.map(([exId, sets, reps, w]) => ({
+          exId, name: EX_DB[exId].name, sets, reps: Array(sets).fill(reps), weights: Array(sets).fill(w)
+        }))
+      });
+      changed = true;
+    }
+  });
+  if (changed) { h.sort((a,b)=>a.date.localeCompare(b.date)); saveHistoryAll(h); }
+}
 
+function getNextMainDay() {
+  const h = getHistory().filter(r => MAIN_ROTATION.includes(r.programId));
+  if (h.length === 0) return 'dayA';
+  const last = h[h.length-1].programId;
+  return MAIN_ROTATION[(MAIN_ROTATION.indexOf(last)+1) % 3];
+}
+
+// ═══════════════════════════════════════════════
+// Init
+// ═══════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', () => {
+  seedHistory();
+  const d = new Date();
+  calYear = d.getFullYear(); calMonth = d.getMonth();
+  const days = ['日','月','火','水','木','金','土'];
+  document.getElementById('headerDate').textContent = `${d.getMonth()+1}/${d.getDate()}（${days[d.getDay()]}）`;
+  renderProgramList();
+});
+
+function showTab(tab) {
+  currentTab = tab;
+  document.getElementById('tab-program').classList.toggle('active', tab==='program');
+  document.getElementById('tab-analysis').classList.toggle('active', tab==='analysis');
+  document.getElementById('bottomBar').style.display = 'none';
+  stopTimer();
+  if (tab === 'program') {
+    currentProgram ? renderWorkout() : renderProgramList();
+  } else {
+    renderAnalysis();
+  }
+}
+
+// ═══════════════════════════════════════════════
+// プログラム一覧
+// ═══════════════════════════════════════════════
+function renderProgramList() {
+  currentProgram = null;
+  document.getElementById('bottomBar').style.display = 'none';
+  const nextDay = getNextMainDay();
+  const p = PROGRAMS[nextDay];
   let html = `
-    <div class="day-header">
-      <div class="day-title">
-        <span class="day-badge">DAY ${todayDay}</span>
-        <span class="day-label">${day.label}</span>
+    <div class="section-label">メインルーティン（週3・A→B→C）</div>
+    <div class="program-hero" onclick="openProgram('${nextDay}')">
+      <div class="program-hero-top">
+        <span class="day-badge">今日は ${p.label}</span>
+        <span style="font-size:12px;color:var(--text-dim)">${p.exercises.length}種目 →</span>
       </div>
-      <div class="day-progress">完了 <span id="doneCount">0</span>/${day.exercises.length}</div>
+      <div class="program-hero-title">${p.name}</div>
+      <div class="program-hero-sub">タップして開始（ウォームアップ・クールダウン込み 約60分）</div>
+    </div>
+    <div class="program-grid" style="margin-top:8px">
+      ${MAIN_ROTATION.map(pid => {
+        const pp = PROGRAMS[pid];
+        return `<div class="program-card" onclick="openProgram('${pid}')" style="${pid===nextDay?'border-color:var(--accent)':''}">
+          <div class="program-card-icon">${pid==='dayA'?'🅐':pid==='dayB'?'🅑':'🅒'}</div>
+          <div class="program-card-name">${pp.name}</div>
+          <div class="program-card-count">${pp.exercises.length}種目</div>
+        </div>`;
+      }).join('')}
+    </div>
+
+    <div class="section-label">部位別プログラム（気になる部位を集中強化）</div>
+    <div class="program-grid">
+      ${PART_PROGRAMS.map(pid => {
+        const pp = PROGRAMS[pid];
+        return `<div class="program-card" onclick="openProgram('${pid}')">
+          <div class="program-card-icon">${pp.icon}</div>
+          <div class="program-card-name">${pp.name}</div>
+          <div class="program-card-count">${pp.exercises.length}種目</div>
+        </div>`;
+      }).join('')}
+    </div>`;
+  document.getElementById('mainContent').innerHTML = html;
+}
+
+// ═══════════════════════════════════════════════
+// ワークアウト画面
+// ═══════════════════════════════════════════════
+function openProgram(pid) {
+  currentProgram = pid;
+  const p = PROGRAMS[pid];
+  const wMem = getMem('gymlog_weights');
+  const rMem = getMem('gymlog_reps');
+  sessionState = {};
+  p.exercises.forEach(([exId, sets, reps, w], i) => {
+    const key = pid + '_' + exId;
+    const savedW = wMem[key] || wMem[exId];  // 旧キー互換
+    const savedR = rMem[key];
+    let weights = savedW ? [...savedW] : Array(sets).fill(w);
+    let repsArr = savedR ? [...savedR] : Array(sets).fill(reps);
+    while (weights.length < sets) weights.push(w);
+    while (repsArr.length < sets) repsArr.push(reps);
+    sessionState[key] = { done:false, weights: weights.slice(0,sets), reps: repsArr.slice(0,sets) };
+  });
+  expandedId = null; pendingBulk = null;
+  renderWorkout();
+}
+
+function renderWorkout() {
+  const p = PROGRAMS[currentProgram];
+  let html = `
+    <div class="workout-nav">
+      <button class="btn-back" onclick="renderProgramList()">← 戻る</button>
+      <div class="workout-title">${p.label !== '部位別' ? p.label + '｜' : ''}${p.name}</div>
+      <div class="day-progress">完了 <span id="doneCount">0</span>/${p.exercises.length}</div>
+    </div>
+
+    <div class="timer-bar">
+      <span class="timer-label">⏱ 休憩タイマー</span>
+      <span class="timer-display" id="timerDisplay">--</span>
+      <button class="timer-btn" id="t60" onclick="startTimer(60)">60秒</button>
+      <button class="timer-btn" id="t90" onclick="startTimer(90)">90秒</button>
     </div>
 
     <div class="phase-card">
       <div class="phase-title">🌅 ウォームアップ（10分）</div>
-      ${day.warmup.map(w => `
+      ${p.warmup.map(w => `
         <div class="phase-item">
-          <span>${w.name}</span>
+          <span style="flex:1">${w.name}</span>
           <span class="phase-item-count">${w.count}</span>
+          <a class="phase-video" href="${w.video}" target="_blank" rel="noopener">▶</a>
         </div>`).join('')}
-    </div>`;
+    </div>
 
-  day.exercises.forEach((ex, i) => {
-    html += renderExerciseCard(ex, i);
-  });
+    <div id="exerciseList"></div>
 
-  html += `
     <div class="phase-card" style="margin-top:8px">
       <div class="phase-title">🌙 クールダウン（5〜10分）</div>
-      ${day.cooldown.map(c => `
+      ${p.cooldown.map(c => `
         <div class="phase-item">
-          <span>${c.name}</span>
+          <span style="flex:1">${c.name}</span>
           <span class="phase-item-count">${c.count}</span>
+          <a class="phase-video" href="${c.video}" target="_blank" rel="noopener">▶</a>
         </div>`).join('')}
     </div>`;
-
   document.getElementById('mainContent').innerHTML = html;
+  renderExerciseList();
   document.getElementById('bottomBar').style.display = 'block';
   updateDoneCount();
 }
 
-function renderExerciseCard(ex, i) {
-  const s = sessionState[ex.id];
-  const isDone = s.done;
-  const isExpanded = expandedId === ex.id;
-  const lastWeight = s.weights[0];
+function renderExerciseList() {
+  const p = PROGRAMS[currentProgram];
+  document.getElementById('exerciseList').innerHTML =
+    p.exercises.map((e, i) => renderExerciseCard(e, i)).join('');
+}
 
-  let setsHtml = `<table class="set-table">
-    <tr><th>SET</th><th>重量</th><th></th></tr>`;
-  for (let j = 0; j < ex.sets; j++) {
-    setsHtml += `<tr>
-      <td class="set-num">${j+1}</td>
-      <td><input class="weight-input" type="number" inputmode="decimal"
-        value="${s.weights[j]}"
-        onchange="updateWeight('${ex.id}', ${j}, this.value)"
-        onclick="this.select()">
-        <span class="weight-unit">kg</span>
-      </td>
-      <td class="reps-target">× ${ex.reps}回</td>
-    </tr>`;
+function renderExerciseCard([exId, defSets, defReps, defW], i) {
+  const ex = EX_DB[exId];
+  const key = currentProgram + '_' + exId;
+  const s = sessionState[key];
+  const isDone = s.done, isExpanded = expandedId === key;
+
+  let detail = '';
+  if (isExpanded) {
+    let setsHtml = `<table class="set-table"><tr><th>SET</th><th>重量</th><th>回数</th></tr>`;
+    for (let j = 0; j < defSets; j++) {
+      setsHtml += `<tr>
+        <td class="set-num">${j+1}</td>
+        <td><input class="num-input" type="number" inputmode="decimal" value="${s.weights[j]}"
+          onchange="onNumChange('${key}','weights',${j},this.value)" onclick="this.select()"><span class="unit">kg</span></td>
+        <td><input class="num-input" type="number" inputmode="numeric" value="${s.reps[j]}"
+          onchange="onNumChange('${key}','reps',${j},this.value)" onclick="this.select()"><span class="unit">回</span></td>
+      </tr>`;
+    }
+    setsHtml += '</table>';
+
+    let bulkHtml = '';
+    if (pendingBulk && pendingBulk.exKey === key) {
+      const fieldName = pendingBulk.field === 'weights' ? '重量' : '回数';
+      const unit = pendingBulk.field === 'weights' ? 'kg' : '回';
+      bulkHtml = `<div class="bulk-confirm">
+        残りのセットも <b>${pendingBulk.value}${unit}</b> に変更する？
+        <div class="bulk-confirm-btns">
+          <button class="bulk-btn bulk-yes" onclick="applyBulk(true)">全セット反映</button>
+          <button class="bulk-btn bulk-no" onclick="applyBulk(false)">このセットのみ</button>
+        </div>
+      </div>`;
+    }
+
+    detail = `<div class="exercise-detail">
+      <div class="anim-box">${animSVG(ex.anim)}</div>
+      <div class="guide-grid">
+        <div class="guide-item guide-prep"><div class="guide-item-label">🔧 準備</div><div class="guide-item-text">${ex.guide.prep}</div></div>
+        <div class="guide-item guide-motion"><div class="guide-item-label">🏃 動作</div><div class="guide-item-text">${ex.guide.motion}</div></div>
+        <div class="guide-item guide-breath"><div class="guide-item-label">🫁 呼吸</div><div class="guide-item-text">${ex.guide.breath}</div></div>
+      </div>
+      <a class="video-link" href="${ex.video}" target="_blank" rel="noopener">▶ フォーム解説動画を見る</a>
+      ${setsHtml}
+      ${bulkHtml}
+      <button class="btn-done" onclick="markDone('${key}')">${isDone ? '✓ 完了済み' : 'この種目完了！'}</button>
+      ${isDone ? `<button class="btn-undone" onclick="markUndone('${key}')">取り消し</button>` : ''}
+    </div>`;
   }
-  setsHtml += '</table>';
 
   return `
-    <div class="exercise-card${isDone?' done':''}${isExpanded?' expanded':''}" id="card-${ex.id}">
-      <div class="exercise-header" onclick="toggleCard('${ex.id}')">
-        <div class="exercise-check">
-          <span class="check-icon">✓</span>
-        </div>
+    <div class="exercise-card${isDone?' done':''}${isExpanded?' expanded':''}" id="card-${key}">
+      <div class="exercise-header" onclick="toggleCard('${key}')">
+        <div class="order-badge">${i+1}</div>
+        <div class="exercise-check"><span class="check-icon">✓</span></div>
         <div class="exercise-info">
           <div class="exercise-name">${ex.name}</div>
           <div class="exercise-meta">
-            <span class="exercise-meta-item">📍 ${ex.machine}</span>
-            <span class="exercise-meta-item">🔄 ${ex.sets}×${ex.reps}</span>
+            <span>📍 ${ex.machine}</span>
+            <span>🔄 ${defSets}セット</span>
           </div>
         </div>
         <div class="exercise-last">
-          <div class="exercise-last-weight">${lastWeight}kg</div>
+          <div class="exercise-last-weight">${s.weights[0]}kg</div>
           <div class="exercise-last-label">前回</div>
         </div>
       </div>
-      <div class="exercise-detail">
-        <a class="video-link" href="${ex.video}" target="_blank" rel="noopener">
-          ▶ フォーム解説動画
-        </a>
-        ${setsHtml}
-        <button class="btn-done" onclick="markDone('${ex.id}')">
-          ${isDone ? '✓ 完了済み' : 'このセット完了！'}
-        </button>
-        ${isDone ? `<button class="btn-undone" onclick="markUndone('${ex.id}')">取り消し</button>` : ''}
-      </div>
+      ${detail}
     </div>`;
 }
 
-function toggleCard(id) {
-  expandedId = (expandedId === id) ? null : id;
-  rerenderCards();
+function toggleCard(key) {
+  pendingBulk = null;
+  expandedId = (expandedId === key) ? null : key;
+  renderExerciseList();
 }
 
-function updateWeight(id, setIndex, val) {
+function onNumChange(key, field, idx, val) {
   const v = parseFloat(val) || 0;
-  sessionState[id].weights[setIndex] = v;
+  sessionState[key][field][idx] = v;
+  const arr = sessionState[key][field];
+  const othersDiffer = arr.some((x, j) => j !== idx && x !== v);
+  if (arr.length > 1 && othersDiffer) {
+    pendingBulk = { exKey: key, field, value: v, setIndex: idx };
+  } else {
+    pendingBulk = null;
+  }
+  renderExerciseList();
 }
 
-function markDone(id) {
-  sessionState[id].done = true;
-  expandedId = null;
-  // save weight memory
-  const wm = getWeightMemory();
-  wm[id] = [...sessionState[id].weights];
-  saveWeightMemory(wm);
-  rerenderCards();
-  updateDoneCount();
-  showToast('✓ 完了！');
+function applyBulk(applyAll) {
+  if (pendingBulk && applyAll) {
+    const { exKey, field, value } = pendingBulk;
+    sessionState[exKey][field] = sessionState[exKey][field].map(() => value);
+  }
+  pendingBulk = null;
+  renderExerciseList();
 }
 
-function markUndone(id) {
-  sessionState[id].done = false;
-  rerenderCards();
-  updateDoneCount();
+function markDone(key) {
+  sessionState[key].done = true;
+  expandedId = null; pendingBulk = null;
+  const wMem = getMem('gymlog_weights'); wMem[key] = [...sessionState[key].weights]; saveMem('gymlog_weights', wMem);
+  const rMem = getMem('gymlog_reps'); rMem[key] = [...sessionState[key].reps]; saveMem('gymlog_reps', rMem);
+  renderExerciseList(); updateDoneCount(); showToast('✓ 完了！');
 }
-
-function rerenderCards() {
-  const day = DAYS[todayDay];
-  day.exercises.forEach((ex, i) => {
-    const card = document.getElementById('card-' + ex.id);
-    if (card) {
-      const tmp = document.createElement('div');
-      tmp.innerHTML = renderExerciseCard(ex, i);
-      card.replaceWith(tmp.firstElementChild);
-    }
-  });
+function markUndone(key) {
+  sessionState[key].done = false;
+  renderExerciseList(); updateDoneCount();
 }
 
 function updateDoneCount() {
-  const day = DAYS[todayDay];
-  const done = day.exercises.filter(ex => sessionState[ex.id]?.done).length;
+  const p = PROGRAMS[currentProgram];
+  if (!p) return;
+  const done = p.exercises.filter(([exId]) => sessionState[currentProgram+'_'+exId]?.done).length;
   const el = document.getElementById('doneCount');
   if (el) el.textContent = done;
   const btn = document.getElementById('btnFinish');
   if (btn) {
-    btn.disabled = (done < day.exercises.length);
-    btn.textContent = done === day.exercises.length
-      ? `🎉 トレーニング完了！` : `完了（${done}/${day.exercises.length}）`;
+    btn.disabled = done < p.exercises.length;
+    btn.textContent = done === p.exercises.length ? '🎉 トレーニング完了！' : `完了（${done}/${p.exercises.length}）`;
   }
 }
 
 function finishWorkout() {
-  const today = new Date().toISOString().slice(0,10);
-  const history = getHistory();
-  // 同日の重複を防ぐ
-  const filtered = history.filter(h => h.date !== today);
-  const day = DAYS[todayDay];
-  const summary = day.exercises.map(ex => ({
-    name: ex.name,
-    sets: ex.sets,
-    weights: sessionState[ex.id]?.weights || []
-  }));
-  filtered.push({ date: today, day: todayDay, exercises: summary });
-  saveHistory(filtered);
-
-  // 次のDayへ
-  todayDay = getTodayDay();
-  sessionState = {};
-  expandedId = null;
-
-  renderStreakBar();
-  renderWorkout();
-  showTab('history');
+  const p = PROGRAMS[currentProgram];
+  const today = new Date();
+  const dateKey = `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
+  let h = getHistory().filter(r => r.date !== dateKey);
+  h.push({
+    date: dateKey, programId: currentProgram, label: p.name, color: p.color,
+    exercises: p.exercises.map(([exId, sets]) => {
+      const s = sessionState[currentProgram+'_'+exId];
+      return { exId, name: EX_DB[exId].name, sets, reps: [...s.reps], weights: [...s.weights] };
+    })
+  });
+  h.sort((a,b)=>a.date.localeCompare(b.date));
+  saveHistoryAll(h);
+  currentProgram = null; sessionState = {}; expandedId = null;
+  stopTimer();
   showToast('🎉 お疲れ様！');
+  showTab('analysis');
 }
 
-// ── History Tab ────────────────────────────────
-function renderHistory() {
-  document.getElementById('bottomBar').style.display = 'none';
-  const history = getHistory().slice().reverse();
-  if (history.length === 0) {
-    document.getElementById('mainContent').innerHTML = `
-      <div class="history-empty">
-        まだ記録がありません。<br>最初のトレーニングを始めよう！
-      </div>`;
-    return;
-  }
+// ═══════════════════════════════════════════════
+// 休憩タイマー
+// ═══════════════════════════════════════════════
+function startTimer(sec) {
+  stopTimer();
+  timerRemain = sec;
+  document.getElementById('t'+sec)?.classList.add('active');
+  updateTimerDisplay();
+  timerInterval = setInterval(() => {
+    timerRemain--;
+    updateTimerDisplay();
+    if (timerRemain <= 0) {
+      stopTimer();
+      showToast('⏱ 休憩終了！次のセットへ');
+      if (navigator.vibrate) navigator.vibrate([200,100,200]);
+    }
+  }, 1000);
+}
+function stopTimer() {
+  clearInterval(timerInterval); timerInterval = null;
+  document.querySelectorAll('.timer-btn').forEach(b => b.classList.remove('active'));
+  const d = document.getElementById('timerDisplay');
+  if (d) d.textContent = '--';
+}
+function updateTimerDisplay() {
+  const d = document.getElementById('timerDisplay');
+  if (d) d.textContent = timerRemain > 0 ? `${timerRemain}秒` : '--';
+}
 
-  const dayNames = { A: '胸・肩・三頭筋', B: '脚・臀部', C: '背中・二頭筋' };
-  let html = '';
-  history.forEach((rec, idx) => {
-    const d = new Date(rec.date);
-    const days = ['日','月','火','水','木','金','土'];
-    const dateStr = `${d.getMonth()+1}月${d.getDate()}日（${days[d.getDay()]}）`;
-    html += `
-      <div class="history-session" id="hs-${idx}">
-        <div class="history-session-header" onclick="toggleHistorySession(${idx})">
-          <div>
-            <div class="history-session-date">${dateStr}</div>
-            <div style="font-size:12px;color:var(--text-muted);margin-top:2px">${dayNames[rec.day]}</div>
-          </div>
-          <span class="history-session-day day-${rec.day.toLowerCase()}">DAY ${rec.day}</span>
-        </div>
-        <div class="history-session-body">
-          ${rec.exercises.map(ex => `
-            <div class="history-exercise-row">
-              <span class="history-exercise-name">${ex.name}</span>
-              <span class="history-exercise-sets">
-                ${ex.sets}セット・${ex.weights.map(w=>w+'kg').join(' / ')}
-              </span>
-            </div>`).join('')}
-        </div>
-      </div>`;
-  });
+// ═══════════════════════════════════════════════
+// 分析タブ
+// ═══════════════════════════════════════════════
+function renderAnalysis() {
+  const h = getHistory();
+  // 統計
+  const now = new Date();
+  const weekStart = new Date(now); weekStart.setDate(now.getDate() - ((now.getDay()+6)%7)); weekStart.setHours(0,0,0,0);
+  const thisWeek = h.filter(r => new Date(r.date) >= weekStart);
+  const weekVolume = thisWeek.reduce((sum, r) =>
+    sum + r.exercises.reduce((s2, ex) =>
+      s2 + ex.weights.reduce((s3, w, i) => s3 + w * (Array.isArray(ex.reps) ? (ex.reps[i]||0) : ex.reps), 0), 0), 0);
+
+  let html = `
+    <div class="stats-grid">
+      <div class="stat-card"><div class="stat-value">${h.length}</div><div class="stat-label">累計回数</div></div>
+      <div class="stat-card"><div class="stat-value">${thisWeek.length}</div><div class="stat-label">今週の回数</div></div>
+      <div class="stat-card"><div class="stat-value">${weekVolume >= 1000 ? (weekVolume/1000).toFixed(1)+'t' : weekVolume+'kg'}</div><div class="stat-label">今週の総重量</div></div>
+    </div>
+
+    <div class="section-label">カレンダー</div>
+    ${renderCalendar(h)}
+
+    <div class="section-label">筋肉の回復状況</div>
+    ${renderRecovery(h)}
+
+    <div class="section-label">履歴</div>
+    ${renderHistoryList(h)}
+  `;
   document.getElementById('mainContent').innerHTML = html;
 }
 
-function toggleHistorySession(idx) {
-  const el = document.getElementById('hs-' + idx);
-  el.classList.toggle('open');
-}
+function renderCalendar(h) {
+  const first = new Date(calYear, calMonth, 1);
+  const startDow = first.getDay();
+  const daysInMonth = new Date(calYear, calMonth+1, 0).getDate();
+  const today = new Date();
+  const todayKey = `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
 
-// ── Tab ────────────────────────────────────────
-function showTab(tab) {
-  currentTab = tab;
-  document.getElementById('tab-workout').classList.toggle('active', tab==='workout');
-  document.getElementById('tab-history').classList.toggle('active', tab==='history');
-  if (tab === 'workout') {
-    document.getElementById('bottomBar').style.display = 'block';
-    renderWorkout();
-  } else {
-    renderHistory();
+  const dows = ['日','月','火','水','木','金','土'];
+  let cells = dows.map(d => `<div class="cal-dow">${d}</div>`).join('');
+  for (let i = 0; i < startDow; i++) cells += `<div class="cal-day other"></div>`;
+  for (let d = 1; d <= daysInMonth; d++) {
+    const key = `${calYear}-${String(calMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const rec = h.find(r => r.date === key);
+    const isToday = key === todayKey;
+    let cls = 'cal-day' + (isToday ? ' today' : '') + (rec ? ' trained' : '');
+    let dot = rec ? `<div class="cal-dot dot-${rec.color}"></div>` : '';
+    cells += `<div class="${cls}">${d}${dot}</div>`;
   }
+  return `<div class="calendar-card">
+    <div class="calendar-head">
+      <button class="cal-nav-btn" onclick="calNav(-1)">‹</button>
+      <div class="calendar-month">${calYear}年${calMonth+1}月</div>
+      <button class="cal-nav-btn" onclick="calNav(1)">›</button>
+    </div>
+    <div class="calendar-grid">${cells}</div>
+    <div style="display:flex;gap:12px;margin-top:10px;font-size:10px;color:var(--text-muted)">
+      <span><span style="color:#a891ff">●</span> Day A</span>
+      <span><span style="color:#3ecf8e">●</span> Day B</span>
+      <span><span style="color:#f7a548">●</span> Day C</span>
+      <span><span style="color:#5ac8fa">●</span> 部位別</span>
+    </div>
+  </div>`;
+}
+function calNav(dir) {
+  calMonth += dir;
+  if (calMonth < 0) { calMonth = 11; calYear--; }
+  if (calMonth > 11) { calMonth = 0; calYear++; }
+  renderAnalysis();
 }
 
-// ── Toast ──────────────────────────────────────
+function renderRecovery(h) {
+  const now = new Date();
+  // 各筋肉の最終トレーニング日時を探す
+  const lastTrained = {};
+  h.forEach(rec => {
+    rec.exercises.forEach(ex => {
+      const def = ex.exId ? EX_DB[ex.exId] : Object.values(EX_DB).find(e => e.name === ex.name);
+      if (!def) return;
+      def.muscles.forEach(m => {
+        if (!lastTrained[m] || rec.date > lastTrained[m]) lastTrained[m] = rec.date;
+      });
+    });
+  });
+  let rows = Object.entries(MUSCLES).map(([mid, m]) => {
+    let pct = 100, colorVar = 'var(--green)';
+    if (lastTrained[mid]) {
+      const trainedAt = new Date(lastTrained[mid] + 'T20:00:00');
+      const hours = (now - trainedAt) / 3600000;
+      pct = Math.min(100, Math.round(hours / m.hours * 100));
+      if (pct < 0) pct = 0;
+    }
+    if (pct < 50) colorVar = 'var(--danger)';
+    else if (pct < 90) colorVar = 'var(--yellow)';
+    const label = pct >= 100 ? '回復済' : pct + '%';
+    return `<div class="recovery-row">
+      <div class="recovery-name">${m.name}</div>
+      <div class="recovery-bar-bg"><div class="recovery-bar" style="width:${pct}%;background:${colorVar}"></div></div>
+      <div class="recovery-pct" style="color:${colorVar}">${label}</div>
+    </div>`;
+  }).join('');
+  return `<div class="recovery-card">${rows}
+    <div style="font-size:10px;color:var(--text-muted);margin-top:8px">※ 大筋群72h・小筋群48hで回復と仮定した目安です</div>
+  </div>`;
+}
+
+function renderHistoryList(h) {
+  if (h.length === 0) return `<div class="history-empty">まだ記録がありません</div>`;
+  const rev = h.slice().reverse();
+  return rev.map((rec, idx) => {
+    const d = new Date(rec.date);
+    const days = ['日','月','火','水','木','金','土'];
+    const dateStr = `${d.getMonth()+1}月${d.getDate()}日（${days[d.getDay()]}）`;
+    const badgeCls = 'day-' + (rec.color || 'p');
+    const badgeLabel = rec.programId?.startsWith('day') ? 'DAY ' + rec.programId.slice(3) : '部位別';
+    return `
+      <div class="history-session" id="hs-${idx}">
+        <div class="history-session-header" onclick="document.getElementById('hs-${idx}').classList.toggle('open')">
+          <div>
+            <div class="history-session-date">${dateStr}</div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px">${rec.label}</div>
+          </div>
+          <span class="history-session-day ${badgeCls}">${badgeLabel}</span>
+        </div>
+        <div class="history-session-body">
+          ${rec.exercises.map(ex => {
+            const reps = Array.isArray(ex.reps) ? ex.reps : Array(ex.sets).fill(ex.reps || '-');
+            return `<div class="history-exercise-row">
+              <span class="history-exercise-name">${ex.name}</span>
+              <span class="history-exercise-sets">${ex.weights.map((w,i)=>`${w}kg×${reps[i]}`).join(' / ')}</span>
+            </div>`;
+          }).join('')}
+        </div>
+      </div>`;
+  }).join('');
+}
+
+// ═══════════════════════════════════════════════
 function showToast(msg) {
   const t = document.getElementById('toast');
   t.textContent = msg;
   t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2000);
+  setTimeout(() => t.classList.remove('show'), 2200);
 }
-</script>
 
-<script>
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('./sw.js').catch(()=>{});

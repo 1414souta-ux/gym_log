@@ -798,6 +798,85 @@
     .cal-day.trained { background: var(--accent-dim); }
     .cal-nav-btn { width: 40px; height: 40px; }
 
+
+    /* ── スワイプ削除 ── */
+    .swipe-row { position: relative; margin-bottom: 10px; border-radius: 18px; }
+    .swipe-row > .swipe-fg { position: relative; z-index: 1; touch-action: pan-y; }
+    .swipe-row .exercise-card, .swipe-row > .history-session { margin-bottom: 0; }
+    .swipe-bg { position: absolute; inset: 0; border-radius: inherit; background: var(--danger); display: flex; justify-content: flex-end;
+      opacity: 0; transition: opacity .12s, background-color .15s; }
+    .swipe-row.dragging .swipe-bg, .swipe-row.revealed .swipe-bg { opacity: 1; }
+    .swipe-row.armed .swipe-bg { background: #b8283f; }
+    .swipe-del { border: none; background: none; color: #fff; font: inherit; font-size: 13px; font-weight: 900; width: 88px; cursor: pointer; }
+    .swipe-row.leaving { overflow: hidden; opacity: 0; transition: height .2s var(--ease-out), margin .2s var(--ease-out), opacity .2s; }
+    .ed-swipe { margin-bottom: 0; border-radius: 0; animation: rise .3s var(--ease-out) both; }
+    .ed-swipe .ed-row { background: var(--surface); animation: none; }
+    .hist-swipe { border-radius: 18px; }
+    .swipe-hint { font-size: 10px; color: var(--text-muted); margin: -4px 2px 6px; }
+    #edgeBack { position: fixed; left: 0; top: 50%; width: 44px; height: 44px; margin-top: -22px; border-radius: 50%; z-index: 450;
+      background: var(--surface); color: var(--accent); box-shadow: 0 4px 14px rgba(37,29,56,.2); display: flex; align-items: center;
+      justify-content: center; font-size: 24px; font-weight: 900; line-height: 1; transform: translateX(-56px); pointer-events: none;
+      transition: transform .25s var(--ease-out), background-color .15s, color .15s; }
+    #edgeBack.ready { background: var(--accent); color: #fff; }
+
+    /* ── トースト（元に戻す） ── */
+    .toast { z-index: 600; max-width: calc(100vw - 32px); overflow: hidden; text-overflow: ellipsis; }
+    .toast.has-act { pointer-events: auto; display: flex; align-items: center; gap: 14px; }
+    .toast-act { border: none; background: none; color: #ffd58a; font: inherit; font-size: 13px; font-weight: 900; padding: 4px 0; cursor: pointer; flex-shrink: 0; }
+
+    /* ── セッティングメモ ── */
+    .setup-box { display: flex; align-items: center; gap: 8px; margin-top: 12px; }
+    .setup-lbl { font-size: 11px; font-weight: 800; color: var(--accent); flex-shrink: 0; }
+    .setup-input { flex: 1; min-width: 0; min-height: 40px; border: 1.5px solid var(--border); border-radius: 12px; padding: 8px 10px;
+      font: inherit; font-size: 13px; background: var(--surface2); color: var(--text); }
+    .setup-input:focus { outline: none; border-color: var(--accent); background: var(--surface); }
+    .exercise-setup { font-size: 11px; color: var(--accent); font-weight: 700; margin-top: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .exercise-setup:empty { display: none; }
+
+    /* ── 代わりの種目 ── */
+    .alt-box { margin-top: 12px; }
+    .alt-head { font-size: 11px; font-weight: 800; color: var(--text-dim); margin-bottom: 6px; display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap; }
+    .alt-head small { font-weight: 600; color: var(--text-muted); font-size: 10px; }
+    .alt-list { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; margin: 0 -14px; padding: 0 14px 2px; }
+    .alt-list::-webkit-scrollbar { display: none; }
+    .alt-chip { flex-shrink: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 2px; padding: 8px 12px; border-radius: 12px;
+      border: 1.5px solid var(--border); background: var(--surface); color: var(--text); font: inherit; font-size: 12px; font-weight: 700;
+      cursor: pointer; text-align: left; max-width: 210px; transition: transform .15s var(--ease-out); }
+    .alt-chip .eq { font-size: 10px; font-weight: 800; color: var(--text-muted); }
+    .alt-chip.rec { border-color: var(--accent); }
+    .alt-chip.rec .eq { color: var(--accent); }
+    .alt-chip:active { transform: scale(.96); }
+    .swap-note { display: flex; align-items: center; gap: 8px; margin-top: 12px; padding: 8px 10px; background: var(--accent-dim); border-radius: 12px;
+      font-size: 12px; color: var(--accent-deep); }
+    .swap-note span { flex: 1; }
+    .swap-note button { border: none; background: var(--surface); color: var(--accent); font: inherit; font-size: 12px; font-weight: 800;
+      padding: 8px 10px; border-radius: 10px; cursor: pointer; flex-shrink: 0; }
+    .swap-tag { color: var(--accent); font-weight: 800; }
+
+    /* ── 重量アップの提案 ── */
+    .prog-box { display: flex; align-items: center; gap: 10px; margin-top: 12px; padding: 10px 12px; border-radius: 14px; background: var(--green-dim); }
+    .prog-box .t { flex: 1; font-size: 12px; color: var(--text-dim); line-height: 1.5; }
+    .prog-box .t b { color: var(--text); }
+    .prog-box button { border: none; background: var(--green); color: #fff; font: inherit; font-size: 13px; font-weight: 900; padding: 10px 12px;
+      border-radius: 12px; cursor: pointer; flex-shrink: 0; }
+    .up-pill { color: var(--green); font-weight: 800; }
+
+    /* ── 途中のトレーニング ── */
+    .resume-card { display: flex; align-items: center; gap: 12px; padding: 12px 14px; margin-bottom: 12px; border-radius: 18px; background: var(--accent); color: #fff; }
+    .resume-card .t { flex: 1; font-size: 12px; opacity: .92; line-height: 1.5; }
+    .resume-card .t b { display: block; font-size: 14px; }
+    .resume-card button { border: none; background: #fff; color: var(--accent); font: inherit; font-weight: 900; font-size: 13px; padding: 10px 14px;
+      border-radius: 12px; cursor: pointer; flex-shrink: 0; }
+
+    /* ── 部位ごとの週間セット数 ── */
+    .wk-grp { display: flex; align-items: baseline; justify-content: space-between; margin: 12px 0 4px; font-size: 12px; font-weight: 800; color: var(--text); }
+    .wk-grp span { font-size: 11px; color: var(--text-muted); font-weight: 700; }
+    .wk-row { display: grid; grid-template-columns: 9.6em 1fr 2.4em; align-items: center; gap: 8px; padding: 3px 0; font-size: 12px; }
+    .wk-row .n { color: var(--text-dim); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .wk-bar { height: 8px; background: var(--surface2); border-radius: 4px; overflow: hidden; }
+    .wk-bar i { display: block; height: 100%; border-radius: 4px; transform-origin: left; animation: growX .5s var(--ease-out) both; }
+    .wk-row .v { text-align: right; font-weight: 800; font-variant-numeric: tabular-nums; }
+
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { animation-duration: .01ms !important; animation-delay: 0ms !important; transition-duration: .01ms !important; }
       .carousel { scroll-behavior: auto; }
@@ -1397,6 +1476,94 @@ function chestTag(exId) {
 }
 
 // ═══════════════════════════════════════════════
+// 部位（細かい分け方）・器具・おすすめ
+//   [主に鍛える部位, 補助で使う部位...]
+// ═══════════════════════════════════════════════
+const TARGETS = {
+  chest_upper:{ name:'胸上部', grp:'胸' }, chest_mid:{ name:'胸中部', grp:'胸' }, chest_lower:{ name:'胸下部', grp:'胸' },
+  chest_fly:{ name:'胸の内側（フライ）', grp:'胸' },
+  lat_width:{ name:'広背筋（幅）', grp:'背中' }, lat_thick:{ name:'広背筋（厚み）', grp:'背中' },
+  back_mid:{ name:'僧帽筋中部・菱形筋', grp:'背中' }, traps:{ name:'僧帽筋上部', grp:'背中' }, erector:{ name:'脊柱起立筋', grp:'背中' },
+  delt_front:{ name:'三角筋前部', grp:'肩' }, delt_side:{ name:'三角筋中部', grp:'肩' }, delt_rear:{ name:'三角筋後部', grp:'肩' },
+  biceps:{ name:'上腕二頭筋', grp:'腕' }, brachialis:{ name:'上腕筋・腕橈骨筋', grp:'腕' }, triceps:{ name:'上腕三頭筋', grp:'腕' },
+  quads:{ name:'大腿四頭筋', grp:'脚' }, hams:{ name:'ハムストリング', grp:'脚' }, calves:{ name:'ふくらはぎ', grp:'脚' },
+  glutes:{ name:'大臀筋', grp:'お尻' }, glute_med:{ name:'中臀筋', grp:'お尻' }, adductors:{ name:'内転筋', grp:'お尻' },
+  abs:{ name:'腹直筋', grp:'腹' }, obliques:{ name:'腹斜筋', grp:'腹' },
+};
+const EX_TARGET = {
+  chest_press:['chest_mid','triceps','delt_front'], bench_press:['chest_mid','triceps','delt_front'], smith_bench:['chest_mid','triceps','delt_front'],
+  db_bench:['chest_mid','triceps','delt_front'], db_floor_press:['chest_mid','triceps'], cable_chest_press:['chest_mid','triceps'], pushup:['chest_mid','triceps'],
+  incline_press:['chest_upper','delt_front','triceps'], incline_db_press:['chest_upper','delt_front','triceps'], cable_fly_low:['chest_upper'],
+  decline_press:['chest_lower','triceps'], cable_fly_high:['chest_lower'],
+  pec_fly:['chest_fly'], cable_fly:['chest_fly'], dumbbell_fly:['chest_fly'],
+  lat_pulldown:['lat_width','biceps'], pull_up:['lat_width','biceps'], straight_arm_pd:['lat_width'], straight_arm_pd2:['lat_width'],
+  seated_row:['lat_thick','back_mid','biceps'], plate_seated_row:['lat_thick','back_mid','biceps'], lf_low_row:['lat_thick','back_mid','biceps'],
+  plate_row:['lat_thick','back_mid','biceps'], one_arm_row:['lat_thick','biceps'], bent_row:['lat_thick','back_mid','biceps'], rev_bent_row:['lat_thick','biceps'],
+  vertical_traction:['back_mid','lat_thick'], db_incline_row:['back_mid','lat_thick'], face_pull:['back_mid','delt_rear'],
+  shrug:['traps'], lower_back:['erector','glutes'],
+  shoulder_press:['delt_front','triceps','delt_side'], plate_shoulder:['delt_front','triceps','delt_side'], db_shoulder_press:['delt_front','triceps','delt_side'],
+  ohp:['delt_front','triceps'], front_raise:['delt_front'],
+  side_raise:['delt_side'], cable_side_raise:['delt_side'], plate_lateral:['delt_side'],
+  rear_raise:['delt_rear'], cable_rear_delt_fly:['delt_rear'],
+  arm_curl:['biceps'], db_curl:['biceps'], conc_curl:['biceps'], cable_curl:['biceps'],
+  hammer_curl:['brachialis','biceps'], zottman_curl:['brachialis','biceps'], cross_hammer_curl:['brachialis','biceps'],
+  cable_pushdown:['triceps'], arm_ext_machine:['triceps'], cable_overhead_ext:['triceps'], overhead_ext:['triceps'], lying_triceps_press:['triceps'],
+  dips_assist:['triceps','chest_lower'],
+  leg_press:['quads','glutes'], leg_press_45:['quads','glutes'], leg_ext:['quads'], squat:['quads','glutes'], smith_squat:['quads','glutes'],
+  goblet_squat:['quads','glutes'], db_squat:['quads','glutes'], bulgarian:['quads','glutes'], lunge:['quads','glutes'], db_step_up:['quads','glutes'],
+  leg_curl:['hams'], rdl:['hams','glutes','erector'], deadlift:['hams','glutes','erector'],
+  glute_drive:['glutes','hams'], db_rear_lunge:['glutes','quads'],
+  abductor:['glute_med'], adductor:['adductors'],
+  calf_press:['calves'], db_calf_raise:['calves'],
+  abdominal:['abs'], cable_crunch:['abs'], crunch:['abs'], leg_raise:['abs'], plank:['abs'],
+  rotary_torso:['obliques'], russian_twist:['obliques'],
+  scott_curl:['biceps'],
+};
+// 部位ごとのおすすめ（エニタイム二子玉川の器具で）
+const TARGET_REC = {
+  chest_upper:['incline_press'], chest_mid:['chest_press'], chest_lower:['decline_press'], chest_fly:['cable_fly'],
+  lat_width:['lat_pulldown'], lat_thick:['seated_row'], back_mid:['face_pull'], traps:['shrug'], erector:['lower_back'],
+  delt_front:['shoulder_press'], delt_side:['cable_side_raise'], delt_rear:['cable_rear_delt_fly'],
+  biceps:['db_curl'], brachialis:['hammer_curl'], triceps:['cable_overhead_ext','cable_pushdown'],
+  quads:['leg_press'], hams:['leg_curl'], glutes:['glute_drive'], glute_med:['abductor'], adductors:['adductor'], calves:['calf_press'],
+  abs:['cable_crunch'], obliques:['rotary_torso'],
+};
+const MUSCLE_TO_TARGET = { chest_upper:'chest_upper', chest_mid:'chest_mid', chest_lower:'chest_lower', shoulders:'delt_side', triceps:'triceps',
+  back:'lat_thick', biceps:'biceps', quads:'quads', hams:'hams', glutes:'glutes', adductors:'adductors', calves:'calves', core:'abs' };
+function targetsOf(exId) {
+  if (EX_TARGET[exId]) return EX_TARGET[exId];
+  const d = EX_DB[exId]; if (!d) return null;
+  return d.muscles.map(m => MUSCLE_TO_TARGET[m]).filter(Boolean);
+}
+function equipOf(id) {
+  const m = EX_DB[id].machine;
+  if (/ケーブル/.test(m)) return 'ケーブル';
+  if (/ダンベル/.test(m)) return 'ダンベル';
+  if (/パワーラック|バーベル|スミス/.test(m)) return 'バーベル';
+  if (/自重/.test(m)) return '自重';
+  return 'マシン';
+}
+function isRec(id) { const t = targetsOf(id); return !!(t && t.length && (TARGET_REC[t[0]] || []).includes(id)); }
+// 同じ部位を鍛えられる別の種目（おすすめ → 別の器具 → 同じ器具の順）
+function altsFor(exId, exclude) {
+  const t = targetsOf(exId); if (!t || !t.length) return [];
+  const main = t[0], eq = equipOf(exId);
+  const pool = Object.keys(EX_DB).filter(id => id !== exId && !(exclude && exclude.has(id)));
+  const same = pool.filter(id => (targetsOf(id) || [])[0] === main);
+  // おすすめ → マシン・ケーブル・ダンベル → バーベル → 自重。同じ器具は少し後ろへ（混んでいる器具を避けるため）
+  const EQ_RANK = { 'マシン': 0, 'ケーブル': 0, 'ダンベル': 0, 'バーベル': 1, '自重': 2 };
+  const score = id => (isRec(id) ? 0 : 3) + (EQ_RANK[equipOf(id)] || 0) + (equipOf(id) === eq ? 0.5 : 0);
+  same.sort((a, b) => score(a) - score(b));
+  const near = pool.filter(id => !same.includes(id) && (targetsOf(id) || []).slice(1).includes(main));
+  return same.concat(near.slice(0, Math.max(0, 3 - same.length))).slice(0, 8);
+}
+function progLabel(pid) {
+  const p = PROGRAMS[pid]; if (!p) return '';
+  if (pid === LEG_DAY && legsSeparate()) return '脚';
+  return (p.label === '部位別' || p.label === 'レベル別') ? p.name : p.label;
+}
+
+// ═══════════════════════════════════════════════
 // SVGアニメーション
 // ═══════════════════════════════════════════════
 function animSVG(type) {
@@ -1579,7 +1746,9 @@ function seedHistory() {
     mk('2026-07-11','dayC'),
     mk('2026-07-11','arms', ['cable_pushdown'], { cable_pushdown: { weights:[18,18,18], reps:[15,10,5] } }),
   ];
+  const deleted = (() => { try { return JSON.parse(localStorage.getItem('gymlog_hist_deleted') || '[]'); } catch { return []; } })();
   seeds.forEach(s => {
+    if (deleted.includes(s.date + '|' + s.programId)) return;
     if (!h.find(r => r.date === s.date && r.programId === s.programId)) {
       h.push(s); changed = true;
     }
@@ -1802,6 +1971,7 @@ function onCarouselScroll(el) {
 // プログラム一覧
 // ═══════════════════════════════════════════════
 function renderProgramList(keep) {
+  parkSession();
   currentProgram = null;
   setTabState('program');
   document.getElementById('bottomBar').style.display = 'none';
@@ -1833,7 +2003,10 @@ function renderProgramList(keep) {
       <div class="program-card-count">${pp.exercises.length}種目</div>
     </button>`;
   };
+  const resume = liveSession && liveDone(liveSession) > 0
+    ? `<div class="resume-card rise"><div class="t"><b>${esc(progLabel(liveSession.pid))} の途中</b>${liveDone(liveSession)}種目完了・まだ記録していません</div><button onclick="openProgram('${liveSession.pid}')">続きから</button></div>` : '';
   mount(`
+    ${resume}
     <div class="level-card rise">
       <div class="level-top">
         <div class="card-badge" style="margin:0">${lvl.name.slice(0,1)}</div>
@@ -1886,13 +2059,31 @@ function getSessionExList(pid) {
   });
   return list;
 }
+// 今日だけの入れ替え { 元の種目: 代わりの種目 }。メニューの保存内容は変えない
+let todaySwaps = {};
+// ほかの画面へ移っても、記録前のトレーニングを残しておく
+let liveSession = null;
+function parkSession() {
+  if (currentProgram) liveSession = { pid: currentProgram, state: sessionState, swaps: todaySwaps };
+}
+function liveDone(ls) { return ls ? Object.values(ls.state).filter(s => s && s.done).length : 0; }
+function applySwaps(list) {
+  const base = new Set(list.map(e => e[0])), used = new Set();
+  return list.map(e => {
+    const n = todaySwaps[e[0]];
+    if (!n || !EX_DB[n] || base.has(n) || used.has(n)) return e;
+    used.add(n);
+    const d = LIB_DEFAULTS[n] || [e[1], e[2], e[3]];
+    return [n, e[1], e[2], d[2], e[4], e[0]];
+  });
+}
 function saveOrder() {
   const mem = getMem('gymlog_order');
-  mem[currentProgram] = sessionExList.map(e => e[0]);
+  mem[currentProgram] = sessionExList.map(e => e[5] || e[0]);
   saveMem('gymlog_order', mem);
 }
 function rebuildExList() {
-  sessionExList = getSessionExList(currentProgram);
+  sessionExList = applySwaps(getSessionExList(currentProgram));
   sessionExList.forEach(([exId, s, r, w]) => {
     if (!sessionState[currentProgram + '_' + exId]) initExState(currentProgram, exId, s, r, w);
   });
@@ -1912,13 +2103,89 @@ function initExState(pid, exId, sets, reps, w) {
   while (weights.length < repsArr.length) weights.push(weights[weights.length-1] ?? snapWeight(exId, w));
   sessionState[key] = { done:false, weights, reps: repsArr, exId, converted };
 }
-function openProgram(pid) {
+function openProgram(pid, force) {
+  if (!force && liveSession && liveSession.pid !== pid && liveDone(liveSession) > 0) {
+    const lp = liveSession.pid, n = liveDone(liveSession);
+    openModal({
+      title: '途中のトレーニングがあります',
+      body: `「${esc(progLabel(lp))}」で${n}種目を完了したまま、まだ記録していません。別のメニューを始めると、その途中の分は消えます。`,
+      actions: [
+        { label: '続きに戻る', onClick: () => { closeModal(() => openProgram(lp)); return false; } },
+        { label: '新しく始める', kind: 'danger', onClick: () => { closeModal(() => { liveSession = null; openProgram(pid, true); }); return false; } },
+      ],
+    });
+    return;
+  }
+  const cont = liveSession && liveSession.pid === pid ? liveSession
+    : (currentProgram === pid ? { state: sessionState, swaps: todaySwaps } : null);
   currentProgram = pid;
-  sessionExList = getSessionExList(pid);
-  sessionState = {};
-  sessionExList.forEach(([exId, sets, reps, w]) => initExState(pid, exId, sets, reps, w));
+  sessionState = cont ? cont.state : {};
+  todaySwaps = cont ? (cont.swaps || {}) : {};
+  liveSession = null;
+  sessionExList = applySwaps(getSessionExList(pid));
+  sessionExList.forEach(([exId, sets, reps, w]) => { if (!sessionState[pid + '_' + exId]) initExState(pid, exId, sets, reps, w); });
   expandedId = null; pendingBulk = null;
   renderWorkout();
+}
+
+// ── 混んでいるとき：今日だけ別の種目に入れ替える ──
+function swapToday(key, newId) {
+  const s = sessionState[key]; if (!s) return;
+  const cur = sessionExList.find(e => e[0] === s.exId); if (!cur) return;
+  const orig = cur[5] || cur[0];
+  if (newId === orig) delete todaySwaps[orig]; else todaySwaps[orig] = newId;
+  delete sessionState[key];
+  rebuildExList();
+  expandedId = currentProgram + '_' + newId; pendingBulk = null;
+  renderExerciseList(); updateDoneCount();
+  if (navigator.vibrate) navigator.vibrate(15);
+  showToast(newId === orig ? EX_DB[orig].name + ' に戻しました' : '今日だけ ' + EX_DB[newId].name + ' に変更');
+}
+
+// ── 重量アップの提案 ──
+function lastAfRecord(exId) {
+  const h = getHistory();
+  for (let i = h.length - 1; i >= 0; i--) {
+    if (h[i].gym !== 'af') continue;
+    const e = h[i].exercises.find(x => x.exId === exId);
+    if (e) return e;
+  }
+  return null;
+}
+function nextWeightOf(exId, w) {
+  const fam = incOf(exId);
+  if (fam === 'none') return null;
+  if (fam === 'db') return DB_WEIGHTS.find(x => x > w) || null;
+  const { min, step } = getIncs()[fam];
+  if (w < min) return min;
+  return Math.round((w + step) * 100) / 100;
+}
+function suggestFor(exId, targetReps, s) {
+  if (!s || s.converted || !(targetReps > 0)) return null;
+  const last = lastAfRecord(exId); if (!last) return null;
+  const ws = last.weights || [], rs = Array.isArray(last.reps) ? last.reps : [];
+  if (!ws.length || rs.length < ws.length) return null;
+  const top = Math.max(...ws); if (!(top > 0)) return null;
+  if (!ws.every((w, i) => rs[i] >= targetReps)) return null;
+  const to = nextWeightOf(exId, top); if (!to || to <= top) return null;
+  if (Math.max(...s.weights) >= to) return null;
+  return { from: top, to, reps: targetReps };
+}
+function applySuggest(key, to) {
+  const s = sessionState[key]; if (!s) return;
+  const prev = [...s.weights];
+  s.weights = s.weights.map(() => to); pendingBulk = null;
+  renderExerciseList();
+  showToast(to + 'kgに変更しました', { label: '元に戻す', fn: () => { if (sessionState[key]) { sessionState[key].weights = prev; renderExerciseList(); } } });
+}
+
+// ── マシンのセッティングメモ ──
+function saveSetup(exId, key, val) {
+  const m = getMem('gymlog_setup'), v = String(val).trim().slice(0, 60);
+  if (v) m[exId] = v; else delete m[exId];
+  saveMem('gymlog_setup', m);
+  const line = document.getElementById('setupline-' + key);
+  if (line) line.textContent = v ? '⚙︎ ' + v : '';
 }
 
 function renderWorkout() {
@@ -1987,11 +2254,13 @@ function renderExerciseList() {
   listAnim = false; justDone = null;
 }
 
-function renderExerciseCard([exId, defSets, defReps, defW, custom], i) {
+function renderExerciseCard([exId, defSets, defReps, defW, custom, origId], i) {
   const ex = EX_DB[exId];
   const key = currentProgram + '_' + exId;
   const s = sessionState[key];
   const isDone = s.done, isExpanded = expandedId === key;
+  const memo = getMem('gymlog_setup')[exId] || '';
+  const sug = isDone ? null : suggestFor(exId, defReps, s);
 
   let detail = '';
   if (isExpanded) {
@@ -2028,7 +2297,19 @@ function renderExerciseCard([exId, defSets, defReps, defW, custom], i) {
     const visual = (typeof PHOTOS !== 'undefined' && PHOTOS[exId])
       ? `<div class="photo-flip"><img src="${PHOTOS[exId][0]}" alt=""><img class="flip-top" src="${PHOTOS[exId][1]}" alt=""><div class="flip-caption">開始 ⇄ 終了</div></div>`
       : `<div class="anim-box">${animSVG(ex.anim)}</div>`;
+    const inList = new Set(sessionExList.map(e => e[0]).concat(sessionExList.map(e => e[5]).filter(Boolean)));
+    const alts = isDone ? [] : altsFor(exId, inList);
+    const swapNote = origId && EX_DB[origId]
+      ? `<div class="swap-note"><span>今日だけ「${EX_DB[origId].name}」の代わり</span><button onclick="swapToday('${key}','${origId}')">元に戻す</button></div>` : '';
+    const setupHtml = `<div class="setup-box"><label class="setup-lbl" for="setup-${key}">セッティング</label><input id="setup-${key}" class="setup-input" type="text" enterkeyhint="done" maxlength="60" placeholder="例：シート4・背もたれ2" value="${esc(memo)}" oninput="saveSetup('${exId}','${key}',this.value)" onkeydown="if(event.key==='Enter')this.blur()"></div>`;
+    const altHtml = alts.length ? `<div class="alt-box">
+        <div class="alt-head">混んでいたら代わりに<small>今日だけ入れ替え・メニューはそのまま</small></div>
+        <div class="alt-list">${alts.map(id => `<button class="alt-chip${isRec(id) ? ' rec' : ''}" onclick="swapToday('${key}','${id}')"><span class="eq">${equipOf(id)}${isRec(id) ? '・おすすめ' : ''}</span>${EX_DB[id].name}</button>`).join('')}</div>
+      </div>` : '';
+    const progHtml = sug ? `<div class="prog-box"><div class="t"><b>前回は全セット${sug.reps}回できました</b><br>${sug.from}kg → ${sug.to}kg に上げどきです</div><button onclick="applySuggest('${key}',${sug.to})">${sug.to}kgにする</button></div>` : '';
     detail = `<div class="exercise-detail">
+      ${swapNote}${setupHtml}${altHtml}
+      <div style="height:12px"></div>
       ${visual}
       <div class="guide-grid">
         <div class="guide-item guide-prep"><div class="guide-item-label">準備</div><div class="guide-item-text">${ex.guide.prep}</div></div>
@@ -2036,6 +2317,7 @@ function renderExerciseCard([exId, defSets, defReps, defW, custom], i) {
         <div class="guide-item guide-breath"><div class="guide-item-label">呼吸</div><div class="guide-item-text">${ex.guide.breath}</div></div>
       </div>
       <a class="video-link" href="${ex.video}" target="_blank" rel="noopener">▶ フォーム解説動画を見る</a>
+      ${progHtml}
       ${setsHtml}
       ${bulkHtml}
       <div class="ex-ctrl-row">
@@ -2050,8 +2332,10 @@ function renderExerciseCard([exId, defSets, defReps, defW, custom], i) {
   }
 
   return `
-    <div class="exercise-card${isDone?' done':''}${isExpanded?' expanded':''}${listAnim?' rise':''}${justDone===key?' just-done':''}" id="card-${key}" style="--i:${i}">
-      <div class="exercise-header" role="button" tabindex="0" aria-expanded="${isExpanded}" onclick="toggleCard('${key}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleCard('${key}')}">
+    <div class="swipe-row${listAnim?' rise':''}" style="--i:${i}" data-swipe="ex:${exId}">
+    <div class="swipe-bg"><button class="swipe-del" onclick="event.stopPropagation();commitRow(this.closest('.swipe-row'))">外す</button></div>
+    <div class="exercise-card swipe-fg${isDone?' done':''}${isExpanded?' expanded':''}${justDone===key?' just-done':''}" id="card-${key}">
+      <div class="exercise-header" data-swipe-handle role="button" tabindex="0" aria-expanded="${isExpanded}" onclick="toggleCard('${key}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleCard('${key}')}">
         <div class="order-badge">${i+1}</div>
         <div class="exercise-check"><span class="check-icon">✓</span></div>
         <div class="exercise-info">
@@ -2059,17 +2343,19 @@ function renderExerciseCard([exId, defSets, defReps, defW, custom], i) {
           <div class="exercise-meta">
             <span class="mc">${ex.machine}</span>
             <span>${s.weights.length}セット</span>
-            ${chestTag(exId) ? `<span style="color:var(--accent);font-weight:700">${chestTag(exId)}</span>` : ''}
+            ${origId ? '<span class="swap-tag">代わり</span>' : ''}
+            ${sug ? `<span class="up-pill">↑${sug.to}kg</span>` : (chestTag(exId) ? `<span style="color:var(--accent);font-weight:700">${chestTag(exId)}</span>` : '')}
           </div>
+          <div class="exercise-setup" id="setupline-${key}">${memo ? '⚙︎ ' + esc(memo) : ''}</div>
         </div>
         <div class="exercise-last">
           <div class="exercise-last-weight">${s.weights[0]}kg</div>
           <div class="exercise-last-label">${s.converted ? '目安' : '前回'}</div>
         </div>
-        ${custom === 'custom' ? `<button class="remove-ex-btn" aria-label="この種目を外す" onclick="event.stopPropagation();dropEx('${exId}')">✕</button>` : ''}
         ${chev()}
       </div>
       ${detail}
+    </div>
     </div>`;
 }
 
@@ -2171,7 +2457,7 @@ function saveWorkout() {
   h.sort((a,b)=>a.date.localeCompare(b.date));
   saveHistoryAll(h);
   const rec = h.find(r => r.date === dateKey && r.programId === currentProgram);
-  currentProgram = null; sessionState = {}; expandedId = null;
+  currentProgram = null; sessionState = {}; expandedId = null; todaySwaps = {}; liveSession = null;
   stopTimer();
   document.getElementById('bottomBar').style.display = 'none';
   showSummary(rec);
@@ -2249,20 +2535,28 @@ function openPicker(mode, targetId) {
       <button class="btn-back" onclick="closePicker()">閉じる</button>
     </div>
     <div style="font-size:11px;color:var(--text-muted)">${sub}</div>`;
-  Object.entries(GRP_NAMES).forEach(([g, label]) => {
-    if (!groups[g]) return;
-    html2 += `<div class="section-label" style="margin-top:16px">${label}</div>`;
-    groups[g].forEach(([id, def]) => {
-      const added = existing.has(id) && id !== targetId;
-      const isTarget = id === targetId;
-      html2 += `<div class="picker-row"${isTarget?' style="opacity:0.45"':''}>
+  const pRow = (id, def) => {
+    const added = existing.has(id) && id !== targetId, isTarget = id === targetId;
+    return `<div class="picker-row"${isTarget?' style="opacity:0.45"':''}>
         <div style="flex:1;min-width:0">
-          <div style="font-size:13px;font-weight:600">${def.name}${isTarget?'（現在）':''}</div>
+          <div style="font-size:13px;font-weight:600">${def.name}${isTarget?'（現在）':''}${isRec(id) ? ' <span style="font-size:10px;color:var(--accent);font-weight:800">おすすめ</span>' : ''}</div>
           <div style="font-size:11px;color:var(--text-muted)">${def.machine}${chestTag(id) ? ' ・ ' + chestTag(id) : ''}</div>
         </div>
         <button class="picker-add-btn${added?' added':''}" ${(added||isTarget)?'disabled':''} onclick="pickEx('${id}')">${added?'✓':'＋'}</button>
       </div>`;
-    });
+  };
+  const nearIds = targetId ? altsFor(targetId, existing) : [];
+  if (nearIds.length) {
+    const t0 = targetsOf(targetId)[0];
+    html2 += `<div class="section-label" style="margin-top:16px">いちばん近い代わり（${TARGETS[t0] ? TARGETS[t0].name : ''}）</div>`;
+    nearIds.forEach(id => { html2 += pRow(id, EX_DB[id]); });
+  }
+  Object.entries(GRP_NAMES).forEach(([g, label]) => {
+    if (!groups[g]) return;
+    const rows = groups[g].filter(([id]) => !nearIds.includes(id));
+    if (!rows.length) return;
+    html2 += `<div class="section-label" style="margin-top:16px">${label}</div>`;
+    rows.forEach(([id, def]) => { html2 += pRow(id, def); });
   });
   html2 += `</div></div>`;
   mountSheet(html2);
@@ -2303,13 +2597,20 @@ function setOrder(pid, ids) {
   const m = getMem('gymlog_order'); m[pid] = ids; saveMem('gymlog_order', m);
 }
 
+function snapMenu(pid) { const o = {}; ['gymlog_custom','gymlog_hidden','gymlog_order'].forEach(k => { o[k] = getMem(k)[pid]; }); return o; }
+function restoreMenu(pid, snap) {
+  Object.entries(snap).forEach(([k, v]) => { const m = getMem(k); if (v === undefined) delete m[pid]; else m[pid] = v; saveMem(k, m); });
+}
 function pickEx(id) {
   if (pickerCtx && pickerCtx.mode === 'replace') {
     const oldId = pickerCtx.targetId;
+    const ent = sessionExList.find(e => e[0] === oldId), real = (ent && ent[5]) || oldId;
+    delete todaySwaps[real];
+    delete sessionState[currentProgram + '_' + oldId];
     const pos = sessionExList.findIndex(e => e[0] === oldId);
     addExToProgram(id);
-    removeExFromProgram(oldId);
-    let ids = sessionExList.map(e => e[0]).filter(x => x !== oldId && x !== id);
+    removeExFromProgram(real);
+    let ids = sessionExList.map(e => e[5] || e[0]).filter(x => x !== real && x !== id);
     ids.splice(pos, 0, id);
     const mem = getMem('gymlog_order'); mem[currentProgram] = ids; saveMem('gymlog_order', mem);
     closePicker(); rebuildExList(); renderWorkout();
@@ -2321,9 +2622,22 @@ function pickEx(id) {
   }
 }
 function dropEx(id) {
-  if (sessionExList.length <= 1) { showToast('最後の1種目は外せません'); return; }
-  removeExFromProgram(id);
-  rebuildExList(); saveOrder(); renderWorkout();
+  if (sessionExList.length <= 1) { showToast('最後の1種目は外せません'); return false; }
+  const pid = currentProgram, k = pid + '_' + id;
+  const ent = sessionExList.find(e => e[0] === id), real = (ent && ent[5]) || id;
+  const snap = snapMenu(pid), st = sessionState[k], swap = todaySwaps[real];
+  delete todaySwaps[real];
+  removeExFromProgram(real);
+  delete sessionState[k];
+  if (expandedId === k) expandedId = null;
+  rebuildExList(); saveOrder(); renderExerciseList(); updateDoneCount();
+  showToast(EX_DB[id].name + ' を外しました', { label: '元に戻す', fn: () => {
+    restoreMenu(pid, snap);
+    if (swap) todaySwaps[real] = swap;
+    if (st) sessionState[k] = st;
+    if (currentProgram === pid) { rebuildExList(); renderExerciseList(); updateDoneCount(); }
+  } });
+  return true;
 }
 function moveEx(id, dir) {
   const i = sessionExList.findIndex(e => e[0] === id);
@@ -2371,6 +2685,8 @@ function exportData() {
     asuwell: getMem('gymlog_weights_asuwell'),
     incs: getMem('gymlog_incs'),
     style: localStorage.getItem('gymlog_style'),
+    setup: getMem('gymlog_setup'),
+    histDeleted: (() => { try { return JSON.parse(localStorage.getItem('gymlog_hist_deleted') || '[]'); } catch { return []; } })(),
   });
   const manual = () => openModal({ title: 'バックアップ', body: `自動でコピーできなかったので、下の文字を全部選択してコピーし、メモ帳などに保存してください。<textarea readonly onfocus="this.select()">${esc(data)}</textarea>` });
   const done = () => openModal({ title: 'コピーしました', body: 'メモ帳などに貼り付けて保存しておいてください。復元するときは、その文字をそのまま貼り付けます。' });
@@ -2398,6 +2714,8 @@ function doImport(raw) {
     if (d.asuwell) saveMem('gymlog_weights_asuwell', d.asuwell);
     if (d.incs) saveMem('gymlog_incs', d.incs);
     if (d.style) localStorage.setItem('gymlog_style', d.style);
+    if (d.setup) saveMem('gymlog_setup', d.setup);
+    if (Array.isArray(d.histDeleted)) localStorage.setItem('gymlog_hist_deleted', JSON.stringify(d.histDeleted));
     if (d.asuwell || d.incs) localStorage.setItem('gymlog_af_switched', '1');
     // あすウェル時代の古いバックアップ：重量は「あすウェルの値」として扱い、目安の計算元にする
     if (!d.asuwell && d.weights) {
@@ -2442,13 +2760,16 @@ function renderMenuEditor() {
     </div>
     <div style="font-size:11px;color:var(--text-muted);margin-bottom:14px">この内容が毎回のメニューとして保存されます。いつでも変更できます。</div>
 
-    <div class="section-label" style="margin-top:0">現在のメニュー（${list.length}種目）</div>`;
+    <div class="section-label" style="margin-top:0">現在のメニュー（${list.length}種目）</div>
+    <div class="swipe-hint">左にスワイプで外せます</div>`;
   if (!list.length) {
     h += `<div class="ed-empty">種目がありません。下から追加してください。</div>`;
   } else {
     list.forEach(([id], i) => {
       const d = EX_DB[id];
-      h += `<div class="ed-row">
+      h += `<div class="swipe-row ed-swipe" style="animation-delay:${i * 25}ms" data-swipe="ed:${id}">
+        <div class="swipe-bg"><button class="swipe-del" onclick="event.stopPropagation();commitRow(this.closest('.swipe-row'))">外す</button></div>
+        <div class="ed-row swipe-fg">
         <div class="ed-num">${i+1}</div>
         <div style="flex:1;min-width:0">
           <div style="font-size:13px;font-weight:600">${d.name}</div>
@@ -2456,8 +2777,7 @@ function renderMenuEditor() {
         </div>
         <button class="ed-mini" onclick="edMove('${id}',-1)">↑</button>
         <button class="ed-mini" onclick="edMove('${id}',1)">↓</button>
-        <button class="ed-mini rm" onclick="edRemove('${id}')">✕</button>
-      </div>`;
+      </div></div>`;
     });
   }
   h += `<div class="section-label" style="margin-top:22px">種目を追加（エニタイム二子玉川）</div>`;
@@ -2484,8 +2804,11 @@ function renderMenuEditor() {
 function edSync() { setOrder(editorPid, getSessionExList(editorPid).map(e => e[0])); }
 function edAdd(id) { addExToProgram(id, editorPid); edSync(); renderMenuEditor(); }
 function edRemove(id) {
-  if (getSessionExList(editorPid).length <= 1) { showToast('最後の1種目は外せません'); return; }
-  removeExFromProgram(id, editorPid); edSync(); renderMenuEditor();
+  if (getSessionExList(editorPid).length <= 1) { showToast('最後の1種目は外せません'); return false; }
+  const pid = editorPid, snap = snapMenu(pid);
+  removeExFromProgram(id, pid); edSync(); renderMenuEditor();
+  showToast(EX_DB[id].name + ' を外しました', { label: '元に戻す', fn: () => { restoreMenu(pid, snap); if (editorPid === pid) renderMenuEditor(); } });
+  return true;
 }
 function edMove(id, dir) {
   const ids = getSessionExList(editorPid).map(e => e[0]);
@@ -2515,7 +2838,10 @@ function closeMenuEditor() {
 // 設定ページ
 // ═══════════════════════════════════════════════
 const STEP_OPTIONS = [1, 1.25, 2, 2.25, 2.5, 3, 3.75, 4.5, 5, 6.8, 7.5, 10];
+let settingsFrom = 'program';
 function renderSettings(focus, keep) {
+  if (currentView !== 'settings') settingsFrom = currentView;
+  parkSession();
   currentProgram = null;
   setTabState('settings');
   document.getElementById('bottomBar').style.display = 'none';
@@ -2709,7 +3035,7 @@ function histOptions(h) {
   h.forEach(r => { if (!seen.includes(r.programId)) seen.push(r.programId); });
   return [['all', 'すべて']].concat(seen.map(pid => [pid, pid === LEG_DAY && legsSeparate() ? '脚' : (PROGRAMS[pid]?.label === '部位別' || PROGRAMS[pid]?.label === 'レベル別' ? PROGRAMS[pid].name : (PROGRAMS[pid]?.label || pid))]));
 }
-function renderAnalysis() {
+function renderAnalysis(keep) {
   setTabState('analysis');
   const h = getHistory();
   // 統計
@@ -2727,11 +3053,12 @@ function renderAnalysis() {
       <div class="stat-card"><div class="stat-value">${weekVolume >= 1000 ? (weekVolume/1000).toFixed(1)+'t' : weekVolume+'kg'}</div><div class="stat-label">今週の総重量</div></div>
     </div>
 
+    ${acc('部位ごとのセット数', '週間', `<div id="wkBox">${renderWeeklySets(h)}</div>`, true)}
     ${acc('カレンダー', `<span id="calSub">${calYear}年${calMonth+1}月</span>`, `<div id="calBox">${renderCalendar(h)}</div>`, true)}
     ${acc('筋肉の回復状況', '目安', renderRecovery(h), true)}
 
     <div class="history-filter">
-      <div class="section-label">履歴</div>
+      <div class="section-label">履歴<span style="font-weight:600;letter-spacing:0;color:var(--text-muted);margin-left:6px">左にスワイプで削除</span></div>
       <select class="select" aria-label="履歴の絞り込み" onchange="histFilter=this.value;document.getElementById('histList').innerHTML=renderHistoryList(getHistory())">
         ${histOptions(h).map(([v, l]) => `<option value="${v}" ${histFilter === v ? 'selected' : ''}>${l}</option>`).join('')}
       </select>
@@ -2742,7 +3069,55 @@ function renderAnalysis() {
       <span class="t">設定<small>トレーニングスタイル・重量の刻み・バックアップ</small></span><span class="arr">›</span>
     </button>
   `;
-  mount(html);
+  mount(html, keep === true);
+}
+
+let weekOffset = 0;
+function dkey(d) { return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }
+function renderWeeklySets(h) {
+  const s = new Date(); s.setHours(0, 0, 0, 0); s.setDate(s.getDate() - ((s.getDay() + 6) % 7) - weekOffset * 7);
+  const e = new Date(s); e.setDate(s.getDate() + 7);
+  const last = new Date(s); last.setDate(s.getDate() + 6);
+  const sk = dkey(s), ek = dkey(e), cnt = {};
+  h.filter(r => r.date >= sk && r.date < ek).forEach(r => r.exercises.forEach(ex => {
+    const t = ex.exId ? targetsOf(ex.exId) : null; if (!t || !t.length) return;
+    const n = Array.isArray(ex.weights) ? ex.weights.length : (ex.sets || 0);
+    t.forEach((k, i) => { cnt[k] = (cnt[k] || 0) + (i === 0 ? n : n * 0.5); });
+  }));
+  const grps = {};
+  Object.entries(TARGETS).forEach(([k, d]) => { (grps[d.grp] = grps[d.grp] || []).push(k); });
+  const fmt = v => String(Math.round(v * 2) / 2);
+  const col = v => v <= 0 ? 'var(--border)' : v < 4 ? 'var(--yellow)' : v < 10 ? 'var(--accent)' : 'var(--green)';
+  let out = `<div class="seg" role="radiogroup" aria-label="週" style="margin-bottom:6px">${[[0, '今週'], [1, '先週']].map(([o, l]) =>
+    `<label class="seg-opt"><input type="radio" name="wkoff" ${weekOffset === o ? 'checked' : ''} onchange="weekOffset=${o};document.getElementById('wkBox').innerHTML=renderWeeklySets(getHistory())"><span>${l}</span></label>`).join('')}</div>
+    <div style="font-size:11px;color:var(--text-muted)">${s.getMonth()+1}/${s.getDate()}（月）〜 ${last.getMonth()+1}/${last.getDate()}（日）</div>`;
+  Object.entries(grps).forEach(([g, keys]) => {
+    const tot = keys.reduce((a, k) => a + (cnt[k] || 0), 0);
+    out += `<div class="wk-grp">${g}<span>計 ${fmt(tot)}セット</span></div>`;
+    keys.forEach((k, i) => {
+      const v = cnt[k] || 0;
+      out += `<div class="wk-row"><span class="n">${TARGETS[k].name}</span><span class="wk-bar"><i style="width:${Math.min(100, v / 10 * 100)}%;background:${col(v)};animation-delay:${i * 40}ms"></i></span><span class="v" style="color:${v > 0 ? 'var(--text)' : 'var(--text-muted)'}">${fmt(v)}</span></div>`;
+    });
+  });
+  out += `<div style="font-size:10px;color:var(--text-muted);line-height:1.7;margin-top:10px">主に鍛える部位は1セット、補助で使う部位は0.5セットで数えています。バーは週10セットで満タンです。胸や背中は細かい部位の合計で見てください。</div>`;
+  return out;
+}
+function deleteHistory(ref) {
+  const [date, pid] = ref.split('|');
+  const before = getHistory();
+  const after = before.filter(r => !(r.date === date && r.programId === pid));
+  if (after.length === before.length) return false;
+  let del = []; try { del = JSON.parse(localStorage.getItem('gymlog_hist_deleted') || '[]'); } catch {}
+  const delBefore = [...del];
+  if (!del.includes(ref)) del.push(ref);
+  saveHistoryAll(after);
+  localStorage.setItem('gymlog_hist_deleted', JSON.stringify(del));
+  if (currentView === 'analysis') renderAnalysis(true);
+  showToast('記録を削除しました', { label: '元に戻す', fn: () => {
+    saveHistoryAll(before); localStorage.setItem('gymlog_hist_deleted', JSON.stringify(delBefore));
+    if (currentView === 'analysis') renderAnalysis(true);
+  } });
+  return true;
 }
 
 function renderCalendar(h) {
@@ -2842,7 +3217,9 @@ function renderHistoryList(h) {
     const partial = rec.doneCount && rec.totalCount && rec.doneCount < rec.totalCount ? `・${rec.doneCount}/${rec.totalCount}種目` : '';
     const where = rec.gym === 'af' ? '' : '・あすウェル';
     return `
-      <div class="history-session acc-wrap${idx < 6 ? ' rise' : ''}" style="--i:${idx}">
+      <div class="swipe-row hist-swipe${idx < 6 ? ' rise' : ''}" style="--i:${idx}" data-swipe="hist:${rec.date}|${rec.programId}">
+      <div class="swipe-bg"><button class="swipe-del" onclick="event.stopPropagation();commitRow(this.closest('.swipe-row'))">削除</button></div>
+      <div class="history-session acc-wrap swipe-fg">
         <button class="acc-head" aria-expanded="false" onclick="toggleAcc(this)">
           <span style="flex:1;min-width:0">
             <span class="history-session-date" style="display:block">${dateStr}</span>
@@ -2859,17 +3236,196 @@ function renderHistoryList(h) {
             </div>`;
           }).join('')}
         </div></div></div>
-      </div>`;
+      </div></div>`;
   }).join('');
 }
 
 // ═══════════════════════════════════════════════
-function showToast(msg) {
+let toastTimer = null, toastFn = null;
+function showToast(msg, action) {
   const t = document.getElementById('toast');
-  t.textContent = msg;
+  toastFn = action ? action.fn : null;
+  t.innerHTML = `<span style="overflow:hidden;text-overflow:ellipsis">${esc(msg)}</span>` + (action ? `<button class="toast-act" onclick="toastDo()">${esc(action.label)}</button>` : '');
+  t.classList.toggle('has-act', !!action);
   t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2200);
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => { t.classList.remove('show', 'has-act'); toastFn = null; }, action ? 4500 : 2200);
 }
+function toastDo() {
+  const f = toastFn; toastFn = null;
+  clearTimeout(toastTimer);
+  document.getElementById('toast').classList.remove('show', 'has-act');
+  if (f) f();
+}
+
+// ═══════════════════════════════════════════════
+// スワイプ操作
+//   ・行を左へ：削除（途中で離すとボタンが出る／大きく引くとそのまま削除）
+//   ・ホームで左端から右へ：メニューを開く
+//   ・ほかの画面で左端から右へ：前の画面に戻る（シートは閉じる）
+// ═══════════════════════════════════════════════
+const SW_EDGE = 22, SW_REVEAL = 88, SW_BACK = 100;
+let gest = null, openRow = null, suppressClickUntil = 0;
+function sheetOpen() { const ov = document.querySelector('#pickerModal .picker-overlay'); return !!ov && !ov.classList.contains('leaving'); }
+function closeTopSheet() { editorPid ? closeMenuEditor() : closePicker(); }
+function goBack() {
+  if (currentView === 'workout') {
+    const n = currentProgram ? Object.values(sessionState).filter(s => s && s.done).length : 0;
+    renderProgramList();
+    if (n) showToast('途中の記録は残してあります');
+  } else if (currentView === 'settings') {
+    if (settingsFrom === 'analysis') showTab('analysis');
+    else if (settingsFrom === 'workout' && liveSession) openProgram(liveSession.pid);
+    else renderProgramList();
+  } else if (currentView === 'analysis') {
+    showTab('program');
+  }
+}
+function edgeBubble() {
+  let b = document.getElementById('edgeBack');
+  if (!b) { b = document.createElement('div'); b.id = 'edgeBack'; b.textContent = '‹'; b.setAttribute('aria-hidden', 'true'); document.body.appendChild(b); }
+  return b;
+}
+function closeOpenRow(except) {
+  if (!openRow || openRow === except) return;
+  const fg = openRow.querySelector('.swipe-fg');
+  if (fg) { fg.style.transition = 'transform .25s var(--ease-out)'; fg.style.transform = ''; }
+  openRow.classList.remove('revealed', 'armed');
+  openRow = null;
+}
+function rowAction(row) {
+  const ref = row.dataset.swipe || '', i = ref.indexOf(':');
+  const kind = ref.slice(0, i), arg = ref.slice(i + 1);
+  if (kind === 'ex') return dropEx(arg);
+  if (kind === 'ed') return edRemove(arg);
+  if (kind === 'hist') return deleteHistory(arg);
+  return false;
+}
+function commitRow(row) {
+  if (!row || row.classList.contains('leaving')) return;
+  const fg = row.querySelector('.swipe-fg');
+  if (openRow === row) openRow = null;
+  row.classList.add('revealed');
+  fg.style.transition = 'transform .18s var(--ease-out)'; fg.style.transform = 'translateX(-110%)';
+  if (navigator.vibrate) navigator.vibrate(12);
+  const wait = REDUCED ? 0 : 170;
+  setTimeout(() => {
+    row.style.height = row.offsetHeight + 'px';
+    void row.offsetHeight;
+    row.classList.add('leaving'); row.style.height = '0px'; row.style.marginBottom = '0px';
+    setTimeout(() => {
+      if (rowAction(row) === false) {
+        row.classList.remove('leaving', 'revealed', 'armed');
+        row.style.height = ''; row.style.marginBottom = '';
+        fg.style.transform = '';
+      }
+    }, wait + 30);
+  }, wait);
+}
+function drawerParts() { return [document.getElementById('drawer'), document.querySelector('.drawer-ov')]; }
+function gestStart(g) {
+  if (g.kind === 'row') {
+    closeOpenRow(g.row);
+    g.row.classList.add('dragging'); g.fg.style.transition = 'none'; g.w = g.row.offsetWidth;
+  } else if (g.kind === 'drawerOpen' || g.kind === 'drawerClose') {
+    if (g.kind === 'drawerOpen') renderDrawer();
+    const [d, ov] = drawerParts();
+    g.dw = d.offsetWidth || 300;
+    d.style.transition = 'none'; d.style.visibility = 'visible'; ov.style.transition = 'none';
+  } else {
+    const b = edgeBubble(); b.style.transition = 'background-color .15s, color .15s';
+    if (g.kind === 'back') { const m = document.getElementById('mainContent'); m.classList.remove('view-in'); m.style.transition = 'none'; }
+  }
+}
+function gestMove(g, dx) {
+  if (g.kind === 'row') {
+    let x = g.base + dx;
+    if (x > 0) x = x / 4;
+    x = Math.max(x, -g.w);
+    g.pos = x; g.fg.style.transform = `translateX(${x}px)`;
+    g.row.classList.toggle('armed', x < -g.w * 0.5);
+  } else if (g.kind === 'drawerOpen' || g.kind === 'drawerClose') {
+    const [d, ov] = drawerParts();
+    const x = g.kind === 'drawerOpen' ? Math.min(0, -g.dw + dx) : Math.min(0, dx);
+    d.style.transform = `translateX(${x}px)`;
+    ov.style.opacity = Math.max(0, 1 + x / g.dw).toFixed(3);
+  } else {
+    const p = Math.max(0, Math.min(1, dx / SW_BACK));
+    const b = edgeBubble(); b.style.transform = `translateX(${-56 + p * 72}px)`; b.classList.toggle('ready', p >= 1);
+    if (g.kind === 'back') document.getElementById('mainContent').style.transform = `translateX(${Math.min(dx, 160) * 0.3}px)`;
+  }
+}
+function gestEnd(g, cancel) {
+  const dx = cancel ? 0 : (g.dx || 0), v = dx / Math.max(1, Date.now() - g.t0);
+  if (g.kind === 'row') {
+    const x = cancel ? 0 : (g.pos || 0);
+    g.row.classList.remove('dragging');
+    g.fg.style.transition = 'transform .25s var(--ease-out)';
+    if (x < -g.w * 0.5) commitRow(g.row);
+    else if (x < -SW_REVEAL * 0.5 || (v < -0.5 && x < -24)) { g.fg.style.transform = `translateX(${-SW_REVEAL}px)`; g.row.classList.add('revealed'); g.row.classList.remove('armed'); openRow = g.row; }
+    else { g.fg.style.transform = ''; g.row.classList.remove('revealed', 'armed'); if (openRow === g.row) openRow = null; }
+  } else if (g.kind === 'drawerOpen' || g.kind === 'drawerClose') {
+    const [d, ov] = drawerParts();
+    d.style.transform = ''; d.style.transition = ''; d.style.visibility = ''; ov.style.opacity = ''; ov.style.transition = '';
+    if (g.kind === 'drawerOpen' && (dx > 70 || (v > 0.5 && dx > 30))) toggleDrawer(true);
+    if (g.kind === 'drawerClose' && (dx < -60 || (v < -0.5 && dx < -24))) toggleDrawer(false);
+  } else {
+    const go = dx >= SW_BACK || (v > 0.6 && dx > 50);
+    const b = edgeBubble(); b.style.transition = ''; b.style.transform = ''; b.classList.remove('ready');
+    if (g.kind === 'back') {
+      const m = document.getElementById('mainContent');
+      m.style.transition = go ? 'none' : 'transform .25s var(--ease-out)'; m.style.transform = '';
+    }
+    if (go) {
+      if (navigator.vibrate) navigator.vibrate(10);
+      if (g.kind === 'sheet') closeTopSheet(); else goBack();
+    }
+  }
+}
+document.addEventListener('touchstart', e => {
+  gest = null;
+  if (e.touches.length !== 1) return;
+  if (document.querySelector('#modalRoot .modal-ov')) return;
+  const t = e.touches[0], x = t.clientX, y = t.clientY, now = Date.now();
+  const row = e.target.closest && e.target.closest('.swipe-row');
+  if (openRow && row !== openRow) closeOpenRow();
+  if (document.body.classList.contains('drawer-open')) { gest = { kind: 'drawerClose', x, y, t0: now }; return; }
+  if (x <= SW_EDGE) {
+    const kind = sheetOpen() ? 'sheet' : (currentView === 'program' ? 'drawerOpen' : 'back');
+    if (kind === 'back' && currentView === 'program') return;
+    gest = { kind, x, y, t0: now }; return;
+  }
+  if (row && !row.classList.contains('leaving') && !e.target.closest('input,select,textarea,.alt-list,.swipe-del')) {
+    const handle = row.querySelector('[data-swipe-handle]');
+    if (handle && !handle.contains(e.target)) return;
+    const fg = row.querySelector('.swipe-fg');
+    gest = { kind: 'row', row, fg, base: row.classList.contains('revealed') ? -SW_REVEAL : 0, x, y, t0: now };
+  }
+}, { passive: true });
+document.addEventListener('touchmove', e => {
+  if (!gest) return;
+  const t = e.touches[0], dx = t.clientX - gest.x, dy = t.clientY - gest.y;
+  if (!gest.lock) {
+    if (Math.abs(dx) < 6 && Math.abs(dy) < 6) return;
+    const horiz = Math.abs(dx) > Math.abs(dy) * 1.2;
+    const wrongWay = (gest.kind === 'drawerOpen' || gest.kind === 'back' || gest.kind === 'sheet') ? dx < 0
+      : gest.kind === 'drawerClose' ? dx > 0
+      : (gest.base === 0 && dx > 0);
+    if (!horiz || wrongWay) { gest = null; return; }
+    gest.lock = true; gestStart(gest);
+  }
+  if (e.cancelable) e.preventDefault();
+  gest.dx = dx; gestMove(gest, dx);
+}, { passive: false });
+document.addEventListener('touchend', () => {
+  if (gest && gest.lock) { gestEnd(gest); suppressClickUntil = Date.now() + 350; }
+  gest = null;
+}, { passive: true });
+document.addEventListener('touchcancel', () => { if (gest && gest.lock) gestEnd(gest, true); gest = null; }, { passive: true });
+// スワイプ直後の誤タップ（カードの開閉など）を防ぐ
+document.addEventListener('click', e => {
+  if (Date.now() < suppressClickUntil) { e.stopPropagation(); e.preventDefault(); }
+}, true);
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {

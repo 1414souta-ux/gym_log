@@ -877,6 +877,53 @@
     .wk-bar i { display: block; height: 100%; border-radius: 4px; transform-origin: left; animation: growX .5s var(--ease-out) both; }
     .wk-row .v { text-align: right; font-weight: 800; font-variant-numeric: tabular-nums; }
 
+
+    /* ── 記録（選択式） ── */
+    .sets-prev { font-size: 11px; color: var(--text-muted); margin: 12px 2px 6px; line-height: 1.5; }
+    .sets-prev b { color: var(--text-dim); font-weight: 800; }
+    .sets-head { display: grid; grid-template-columns: 22px 1.15fr 1fr; gap: 8px; font-size: 10px; font-weight: 800; color: var(--text-muted);
+      letter-spacing: .06em; padding: 8px 0 4px; }
+    .sets-head span:nth-child(n+2) { text-align: center; }
+    .sr { display: grid; grid-template-columns: 22px 1.15fr 1fr; gap: 8px; align-items: center; margin-bottom: 8px; }
+    .sr-n { font-size: 13px; font-weight: 900; color: var(--accent); text-align: center; }
+    .stp { display: flex; align-items: stretch; height: 50px; border-radius: 14px; background: var(--surface2); border: 1.5px solid var(--border); overflow: hidden; }
+    .stp-b { width: 36px; flex-shrink: 0; border: none; background: none; color: var(--accent); font-size: 22px; font-weight: 700; cursor: pointer;
+      touch-action: manipulation; padding: 0; }
+    .stp-b:active { background: var(--accent-dim); }
+    .stp-b:disabled { color: var(--border); }
+    .stp-v { flex: 1; min-width: 0; border: none; border-left: 1px solid var(--border); border-right: 1px solid var(--border); background: var(--surface);
+      color: var(--text); cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 2px; padding: 0 2px; font: inherit; touch-action: manipulation; }
+    .stp-v b { font-size: 18px; font-weight: 900; font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .stp-v small { font-size: 10px; color: var(--text-muted); font-weight: 700; }
+    .stp-v:active { background: var(--accent-dim); }
+    .stp-v.bump b { animation: pop .3s var(--ease-spring); }
+    .set-ctrl-row { margin: 2px 0 12px; }
+    .form-acc { margin: 12px 0 10px; border-top: 1px solid var(--border); }
+    .form-acc > .acc-head { padding: 12px 2px; }
+    .form-acc .acc-title { font-size: 13px; }
+    /* 選択シート */
+    .vs-head { display: flex; align-items: center; gap: 10px; }
+    .vs-head .t { flex: 1; min-width: 0; font-size: 15px; font-weight: 900; }
+    .vs-head .t small { display: block; font-size: 11px; font-weight: 600; color: var(--text-muted); margin-top: 2px; }
+    .vs-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-top: 10px; }
+    .vs-b { min-height: 50px; border-radius: 12px; border: 1.5px solid var(--border); background: var(--surface); font: inherit; font-size: 16px; font-weight: 800;
+      color: var(--text); cursor: pointer; position: relative; font-variant-numeric: tabular-nums; touch-action: manipulation; }
+    .vs-b:active { transform: scale(.95); }
+    .vs-b.cur { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .vs-b.prev::after { content: '前回'; position: absolute; top: 3px; right: 5px; font-size: 9px; font-weight: 800; color: var(--orange); }
+    .vs-b.cur.prev::after { color: #ffd58a; }
+    .vs-row { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; margin-top: 10px; font-size: 11px; color: var(--text-dim); font-weight: 800; }
+    .vs-chip { min-height: 36px; padding: 0 12px; border-radius: 18px; border: 1.5px solid var(--border); background: var(--surface); color: var(--text-dim);
+      font: inherit; font-size: 12px; font-weight: 800; cursor: pointer; }
+    .vs-chip.on { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .vs-hint { font-size: 12px; color: var(--accent-deep); background: var(--accent-dim); border-radius: 12px; padding: 8px 10px; margin-top: 10px; line-height: 1.6; }
+    .vs-cal { margin-top: 14px; }
+    .vs-cal .acc-head { padding: 10px 2px; }
+    .vs-cal .note { font-size: 11px; color: var(--text-muted); line-height: 1.6; margin-bottom: 8px; }
+    .vs-cal .fl { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .vs-cal label { display: flex; flex-direction: column; gap: 4px; font-size: 11px; color: var(--text-dim); font-weight: 700; }
+    .vs-cal .select { min-height: 42px; }
+
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { animation-duration: .01ms !important; animation-delay: 0ms !important; transition-duration: .01ms !important; }
       .carousel { scroll-behavior: auto; }
@@ -1333,20 +1380,93 @@ const EX_DB = {
 // 重量の刻み（エニタイム二子玉川の機種ごと）
 // ═══════════════════════════════════════════════
 const GYM_NAME = 'エニタイム二子玉川';
-const EX_INC = {"chest_press": "hs", "shoulder_press": "hs", "lat_pulldown": "hs", "seated_row": "hs", "pec_fly": "hs", "leg_press": "mx", "leg_ext": "mx", "leg_curl": "mx", "adductor": "mx", "abductor": "mx", "arm_curl": "mx", "rotary_torso": "mx", "abdominal": "mx", "arm_ext_machine": "mx", "calf_press": "mx", "lf_low_row": "lf", "cable_pushdown": "cable", "cable_fly": "cable", "cable_fly_low": "cable", "cable_fly_high": "cable", "straight_arm_pd": "cable", "face_pull": "cable", "cable_side_raise": "cable", "cable_rear_delt_fly": "cable", "cable_curl": "cable", "cable_crunch": "cable", "cable_chest_press": "cable", "cable_overhead_ext": "cable", "straight_arm_pd2": "cable", "incline_press": "plate", "glute_drive": "plate", "plate_row": "plate", "vertical_traction": "plate", "squat": "plate", "smith_squat": "plate", "bench_press": "plate", "smith_bench": "plate", "deadlift": "plate", "rdl": "plate", "bent_row": "plate", "ohp": "plate", "rev_bent_row": "plate", "decline_press": "plate", "plate_shoulder": "plate", "plate_seated_row": "plate", "plate_lateral": "plate", "leg_press_45": "plate", "pushup": "none", "plank": "none", "crunch": "none", "leg_raise": "none", "russian_twist": "none", "lower_back": "none", "pull_up": "none", "dips_assist": "none"};
+const EX_INC = {"chest_press": "hs", "shoulder_press": "hs", "lat_pulldown": "hs", "seated_row": "hs", "pec_fly": "hs", "leg_press": "mx", "leg_ext": "mx", "leg_curl": "mx", "adductor": "mx", "abductor": "mx", "arm_curl": "mx", "rotary_torso": "mx", "abdominal": "mx", "arm_ext_machine": "mx", "calf_press": "mx", "lf_low_row": "lf", "cable_pushdown": "cable", "cable_fly": "cable", "cable_fly_low": "cable", "cable_fly_high": "cable", "straight_arm_pd": "cable", "face_pull": "cable", "cable_side_raise": "cable", "cable_rear_delt_fly": "cable", "cable_curl": "cable", "cable_crunch": "cable", "cable_chest_press": "cable", "cable_overhead_ext": "cable", "straight_arm_pd2": "cable", "incline_press": "plate", "glute_drive": "plate", "plate_row": "plate", "vertical_traction": "plate", "squat": "plate", "smith_squat": "plate", "bench_press": "plate", "smith_bench": "plate", "deadlift": "plate", "rdl": "plate", "bent_row": "plate", "ohp": "plate", "rev_bent_row": "plate", "decline_press": "plate", "plate_shoulder": "plate", "plate_seated_row": "plate", "plate_lateral": "plate", "leg_press_45": "plate", "pushup": "none", "plank": "none", "crunch": "none", "leg_raise": "none", "russian_twist": "none", "lower_back": "none", "pull_up": "assist", "dips_assist": "assist"};
+// 初期値はメーカーの公開仕様から。1枚あたりの重さが公開されていない機種は「要確認」
+//   Matrix Ultra：1枚4.5kg（10lb）、追加ウエイト1.1/2.3/3.4kg（機種による）、スタック90〜180kg
+//   Hammer Strength Select：スタック138kg（295lb）。追加ウエイトは標準3.4kg、SEモデル2.5kg×2
+//   Life Fitness ラットプル：スタック130kg/152kg、ケーブル：クロスオーバー1:2（追加2.5kg）／DAP 1:4
+//   アシスト・ディップ・チン：スタック82kg（175lb）
 const INC_FAMILIES = {
-  hs:    { name:'Hammer Strength（ピン差し）', def:{ min:5, step:5 } },
-  mx:    { name:'Matrix（ピン差し）',          def:{ min:5, step:5 } },
-  lf:    { name:'Life Fitness ラットプル/ローロー', def:{ min:5, step:5 } },
-  cable: { name:'ケーブルマシン（Life Fitness）', def:{ min:2.5, step:2.5 } },
-  plate: { name:'プレートロード・バーベル',   def:{ min:0, step:2.5 } },
+  hs:    { name:'Hammer Strength（ピン差し）', def:{ min:4.5, step:4.5, max:138, add:[] },
+           adds:[[[], 'なし'], [[3.4], '3.4kg（標準）'], [[2.5, 5], '2.5kg×2（SEモデル）']],
+           note:'スタック合計138kg（295lb）。1枚あたりの重さは公式に記載がないため、ポンド規格の10lb＝4.5kgを仮に入れています。' },
+  mx:    { name:'Matrix（ピン差し）', def:{ min:4.5, step:4.5, max:180, add:[] },
+           adds:[[[], 'なし'], [[1.1, 2.3, 3.4], '1.1/2.3/3.4kg']],
+           note:'Matrix Ultraは1枚4.5kg（10lb）。追加ウエイト（1.1/2.3/3.4kg）は付いている機種だけで使えます。' },
+  lf:    { name:'Life Fitness ラットプル/ローロー', def:{ min:4.5, step:4.5, max:152, add:[] },
+           adds:[[[], 'なし'], [[2.5], '2.5kg']],
+           note:'スタック合計130kgまたは152kg。1枚あたりは公式に記載がないため、10lb＝4.5kgを仮に入れています。' },
+  cable: { name:'ケーブルマシン（Life Fitness）', def:{ min:2.5, step:2.5, max:100, add:[] },
+           adds:[[[], 'なし'], [[2.5], '2.5kg']],
+           note:'滑車の比率は1:2（クロスオーバー）または1:4（デュアルアジャスタブルプーリー）。手に掛かる重さではなく、スタックに書かれた数字で記録してください。' },
+  assist:{ name:'アシスト・ディップ・チン（Hammer Strength）', def:{ min:4.5, step:4.5, max:82, add:[] },
+           adds:[[[], 'なし'], [[3.4], '3.4kg（標準）'], [[2.5, 5], '2.5kg×2（SEモデル）']],
+           note:'スタック合計82kg（175lb）。重りを重くするほど補助が強くなり、楽になります。' },
+  plate: { name:'プレートロード・バーベル', def:{ min:0, step:2.5, max:300, add:[] },
+           note:'左右のプレート合計で記録します（バーベルはバー20kgを含む）。1.25kgプレートを左右に付けると2.5kg刻みです。' },
 };
+const MIN_OPTIONS = [0, 1.1, 1.25, 2.25, 2.5, 3.4, 4.5, 5, 6.8, 9, 10];
 const DB_WEIGHTS = [1,2,3,4,5,6,7,8,9,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40];
 function incOf(exId) { return EX_INC[exId] || 'db'; }
+const r2 = x => Math.round(x * 100) / 100;
+const nearEq = (a, b) => Math.abs(a - b) < 0.051;
+function fmtW(w) { return String(r2(w)); }
+function wLabel(exId, w) {
+  const fam = incOf(exId);
+  if (fam === 'none' && !(w > 0)) return '自重';
+  return fmtW(w) + 'kg';
+}
+// ピンの位置（プレート）だけの重さの並び
+function plateValues(exId) {
+  const fam = incOf(exId);
+  if (fam === 'db') return DB_WEIGHTS.slice();
+  if (fam === 'none') return [0].concat(DB_WEIGHTS);
+  const { min, step, max } = getIncs()[fam];
+  const out = [];
+  if (fam === 'plate' && min > 0) out.push(0);
+  for (let v = min || step; v <= (max || 200) + 1e-9; v += step) out.push(r2(v));
+  if (fam === 'plate' && min === 0) out.unshift(0);
+  return out;
+}
+// 追加ウエイトも含めて選べる重さの並び（＋−ボタン用）
+function weightSteps(exId) {
+  const base = plateValues(exId), inc = getIncs()[incOf(exId)], adds = (inc && inc.add) || [];
+  const all = new Set(base);
+  adds.forEach(a => base.forEach(b => all.add(r2(b + a))));
+  return [...all].sort((a, b) => a - b);
+}
+const BARBELL = new Set(['squat', 'bench_press', 'deadlift', 'ohp', 'bent_row', 'rev_bent_row', 'rdl']);
+function plateHint(exId, w) {
+  if (incOf(exId) !== 'plate') return '';
+  const bar = BARBELL.has(exId) ? 20 : 0;
+  let side = r2((w - bar) / 2);
+  if (side < 0) return 'バー（20kg）より軽い重さです';
+  const parts = [];
+  let rest = side;
+  [25, 20, 15, 10, 5, 2.5, 1.25].forEach(p => { while (rest >= p - 1e-9) { parts.push(p); rest = r2(rest - p); } });
+  const pl = side === 0 ? 'なし' : parts.join('＋') + (rest > 0 ? `＋${rest}` : '');
+  return `${bar ? 'バー20kg＋' : ''}片側 <b>${side}kg</b>（${pl}）`;
+}
 function getIncs() {
   const saved = getMem('gymlog_incs'), out = {};
-  Object.entries(INC_FAMILIES).forEach(([k, f]) => { out[k] = Object.assign({}, f.def, saved[k] || {}); });
+  Object.entries(INC_FAMILIES).forEach(([k, f]) => { out[k] = Object.assign({}, f.def, saved[k] || {}); if (!Array.isArray(out[k].add)) out[k].add = []; });
   return out;
+}
+function setIncQuiet(fam, field, val) {
+  const m = getMem('gymlog_incs');
+  if (field === 'add') { m[fam] = Object.assign({}, m[fam] || {}, { add: val, checked: true }); saveMem('gymlog_incs', m); return true; }
+  const v = parseFloat(val); if (!(v >= 0)) return false;
+  if (field === 'step' && v <= 0) return false;
+  m[fam] = Object.assign({}, m[fam] || {}, { [field]: v, checked: true });
+  saveMem('gymlog_incs', m);
+  return true;
+}
+function markIncChecked(fam) { const m = getMem('gymlog_incs'); m[fam] = Object.assign({}, m[fam] || {}, { checked: true }); saveMem('gymlog_incs', m); }
+function setIncAdd(fam, idx) {
+  const f = INC_FAMILIES[fam]; if (!f || !f.adds || !f.adds[idx]) return;
+  setIncQuiet(fam, 'add', f.adds[idx][0]);
+  showToast('追加ウエイトを保存しました');
+  renderSettings(undefined, true);
 }
 function setInc(fam, field, val) {
   const v = parseFloat(val); if (!(v >= 0)) return;
@@ -1943,7 +2063,7 @@ document.addEventListener('keydown', e => {
   if (e.key !== 'Escape') return;
   if (document.querySelector('#modalRoot .modal-ov')) closeModal();
   else if (document.body.classList.contains('drawer-open')) toggleDrawer(false);
-  else if (document.querySelector('#pickerModal .picker-overlay')) { editorPid ? closeMenuEditor() : closePicker(); }
+  else if (document.querySelector('#pickerModal .picker-overlay')) closeTopSheet();
 });
 
 // ── カルーセル ──
@@ -2088,6 +2208,188 @@ function rebuildExList() {
     if (!sessionState[currentProgram + '_' + exId]) initExState(currentProgram, exId, s, r, w);
   });
 }
+// ── 記録：＋−ボタンと選択シート ──
+function targetRepsOf(key) {
+  const s = sessionState[key]; if (!s) return 0;
+  if (s.target) return s.target;
+  const e = sessionExList.find(x => x[0] === s.exId);
+  return e ? e[2] : 0;
+}
+function repOptions(exId) {
+  if (exId === 'plank') { const o = []; for (let v = 10; v <= 180; v += 5) o.push(v); return o; }
+  const o = []; for (let v = 1; v <= 30; v++) o.push(v); return o.concat([35, 40, 50]);
+}
+function repUnit(exId) { return exId === 'plank' ? '秒' : '回'; }
+function setVal(key, f, j, nv, mode) {
+  const s = sessionState[key]; if (!s) return;
+  const arr = f === 'w' ? s.weights : s.reps;
+  const old = arr[j];
+  arr[j] = nv;
+  for (let k = j + 1; k < arr.length; k++) {
+    if (mode === 'rest' || (mode === 'same' && nearEq(arr[k], old))) arr[k] = nv;
+  }
+  refreshSets(key, f, j);
+}
+function stepVal(key, f, j, dir) {
+  const s = sessionState[key]; if (!s) return;
+  const cur = (f === 'w' ? s.weights : s.reps)[j];
+  let nv = cur;
+  if (f === 'w') {
+    const o = weightSteps(s.exId);
+    nv = dir > 0 ? o.find(v => v > cur + 0.05) : [...o].reverse().find(v => v < cur - 0.05);
+    if (nv === undefined) return;
+  } else if (s.exId === 'plank') {
+    nv = Math.max(5, cur + dir * 5);
+  } else {
+    nv = Math.max(1, Math.min(100, cur + dir));
+  }
+  if (nv === cur) return;
+  setVal(key, f, j, nv, f === 'w' ? 'same' : 'one');
+  if (navigator.vibrate) navigator.vibrate(8);
+}
+function setsInner(key) {
+  const s = sessionState[key], exId = s.exId, ru = repUnit(exId);
+  const steps = weightSteps(exId);
+  const sug = s.done ? null : suggestFor(exId, targetRepsOf(key), s);
+  const progHtml = sug ? `<div class="prog-box"><div class="t"><b>前回は全セット${sug.reps}${ru}できました</b><br>${fmtW(sug.from)}kg → ${fmtW(sug.to)}kg に上げどきです</div><button onclick="applySuggest('${key}',${sug.to})">${fmtW(sug.to)}kgにする</button></div>` : '';
+  const rows = s.weights.map((w, j) => {
+    const r = s.reps[j];
+    const wMin = !steps.some(v => v < w - 0.05), rMin = r <= (exId === 'plank' ? 5 : 1);
+    return `<div class="sr">
+      <div class="sr-n">${j + 1}</div>
+      <div class="stp">
+        <button class="stp-b" aria-label="${j + 1}セット目の重量を下げる" ${wMin ? 'disabled' : ''} onclick="stepVal('${key}','w',${j},-1)">−</button>
+        <button class="stp-v" id="v-${key}-w-${j}" aria-label="${j + 1}セット目の重量を選ぶ" onclick="openValueSheet('${key}','w',${j})"><b>${wLabel(exId, w).replace('kg', '')}</b>${wLabel(exId, w).endsWith('kg') ? '<small>kg</small>' : ''}</button>
+        <button class="stp-b" aria-label="${j + 1}セット目の重量を上げる" onclick="stepVal('${key}','w',${j},1)">＋</button>
+      </div>
+      <div class="stp">
+        <button class="stp-b" aria-label="${j + 1}セット目の回数を減らす" ${rMin ? 'disabled' : ''} onclick="stepVal('${key}','r',${j},-1)">−</button>
+        <button class="stp-v" id="v-${key}-r-${j}" aria-label="${j + 1}セット目の回数を選ぶ" onclick="openValueSheet('${key}','r',${j})"><b>${r}</b><small>${ru}</small></button>
+        <button class="stp-b" aria-label="${j + 1}セット目の回数を増やす" onclick="stepVal('${key}','r',${j},1)">＋</button>
+      </div>
+    </div>`;
+  }).join('');
+  return `${progHtml}
+    <div class="sets-head"><span>SET</span><span>重量</span><span>${exId === 'plank' ? '秒数' : '回数'}</span></div>
+    ${rows}
+    <div class="set-ctrl-row">
+      <button class="set-ctrl-btn" onclick="changeSets('${key}',1)">＋ セット追加</button>
+      <button class="set-ctrl-btn" onclick="changeSets('${key}',-1)" ${s.weights.length <= 1 ? 'disabled' : ''}>− セット削除</button>
+    </div>`;
+}
+function refreshSets(key, f, j) {
+  const box = document.getElementById('sets-' + key);
+  if (!box) { renderExerciseList(); return; }
+  box.innerHTML = setsInner(key);
+  const s = sessionState[key];
+  const hw = document.getElementById('hw-' + key); if (hw) hw.textContent = wLabel(s.exId, s.weights[0]);
+  const up = document.getElementById('up-' + key);
+  if (up && !suggestFor(s.exId, targetRepsOf(key), s)) up.remove();
+  if (f && j !== undefined && !REDUCED) { const el = document.getElementById(`v-${key}-${f}-${j}`); if (el) el.classList.add('bump'); }
+}
+
+let vsCtx = null;
+function openValueSheet(key, f, j) {
+  const s = sessionState[key]; if (!s) return;
+  vsCtx = { key, f, j, mode: (f === 'w' && j < s.weights.length - 1) ? 'rest' : 'one', add: null, cal: false };
+  renderValueSheet();
+}
+function closeValueSheet() { vsCtx = null; unmountSheet(); }
+function vsMode(m) { if (vsCtx) { vsCtx.mode = m; renderValueSheet(); } }
+function vsAdd(a) { if (vsCtx) { vsCtx.add = a; renderValueSheet(); } }
+function vsCal(field, val) {
+  if (!vsCtx) return;
+  const fam = incOf(sessionState[vsCtx.key].exId);
+  if (field === 'add') setIncQuiet(fam, 'add', INC_FAMILIES[fam].adds[+val][0]);
+  else if (field === 'ok') markIncChecked(fam);
+  else setIncQuiet(fam, field, val);
+  vsCtx.cal = true; vsCtx.add = null;
+  renderValueSheet();
+  if (field === 'ok') showToast('この刻みで確認済みにしました');
+}
+function pickVal(v) {
+  if (!vsCtx) return;
+  const { key, f, j, mode } = vsCtx;
+  closeValueSheet();
+  setVal(key, f, j, v, mode);
+  if (navigator.vibrate) navigator.vibrate(10);
+}
+function renderValueSheet() {
+  const { key, f, j } = vsCtx, s = sessionState[key];
+  if (!s) { closeValueSheet(); return; }
+  const exId = s.exId, ex = EX_DB[exId], ru = repUnit(exId);
+  const cur = (f === 'w' ? s.weights : s.reps)[j];
+  const last = lastAfRecord(exId);
+  const prevArr = last ? (f === 'w' ? last.weights : (Array.isArray(last.reps) ? last.reps : null)) : null;
+  const prev = prevArr ? prevArr[Math.min(j, prevArr.length - 1)] : undefined;
+  const fam = incOf(exId), inc = getIncs()[fam], F = INC_FAMILIES[fam];
+  let body = '';
+  if (f === 'w') {
+    const base = plateValues(exId), adds = (inc && inc.add) || [];
+    if (vsCtx.add === null) {
+      vsCtx.add = 0;
+      if (adds.length && !base.some(b => nearEq(b, cur))) { const a = adds.find(a => base.some(b => nearEq(r2(b + a), cur))); if (a) vsCtx.add = a; }
+    }
+    const A = vsCtx.add;
+    const onGrid = base.some(b => nearEq(r2(b + A), cur));
+    body += adds.length ? `<div class="vs-row">追加ウエイト
+        <button class="vs-chip${A === 0 ? ' on' : ''}" onclick="vsAdd(0)">なし</button>
+        ${adds.map(a => `<button class="vs-chip${nearEq(A, a) ? ' on' : ''}" onclick="vsAdd(${a})">＋${a}kg</button>`).join('')}
+      </div>` : '';
+    body += !onGrid && cur > 0 ? `<div class="vs-hint">今の記録 ${fmtW(cur)}kg は、この刻みにありません。近い重さを選ぶか、下の「刻みを合わせる」で直してください。</div>` : '';
+    body += `<div class="vs-grid">${base.map(b => {
+      const v = r2(b + A);
+      return `<button class="vs-b${nearEq(v, cur) ? ' cur' : ''}${prev !== undefined && nearEq(v, prev) ? ' prev' : ''}" onclick="pickVal(${v})">${wLabel(exId, v).replace('kg', '')}</button>`;
+    }).join('')}</div>`;
+    const hint = plateHint(exId, cur);
+    if (hint) body = `<div class="vs-hint">今の重さ ${fmtW(cur)}kg → ${hint}</div>` + body;
+    if (F) {
+      const checked = (getMem('gymlog_incs')[fam] || {}).checked;
+      const stepOpts = STEP_OPTIONS.includes(inc.step) ? STEP_OPTIONS : STEP_OPTIONS.concat([inc.step]).sort((a, b) => a - b);
+      const minOpts = MIN_OPTIONS.includes(inc.min) ? MIN_OPTIONS : MIN_OPTIONS.concat([inc.min]).sort((a, b) => a - b);
+      const addIdx = F.adds ? Math.max(0, F.adds.findIndex(([arr]) => arr.length === adds.length && arr.every((x, i) => nearEq(x, adds[i])))) : 0;
+      body += `<div class="acc-wrap vs-cal${vsCtx.cal || !checked ? ' open' : ''}">
+        <button class="acc-head" aria-expanded="${vsCtx.cal || !checked}" onclick="toggleAcc(this)"><span class="acc-title" style="font-size:13px">刻みを合わせる</span>${checked ? '<span class="badge-ok">確認済</span>' : '<span class="badge-warn">要確認</span>'}${chev()}</button>
+        <div class="acc"><div class="acc-inner">
+          <div class="note">${esc(F.name)}：${esc(F.note)}<br>マシンのピンの数字（1枚目の重さと、1枚ごとの増え方）に合わせてください。同じメーカーの機種すべてに反映されます。</div>
+          <div class="fl">
+            <label>${fam === 'plate' ? '最小' : '1枚目'}<select class="select" onchange="vsCal('min',this.value)">${minOpts.map(o => `<option value="${o}" ${nearEq(o, inc.min) ? 'selected' : ''}>${o}kg</option>`).join('')}</select></label>
+            <label>1枚ごと<select class="select" onchange="vsCal('step',this.value)">${stepOpts.map(o => `<option value="${o}" ${nearEq(o, inc.step) ? 'selected' : ''}>${o}kg</option>`).join('')}</select></label>
+            ${F.adds ? `<label style="grid-column:1/-1">追加ウエイト<select class="select" onchange="vsCal('add',this.value)">${F.adds.map(([, l], i) => `<option value="${i}" ${i === addIdx ? 'selected' : ''}>${l}</option>`).join('')}</select></label>` : ''}
+          </div>
+          ${checked ? '' : `<button class="btn-ghost" style="width:100%;margin-top:10px" onclick="vsCal('ok')">この刻みで合っている</button>`}
+        </div></div></div>`;
+    }
+  } else {
+    const opts = repOptions(exId);
+    body += `<div class="vs-grid" style="grid-template-columns:repeat(5,1fr)">${opts.map(v =>
+      `<button class="vs-b${v === cur ? ' cur' : ''}${prev !== undefined && v === prev ? ' prev' : ''}" onclick="pickVal(${v})">${v}</button>`).join('')}</div>`;
+  }
+  const multi = j < s.weights.length - 1;
+  const modeRow = multi ? `<div class="seg" role="radiogroup" aria-label="反映するセット" style="margin-top:12px">
+      <label class="seg-opt"><input type="radio" name="vsmode" ${vsCtx.mode === 'rest' ? 'checked' : ''} onchange="vsMode('rest')"><span>${j + 1}〜${s.weights.length}セット目</span></label>
+      <label class="seg-opt"><input type="radio" name="vsmode" ${vsCtx.mode === 'one' ? 'checked' : ''} onchange="vsMode('one')"><span>${j + 1}セット目だけ</span></label>
+    </div>` : '';
+  const sub = f === 'w'
+    ? (fam === 'db' ? 'ダンベル1個の重さ' : fam === 'none' ? '自重、または持つ重り' : fam === 'assist' ? '重いほど補助が強い（楽になる）' : fam === 'plate' ? (BARBELL.has(exId) ? 'バー20kgを含む合計' : '左右のプレートの合計') : 'ピンを刺した位置の数字')
+    : (exId === 'plank' ? '秒数' : '回数');
+  mountSheet(`<div class="picker-overlay" onclick="if(event.target===this)closeValueSheet()"><div class="picker-sheet" id="vsSheet">
+    <div class="vs-head">
+      <div class="t">${esc(ex.name)}・${j + 1}セット目の${f === 'w' ? '重量' : (exId === 'plank' ? '秒数' : '回数')}<small>${sub}${prev !== undefined ? `・前回 ${f === 'w' ? wLabel(exId, prev) : prev + ru}` : ''}</small></div>
+      <button class="btn-back" onclick="closeValueSheet()">閉じる</button>
+    </div>
+    ${modeRow}
+    ${body}
+    <div style="height:8px"></div>
+  </div></div>`);
+  const sheet = document.getElementById('vsSheet');
+  const c = sheet && (sheet.querySelector('.vs-b.cur') || sheet.querySelector('.vs-b.prev'));
+  if (c && !vsCtx.cal) {
+    const y = c.getBoundingClientRect().top - sheet.getBoundingClientRect().top + sheet.scrollTop;
+    sheet.scrollTop = Math.max(0, y - sheet.clientHeight / 2 + c.offsetHeight / 2);
+  }
+}
+
 function initExState(pid, exId, sets, reps, w) {
   // 重量・回数はプログラム(A/B/C)を問わず種目単位でグローバルに共有する
   const key = pid + '_' + exId;
@@ -2101,7 +2403,7 @@ function initExState(pid, exId, sets, reps, w) {
   let repsArr = savedR ? [...savedR] : Array(sets).fill(reps);
   while (repsArr.length < weights.length) repsArr.push(reps);
   while (weights.length < repsArr.length) weights.push(weights[weights.length-1] ?? snapWeight(exId, w));
-  sessionState[key] = { done:false, weights, reps: repsArr, exId, converted };
+  sessionState[key] = { done:false, weights, reps: repsArr, exId, converted, target: reps };
 }
 function openProgram(pid, force) {
   if (!force && liveSession && liveSession.pid !== pid && liveDone(liveSession) > 0) {
@@ -2143,22 +2445,20 @@ function swapToday(key, newId) {
 }
 
 // ── 重量アップの提案 ──
-function lastAfRecord(exId) {
+function lastAfRecordFull(exId) {
   const h = getHistory();
   for (let i = h.length - 1; i >= 0; i--) {
     if (h[i].gym !== 'af') continue;
     const e = h[i].exercises.find(x => x.exId === exId);
-    if (e) return e;
+    if (e && Array.isArray(e.weights) && e.weights.length) return { e, date: h[i].date };
   }
   return null;
 }
+function lastAfRecord(exId) { const r = lastAfRecordFull(exId); return r ? r.e : null; }
 function nextWeightOf(exId, w) {
   const fam = incOf(exId);
-  if (fam === 'none') return null;
-  if (fam === 'db') return DB_WEIGHTS.find(x => x > w) || null;
-  const { min, step } = getIncs()[fam];
-  if (w < min) return min;
-  return Math.round((w + step) * 100) / 100;
+  if (fam === 'none' || fam === 'assist') return null;   // 自重・アシストは重さを上げる提案をしない
+  return weightSteps(exId).find(x => x > w + 0.05) || null;
 }
 function suggestFor(exId, targetReps, s) {
   if (!s || s.converted || !(targetReps > 0)) return null;
@@ -2175,8 +2475,8 @@ function applySuggest(key, to) {
   const s = sessionState[key]; if (!s) return;
   const prev = [...s.weights];
   s.weights = s.weights.map(() => to); pendingBulk = null;
-  renderExerciseList();
-  showToast(to + 'kgに変更しました', { label: '元に戻す', fn: () => { if (sessionState[key]) { sessionState[key].weights = prev; renderExerciseList(); } } });
+  refreshSets(key);
+  showToast(fmtW(to) + 'kgに変更しました', { label: '元に戻す', fn: () => { if (sessionState[key]) { sessionState[key].weights = prev; refreshSets(key); } } });
 }
 
 // ── マシンのセッティングメモ ──
@@ -2264,35 +2564,7 @@ function renderExerciseCard([exId, defSets, defReps, defW, custom, origId], i) {
 
   let detail = '';
   if (isExpanded) {
-    let setsHtml = `<table class="set-table"><tr><th>SET</th><th>重量</th><th>回数</th></tr>`;
-    const nSets = s.weights.length;
-    for (let j = 0; j < nSets; j++) {
-      setsHtml += `<tr>
-        <td class="set-num">${j+1}</td>
-        <td><input class="num-input" type="number" inputmode="decimal" value="${s.weights[j]}"
-          onchange="onNumChange('${key}','weights',${j},this.value)" onclick="this.select()"><span class="unit">kg</span></td>
-        <td><input class="num-input" type="number" inputmode="numeric" value="${s.reps[j]}"
-          onchange="onNumChange('${key}','reps',${j},this.value)" onclick="this.select()"><span class="unit">回</span></td>
-      </tr>`;
-    }
-    setsHtml += '</table>';
-    setsHtml += `<div class="set-ctrl-row">
-      <button class="set-ctrl-btn" onclick="changeSets('${key}',1)">＋ セット追加</button>
-      <button class="set-ctrl-btn" onclick="changeSets('${key}',-1)">− セット削除</button>
-    </div>`;
-
-    let bulkHtml = '';
-    if (pendingBulk && pendingBulk.exKey === key) {
-      const fieldName = pendingBulk.field === 'weights' ? '重量' : '回数';
-      const unit = pendingBulk.field === 'weights' ? 'kg' : '回';
-      bulkHtml = `<div class="bulk-confirm">
-        SET ${pendingBulk.setIndex+1}以降の${fieldName}を <b>${pendingBulk.value}${unit}</b> にする？
-        <div class="bulk-confirm-btns">
-          <button class="bulk-btn bulk-yes" onclick="applyBulk(true)">残りのセットに反映</button>
-          <button class="bulk-btn bulk-no" onclick="applyBulk(false)">このセットのみ</button>
-        </div>
-      </div>`;
-    }
+    if (!s.target) s.target = defReps;
 
     const visual = (typeof PHOTOS !== 'undefined' && PHOTOS[exId])
       ? `<div class="photo-flip"><img src="${PHOTOS[exId][0]}" alt=""><img class="flip-top" src="${PHOTOS[exId][1]}" alt=""><div class="flip-caption">開始 ⇄ 終了</div></div>`
@@ -2306,28 +2578,38 @@ function renderExerciseCard([exId, defSets, defReps, defW, custom, origId], i) {
         <div class="alt-head">混んでいたら代わりに<small>今日だけ入れ替え・メニューはそのまま</small></div>
         <div class="alt-list">${alts.map(id => `<button class="alt-chip${isRec(id) ? ' rec' : ''}" onclick="swapToday('${key}','${id}')"><span class="eq">${equipOf(id)}${isRec(id) ? '・おすすめ' : ''}</span>${EX_DB[id].name}</button>`).join('')}</div>
       </div>` : '';
-    const progHtml = sug ? `<div class="prog-box"><div class="t"><b>前回は全セット${sug.reps}回できました</b><br>${sug.from}kg → ${sug.to}kg に上げどきです</div><button onclick="applySuggest('${key}',${sug.to})">${sug.to}kgにする</button></div>` : '';
+    const lastRec = lastAfRecordFull(exId);
+    const prevLine = lastRec
+      ? `<div class="sets-prev">前回（${+lastRec.date.slice(5, 7)}/${+lastRec.date.slice(8)}）　<b>${lastRec.e.weights.map((w, k) => `${wLabel(exId, w).replace('kg', '')}×${Array.isArray(lastRec.e.reps) ? lastRec.e.reps[k] : lastRec.e.reps}`).join('　')}</b></div>`
+      : `<div class="sets-prev">${s.converted ? 'この店舗ではまだ記録がありません。重さは目安です' : ''}</div>`;
+    const formOpen = (() => { try { return localStorage.getItem('gymlog_form_open') === '1'; } catch (e) { return false; } })();
     detail = `<div class="exercise-detail">
-      ${swapNote}${setupHtml}${altHtml}
-      <div style="height:12px"></div>
-      ${visual}
-      <div class="guide-grid">
-        <div class="guide-item guide-prep"><div class="guide-item-label">準備</div><div class="guide-item-text">${ex.guide.prep}</div></div>
-        <div class="guide-item guide-motion"><div class="guide-item-label">動作</div><div class="guide-item-text">${ex.guide.motion}</div></div>
-        <div class="guide-item guide-breath"><div class="guide-item-label">呼吸</div><div class="guide-item-text">${ex.guide.breath}</div></div>
+      ${swapNote}
+      ${prevLine}
+      <div id="sets-${key}">${setsInner(key)}</div>
+      <button class="btn-done" onclick="markDone('${key}')">${isDone ? '完了済み' : 'この種目を完了'}</button>
+      ${isDone ? `<button class="btn-undone" onclick="markUndone('${key}')">取り消し</button>` : ''}
+      ${setupHtml}${altHtml}
+      <div class="acc-wrap form-acc${formOpen ? ' open' : ''}">
+        <button class="acc-head" aria-expanded="${formOpen}" onclick="toggleAcc(this);try{localStorage.setItem('gymlog_form_open',this.closest('.acc-wrap').classList.contains('open')?'1':'0')}catch(e){}">
+          <span class="acc-title">フォームの解説</span><span class="acc-sub">写真・手順・動画</span>${chev()}
+        </button>
+        <div class="acc"><div class="acc-inner">
+          ${visual}
+          <div class="guide-grid">
+            <div class="guide-item guide-prep"><div class="guide-item-label">準備</div><div class="guide-item-text">${ex.guide.prep}</div></div>
+            <div class="guide-item guide-motion"><div class="guide-item-label">動作</div><div class="guide-item-text">${ex.guide.motion}</div></div>
+            <div class="guide-item guide-breath"><div class="guide-item-label">呼吸</div><div class="guide-item-text">${ex.guide.breath}</div></div>
+          </div>
+          <a class="video-link" href="${ex.video}" target="_blank" rel="noopener">▶ フォーム解説動画を見る</a>
+        </div></div>
       </div>
-      <a class="video-link" href="${ex.video}" target="_blank" rel="noopener">▶ フォーム解説動画を見る</a>
-      ${progHtml}
-      ${setsHtml}
-      ${bulkHtml}
       <div class="ex-ctrl-row">
         <button class="ex-ctrl-btn" onclick="moveEx('${exId}',-1)">↑上へ</button>
         <button class="ex-ctrl-btn" onclick="moveEx('${exId}',1)">↓下へ</button>
         <button class="ex-ctrl-btn" onclick="openPicker('replace','${exId}')">⇄入替</button>
         <button class="ex-ctrl-btn danger" onclick="dropEx('${exId}')">✕外す</button>
       </div>
-      <button class="btn-done" onclick="markDone('${key}')">${isDone ? '完了済み' : 'この種目を完了'}</button>
-      ${isDone ? `<button class="btn-undone" onclick="markUndone('${key}')">取り消し</button>` : ''}
     </div>`;
   }
 
@@ -2344,12 +2626,12 @@ function renderExerciseCard([exId, defSets, defReps, defW, custom, origId], i) {
             <span class="mc">${ex.machine}</span>
             <span>${s.weights.length}セット</span>
             ${origId ? '<span class="swap-tag">代わり</span>' : ''}
-            ${sug ? `<span class="up-pill">↑${sug.to}kg</span>` : (chestTag(exId) ? `<span style="color:var(--accent);font-weight:700">${chestTag(exId)}</span>` : '')}
+            ${sug ? `<span class="up-pill" id="up-${key}">↑${fmtW(sug.to)}kg</span>` : (chestTag(exId) ? `<span style="color:var(--accent);font-weight:700">${chestTag(exId)}</span>` : '')}
           </div>
           <div class="exercise-setup" id="setupline-${key}">${memo ? '⚙︎ ' + esc(memo) : ''}</div>
         </div>
         <div class="exercise-last">
-          <div class="exercise-last-weight">${s.weights[0]}kg</div>
+          <div class="exercise-last-weight" id="hw-${key}">${wLabel(exId, s.weights[0])}</div>
           <div class="exercise-last-label">${s.converted ? '目安' : '前回'}</div>
         </div>
         ${chev()}
@@ -2495,7 +2777,9 @@ function changeSets(key, delta) {
     s.weights.pop(); s.reps.pop();
   }
   pendingBulk = null;
-  renderExerciseList();
+  refreshSets(key);
+  const meta = document.querySelector('#card-' + key + ' .exercise-meta span:nth-child(2)');
+  if (meta) meta.textContent = s.weights.length + 'セット';
 }
 
 // ═══════════════════════════════════════════════
@@ -2851,12 +3135,21 @@ function renderSettings(focus, keep) {
   const incRow = ([k, f]) => {
     const v = incs[k], checked = (memo[k] || {}).checked;
     const opts = STEP_OPTIONS.includes(v.step) ? STEP_OPTIONS : STEP_OPTIONS.concat([v.step]).sort((a, b) => a - b);
+    const mins = MIN_OPTIONS.includes(v.min) ? MIN_OPTIONS : MIN_OPTIONS.concat([v.min]).sort((a, b) => a - b);
+    const adds = v.add || [];
+    const addIdx = f.adds ? Math.max(0, f.adds.findIndex(([arr]) => arr.length === adds.length && arr.every((x, i) => nearEq(x, adds[i])))) : 0;
+    const ex = [0, 1, 2, 3].map(n => r2((k === 'plate' ? v.min : (v.min || v.step)) + n * v.step));
     return `<div class="set-row">
-      <div class="nm">${f.name}${checked ? '<span class="badge-ok">確認済</span>' : '<span class="badge-warn">要確認</span>'}<small>例：${[0,1,2,3].map(n => v.min + n * v.step).map(x => Math.round(x * 100) / 100).join(' → ')} kg …</small></div>
-      <label class="fld">最小<input class="num-input" style="width:60px;padding:6px;min-height:40px" type="number" inputmode="decimal" value="${v.min}" onchange="setInc('${k}','min',this.value)">kg</label>
-      <label class="fld">刻み<select class="select" style="min-height:40px;padding:6px 30px 6px 10px" onchange="setInc('${k}','step',this.value)">
-        ${opts.map(o => `<option value="${o}" ${o === v.step ? 'selected' : ''}>${o}kg</option>`).join('')}
+      <div class="nm">${f.name}${checked ? '<span class="badge-ok">確認済</span>' : '<span class="badge-warn">要確認</span>'}<small>${ex.join(' → ')} kg …${adds.length ? `（追加 ${adds.map(a => '+' + a).join('/')}）` : ''}</small><small style="font-weight:500;line-height:1.6;margin-top:4px">${f.note || ''}</small></div>
+      <label class="fld">${k === 'plate' ? '最小' : '1枚目'}<select class="select" style="min-height:40px;padding:6px 30px 6px 10px" onchange="setInc('${k}','min',this.value)">
+        ${mins.map(o => `<option value="${o}" ${nearEq(o, v.min) ? 'selected' : ''}>${o}kg</option>`).join('')}
       </select></label>
+      <label class="fld">1枚ごと<select class="select" style="min-height:40px;padding:6px 30px 6px 10px" onchange="setInc('${k}','step',this.value)">
+        ${opts.map(o => `<option value="${o}" ${nearEq(o, v.step) ? 'selected' : ''}>${o}kg</option>`).join('')}
+      </select></label>
+      ${f.adds ? `<label class="fld" style="grid-column:1/-1">追加ウエイト<select class="select" style="min-height:40px;padding:6px 30px 6px 10px" onchange="setIncAdd('${k}',this.value)">
+        ${f.adds.map(([, l], i) => `<option value="${i}" ${i === addIdx ? 'selected' : ''}>${l}</option>`).join('')}
+      </select></label>` : ''}
     </div>`;
   };
   mount(`
@@ -2869,7 +3162,7 @@ function renderSettings(focus, keep) {
       </div>`, focus !== 'data')}
 
     ${acc('重量の刻み（' + GYM_NAME + '）', Object.keys(INC_FAMILIES).filter(k => !(memo[k] || {}).checked).length ? '要確認あり' : 'すべて確認済', `
-      <div style="font-size:12px;color:var(--text-dim);line-height:1.7;margin-bottom:4px">あすウェルの最後の重量を、ここで決めた刻みで一番近い値に合わせて「目安」として出します。実機のピンの数字を見て合わせてください。二子玉川で一度記録した種目は、その記録が優先されます。</div>
+      <div style="font-size:12px;color:var(--text-dim);line-height:1.7;margin-bottom:4px">記録の重さは、ここで決めた刻みから選ぶ形になります。初期値はメーカーの公開仕様をもとにしていますが、ピン1枚の重さが公開されていない機種があります。マシンのピンの数字を見て合わせてください。記録画面の重さをタップした先からも直せます。</div>
       ${Object.entries(INC_FAMILIES).map(incRow).join('')}
       <div class="set-row"><div class="nm">ダンベル（ZIVA）<small>1〜10kgは1kg、12〜40kgは2kg刻み</small></div></div>
       <div class="set-row"><div class="nm">自重・アシスト・バックエクステンション<small>丸めなし</small></div></div>`, focus !== 'data')}
@@ -3267,7 +3560,7 @@ function toastDo() {
 const SW_EDGE = 22, SW_REVEAL = 88, SW_BACK = 100;
 let gest = null, openRow = null, suppressClickUntil = 0;
 function sheetOpen() { const ov = document.querySelector('#pickerModal .picker-overlay'); return !!ov && !ov.classList.contains('leaving'); }
-function closeTopSheet() { editorPid ? closeMenuEditor() : closePicker(); }
+function closeTopSheet() { if (vsCtx) closeValueSheet(); else if (editorPid) closeMenuEditor(); else closePicker(); }
 function goBack() {
   if (currentView === 'workout') {
     const n = currentProgram ? Object.values(sessionState).filter(s => s && s.done).length : 0;

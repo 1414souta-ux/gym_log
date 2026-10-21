@@ -1380,23 +1380,20 @@ const EX_DB = {
 // 重量の刻み（エニタイム二子玉川の機種ごと）
 // ═══════════════════════════════════════════════
 const GYM_NAME = 'エニタイム二子玉川';
-const EX_INC = {"chest_press": "hs7", "shoulder_press": "hs", "lat_pulldown": "hs7", "seated_row": "hs", "pec_fly": "hs", "leg_press": "mx", "leg_ext": "mx", "leg_curl": "mx", "adductor": "mx", "abductor": "mx", "arm_curl": "mxs", "rotary_torso": "mx", "abdominal": "mx", "arm_ext_machine": "mx", "calf_press": "mx", "lf_low_row": "lf", "cable_pushdown": "cable", "cable_fly": "cable", "cable_fly_low": "cable", "cable_fly_high": "cable", "straight_arm_pd": "cable", "face_pull": "cable", "cable_side_raise": "cable", "cable_rear_delt_fly": "cable", "cable_curl": "cable", "cable_crunch": "cable", "cable_chest_press": "cable", "cable_overhead_ext": "cable", "straight_arm_pd2": "cable", "incline_press": "plate", "glute_drive": "plate", "plate_row": "plate", "vertical_traction": "plate", "squat": "plate", "smith_squat": "plate", "bench_press": "plate", "smith_bench": "plate", "deadlift": "plate", "rdl": "plate", "bent_row": "plate", "ohp": "plate", "rev_bent_row": "plate", "decline_press": "plate", "plate_shoulder": "plate", "plate_seated_row": "plate", "plate_lateral": "plate", "leg_press_45": "plate", "pushup": "none", "plank": "none", "crunch": "none", "leg_raise": "none", "russian_twist": "none", "lower_back": "none", "pull_up": "assist", "dips_assist": "assist"};
+const EX_INC = {"chest_press": "hs", "shoulder_press": "hs", "lat_pulldown": "hs", "seated_row": "hs", "pec_fly": "hs", "leg_press": "mx", "leg_ext": "mx", "leg_curl": "mx", "adductor": "mx", "abductor": "mx", "arm_curl": "mx", "rotary_torso": "mx", "abdominal": "mx", "arm_ext_machine": "mx", "calf_press": "mx", "lf_low_row": "lf", "cable_pushdown": "cable", "cable_fly": "cable", "cable_fly_low": "cable", "cable_fly_high": "cable", "straight_arm_pd": "cable", "face_pull": "cable", "cable_side_raise": "cable", "cable_rear_delt_fly": "cable", "cable_curl": "cable", "cable_crunch": "cable", "cable_chest_press": "cable", "cable_overhead_ext": "cable", "straight_arm_pd2": "cable", "incline_press": "plate", "glute_drive": "plate", "plate_row": "plate", "vertical_traction": "plate", "squat": "plate", "smith_squat": "plate", "bench_press": "plate", "smith_bench": "plate", "deadlift": "plate", "rdl": "plate", "bent_row": "plate", "ohp": "plate", "rev_bent_row": "plate", "decline_press": "plate", "plate_shoulder": "plate", "plate_seated_row": "plate", "plate_lateral": "plate", "leg_press_45": "plate", "pushup": "none", "plank": "none", "crunch": "none", "leg_raise": "none", "russian_twist": "none", "lower_back": "none", "pull_up": "assist", "dips_assist": "assist"};
 // 初期値はメーカーの公開仕様から。1枚あたりの重さが公開されていない機種は「要確認」
 //   Matrix Ultra：1枚4.5kg（10lb）、追加ウエイト1.1/2.3/3.4kg（機種による）、スタック90〜180kg
 //   Hammer Strength Select：スタック138kg（295lb）。追加ウエイトは標準3.4kg、SEモデル2.5kg×2
 //   Life Fitness ラットプル：スタック130kg/152kg、ケーブル：クロスオーバー1:2（追加2.5kg）／DAP 1:4
 //   アシスト・ディップ・チン：スタック82kg（175lb）
+const MX_LIST = []; for (let k = 2; k * 4.5 <= 180; k++) MX_LIST.push(Math.floor(k * 4.5 + 0.5));
 const INC_FAMILIES = {
-  hs:    { name:'Hammer Strength（ピン差し）', def:{ min:4.5, step:4.5, max:138, add:[] },
+  hs:    { name:'Hammer Strength（ピン差し）', def:{ min:5, step:7, max:138, add:[] }, confirmed:true,
            adds:[[[], 'なし'], [[3.4], '3.4kg（標準）'], [[2.5, 5], '2.5kg×2（SEモデル）']],
-           note:'スタック合計138kg（295lb）。1枚あたりの重さは公式に記載がないため、ポンド規格の10lb＝4.5kgを仮に入れています。' },
-  hs7:   { name:'ラットプル・チェストプレス（二子玉川で確認済み）', def:{ min:5, step:7, max:138, add:[] }, confirmed:true,
-           note:'二子玉川店で実機を確認：5kgから7kgずつ（5・12・19・26…）。スタック138kgまで。' },
-  mxs:   { name:'アームカール（二子玉川で確認済み）', def:{ list:[9,14,18,23,27,32,36] }, confirmed:true,
-           note:'二子玉川店で実機を確認：マシンの表示どおり 9・14・18・23・27・32・36kg。実際は4.5kgずつで、表示が四捨五入されています。' },
-  mx:    { name:'Matrix（ピン差し）', def:{ min:4.5, step:4.5, max:180, add:[] },
+           note:'二子玉川店で実機を確認：チェストプレス・ラットプルは5kgから7kgずつ（5・12・19・26…）。同じメーカーの他の機種も同じと見ています。スタック138kg。' },
+  mx:    { name:'Matrix（ピン差し）', def:{ list:MX_LIST, max:180, add:[] }, confirmed:true,
            adds:[[[], 'なし'], [[1.1, 2.3, 3.4], '1.1/2.3/3.4kg']],
-           note:'Matrix Ultraは1枚4.5kg（10lb）。追加ウエイト（1.1/2.3/3.4kg）は付いている機種だけで使えます。' },
+           note:'二子玉川店で実機を確認（アームカール・アブドミナル）：表示は 9・14・18・23・27・32・36…。実際は4.5kgずつで、表示が四捨五入されています。同じメーカーの他の機種も同じと見ています。追加ウエイト（1.1/2.3/3.4kg）は付いている機種だけで使えます。' },
   lf:    { name:'Life Fitness ラットプル/ローロー', def:{ min:4.5, step:4.5, max:152, add:[] },
            adds:[[[], 'なし'], [[2.5], '2.5kg']],
            note:'スタック合計130kgまたは152kg。1枚あたりは公式に記載がないため、10lb＝4.5kgを仮に入れています。' },
@@ -2349,18 +2346,19 @@ function renderValueSheet() {
     }).join('')}</div>`;
     const hint = plateHint(exId, cur);
     if (hint) body = `<div class="vs-hint">今の重さ ${fmtW(cur)}kg → ${hint}</div>` + body;
-    if (F && !Array.isArray(inc.list)) {
+    if (F) {
+      const isList = Array.isArray(inc.list);
       const checked = isIncChecked(fam);
-      const stepOpts = STEP_OPTIONS.includes(inc.step) ? STEP_OPTIONS : STEP_OPTIONS.concat([inc.step]).sort((a, b) => a - b);
-      const minOpts = MIN_OPTIONS.includes(inc.min) ? MIN_OPTIONS : MIN_OPTIONS.concat([inc.min]).sort((a, b) => a - b);
+      const stepOpts = isList ? [] : STEP_OPTIONS.includes(inc.step) ? STEP_OPTIONS : STEP_OPTIONS.concat([inc.step]).sort((a, b) => a - b);
+      const minOpts = isList ? [] : MIN_OPTIONS.includes(inc.min) ? MIN_OPTIONS : MIN_OPTIONS.concat([inc.min]).sort((a, b) => a - b);
       const addIdx = F.adds ? Math.max(0, F.adds.findIndex(([arr]) => arr.length === adds.length && arr.every((x, i) => nearEq(x, adds[i])))) : 0;
       body += `<div class="acc-wrap vs-cal${vsCtx.cal || !checked ? ' open' : ''}">
         <button class="acc-head" aria-expanded="${vsCtx.cal || !checked}" onclick="toggleAcc(this)"><span class="acc-title" style="font-size:13px">刻みを合わせる</span>${checked ? '<span class="badge-ok">確認済</span>' : '<span class="badge-warn">要確認</span>'}${chev()}</button>
         <div class="acc"><div class="acc-inner">
           <div class="note">${esc(F.name)}：${esc(F.note)}<br>マシンのピンの数字（1枚目の重さと、1枚ごとの増え方）に合わせてください。同じメーカーの機種すべてに反映されます。</div>
           <div class="fl">
-            <label>${fam === 'plate' ? '最小' : '1枚目'}<select class="select" onchange="vsCal('min',this.value)">${minOpts.map(o => `<option value="${o}" ${nearEq(o, inc.min) ? 'selected' : ''}>${o}kg</option>`).join('')}</select></label>
-            <label>1枚ごと<select class="select" onchange="vsCal('step',this.value)">${stepOpts.map(o => `<option value="${o}" ${nearEq(o, inc.step) ? 'selected' : ''}>${o}kg</option>`).join('')}</select></label>
+            ${isList ? '' : `<label>${fam === 'plate' ? '最小' : '1枚目'}<select class="select" onchange="vsCal('min',this.value)">${minOpts.map(o => `<option value="${o}" ${nearEq(o, inc.min) ? 'selected' : ''}>${o}kg</option>`).join('')}</select></label>
+            <label>1枚ごと<select class="select" onchange="vsCal('step',this.value)">${stepOpts.map(o => `<option value="${o}" ${nearEq(o, inc.step) ? 'selected' : ''}>${o}kg</option>`).join('')}</select></label>`}
             ${F.adds ? `<label style="grid-column:1/-1">追加ウエイト<select class="select" onchange="vsCal('add',this.value)">${F.adds.map(([, l], i) => `<option value="${i}" ${i === addIdx ? 'selected' : ''}>${l}</option>`).join('')}</select></label>` : ''}
           </div>
           ${checked ? '' : `<button class="btn-ghost" style="width:100%;margin-top:10px" onclick="vsCal('ok')">この刻みで合っている</button>`}
@@ -3140,7 +3138,9 @@ function renderSettings(focus, keep) {
   const styleRadio = (v, label, sub) => `<label class="seg-opt"><input type="radio" name="style2" value="${v}" ${getStyle() === v ? 'checked' : ''} onchange="setStyle('${v}')"><span style="flex-direction:column;line-height:1.3;padding:6px 4px">${label}<small style="font-size:10px;font-weight:600;opacity:.75">${sub}</small></span></label>`;
   const incRow = ([k, f]) => {
     const v = incs[k], checked = isIncChecked(k), isList = Array.isArray(v.list);
-    if (isList) return `<div class="set-row"><div class="nm">${f.name}<span class="badge-ok">確認済</span><small>${v.list.join(' → ')} kg</small><small style="font-weight:500;line-height:1.6;margin-top:4px">${f.note || ''}</small></div></div>`;
+    if (isList) { const ad = v.add || [], ai = f.adds ? Math.max(0, f.adds.findIndex(([arr]) => arr.length === ad.length && arr.every((x, i) => nearEq(x, ad[i])))) : 0;
+      return `<div class="set-row"><div class="nm">${f.name}<span class="badge-ok">確認済</span><small>${v.list.slice(0, 8).join(' → ')} kg …</small><small style="font-weight:500;line-height:1.6;margin-top:4px">${f.note || ''}</small></div>
+      ${f.adds ? `<label class="fld" style="grid-column:1/-1">追加ウエイト<select class="select" style="min-height:40px;padding:6px 30px 6px 10px" onchange="setIncAdd('${k}',this.value)">${f.adds.map(([, l], i) => `<option value="${i}" ${i === ai ? 'selected' : ''}>${l}</option>`).join('')}</select></label>` : ''}</div>`; }
     const opts = STEP_OPTIONS.includes(v.step) ? STEP_OPTIONS : STEP_OPTIONS.concat([v.step]).sort((a, b) => a - b);
     const mins = MIN_OPTIONS.includes(v.min) ? MIN_OPTIONS : MIN_OPTIONS.concat([v.min]).sort((a, b) => a - b);
     const adds = v.add || [];

@@ -1,4 +1,4 @@
-const CACHE = 'gymlog-v23';
+const CACHE = 'gymlog-v24';
 const ASSETS = ['./', './index.html', './manifest.json'];
 
 self.addEventListener('install', e => {

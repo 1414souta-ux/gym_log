@@ -1380,7 +1380,7 @@ const EX_DB = {
 // 重量の刻み（エニタイム二子玉川の機種ごと）
 // ═══════════════════════════════════════════════
 const GYM_NAME = 'エニタイム二子玉川';
-const EX_INC = {"chest_press": "hs", "shoulder_press": "hs", "lat_pulldown": "hs", "seated_row": "hs", "pec_fly": "hs", "leg_press": "mx", "leg_ext": "mx", "leg_curl": "mx", "adductor": "mx", "abductor": "mx", "arm_curl": "mx", "rotary_torso": "mx", "abdominal": "mx", "arm_ext_machine": "mx", "calf_press": "mx", "lf_low_row": "lf", "cable_pushdown": "cable", "cable_fly": "cable", "cable_fly_low": "cable", "cable_fly_high": "cable", "straight_arm_pd": "cable", "face_pull": "cable", "cable_side_raise": "cable", "cable_rear_delt_fly": "cable", "cable_curl": "cable", "cable_crunch": "cable", "cable_chest_press": "cable", "cable_overhead_ext": "cable", "straight_arm_pd2": "cable", "incline_press": "plate", "glute_drive": "plate", "plate_row": "plate", "vertical_traction": "plate", "squat": "plate", "smith_squat": "plate", "bench_press": "plate", "smith_bench": "plate", "deadlift": "plate", "rdl": "plate", "bent_row": "plate", "ohp": "plate", "rev_bent_row": "plate", "decline_press": "plate", "plate_shoulder": "plate", "plate_seated_row": "plate", "plate_lateral": "plate", "leg_press_45": "plate", "pushup": "none", "plank": "none", "crunch": "none", "leg_raise": "none", "russian_twist": "none", "lower_back": "none", "pull_up": "assist", "dips_assist": "assist"};
+const EX_INC = {"chest_press": "hs7", "shoulder_press": "hs", "lat_pulldown": "hs7", "seated_row": "hs", "pec_fly": "hs", "leg_press": "mx", "leg_ext": "mx", "leg_curl": "mx", "adductor": "mx", "abductor": "mx", "arm_curl": "mxs", "rotary_torso": "mx", "abdominal": "mx", "arm_ext_machine": "mx", "calf_press": "mx", "lf_low_row": "lf", "cable_pushdown": "cable", "cable_fly": "cable", "cable_fly_low": "cable", "cable_fly_high": "cable", "straight_arm_pd": "cable", "face_pull": "cable", "cable_side_raise": "cable", "cable_rear_delt_fly": "cable", "cable_curl": "cable", "cable_crunch": "cable", "cable_chest_press": "cable", "cable_overhead_ext": "cable", "straight_arm_pd2": "cable", "incline_press": "plate", "glute_drive": "plate", "plate_row": "plate", "vertical_traction": "plate", "squat": "plate", "smith_squat": "plate", "bench_press": "plate", "smith_bench": "plate", "deadlift": "plate", "rdl": "plate", "bent_row": "plate", "ohp": "plate", "rev_bent_row": "plate", "decline_press": "plate", "plate_shoulder": "plate", "plate_seated_row": "plate", "plate_lateral": "plate", "leg_press_45": "plate", "pushup": "none", "plank": "none", "crunch": "none", "leg_raise": "none", "russian_twist": "none", "lower_back": "none", "pull_up": "assist", "dips_assist": "assist"};
 // 初期値はメーカーの公開仕様から。1枚あたりの重さが公開されていない機種は「要確認」
 //   Matrix Ultra：1枚4.5kg（10lb）、追加ウエイト1.1/2.3/3.4kg（機種による）、スタック90〜180kg
 //   Hammer Strength Select：スタック138kg（295lb）。追加ウエイトは標準3.4kg、SEモデル2.5kg×2
@@ -1390,6 +1390,10 @@ const INC_FAMILIES = {
   hs:    { name:'Hammer Strength（ピン差し）', def:{ min:4.5, step:4.5, max:138, add:[] },
            adds:[[[], 'なし'], [[3.4], '3.4kg（標準）'], [[2.5, 5], '2.5kg×2（SEモデル）']],
            note:'スタック合計138kg（295lb）。1枚あたりの重さは公式に記載がないため、ポンド規格の10lb＝4.5kgを仮に入れています。' },
+  hs7:   { name:'ラットプル・チェストプレス（二子玉川で確認済み）', def:{ min:5, step:7, max:138, add:[] }, confirmed:true,
+           note:'二子玉川店で実機を確認：5kgから7kgずつ（5・12・19・26…）。スタック138kgまで。' },
+  mxs:   { name:'アームカール（二子玉川で確認済み）', def:{ list:[9,14,18,23,27,32,36] }, confirmed:true,
+           note:'二子玉川店で実機を確認：マシンの表示どおり 9・14・18・23・27・32・36kg。実際は4.5kgずつで、表示が四捨五入されています。' },
   mx:    { name:'Matrix（ピン差し）', def:{ min:4.5, step:4.5, max:180, add:[] },
            adds:[[[], 'なし'], [[1.1, 2.3, 3.4], '1.1/2.3/3.4kg']],
            note:'Matrix Ultraは1枚4.5kg（10lb）。追加ウエイト（1.1/2.3/3.4kg）は付いている機種だけで使えます。' },
@@ -1421,7 +1425,8 @@ function plateValues(exId) {
   const fam = incOf(exId);
   if (fam === 'db') return DB_WEIGHTS.slice();
   if (fam === 'none') return [0].concat(DB_WEIGHTS);
-  const { min, step, max } = getIncs()[fam];
+  const { min, step, max, list } = getIncs()[fam];
+  if (Array.isArray(list) && list.length) return list.slice();
   const out = [];
   if (fam === 'plate' && min > 0) out.push(0);
   for (let v = min || step; v <= (max || 200) + 1e-9; v += step) out.push(r2(v));
@@ -1447,6 +1452,7 @@ function plateHint(exId, w) {
   const pl = side === 0 ? 'なし' : parts.join('＋') + (rest > 0 ? `＋${rest}` : '');
   return `${bar ? 'バー20kg＋' : ''}片側 <b>${side}kg</b>（${pl}）`;
 }
+function isIncChecked(fam) { return !!(INC_FAMILIES[fam] && INC_FAMILIES[fam].confirmed) || !!(getMem('gymlog_incs')[fam] || {}).checked; }
 function getIncs() {
   const saved = getMem('gymlog_incs'), out = {};
   Object.entries(INC_FAMILIES).forEach(([k, f]) => { out[k] = Object.assign({}, f.def, saved[k] || {}); if (!Array.isArray(out[k].add)) out[k].add = []; });
@@ -2343,8 +2349,8 @@ function renderValueSheet() {
     }).join('')}</div>`;
     const hint = plateHint(exId, cur);
     if (hint) body = `<div class="vs-hint">今の重さ ${fmtW(cur)}kg → ${hint}</div>` + body;
-    if (F) {
-      const checked = (getMem('gymlog_incs')[fam] || {}).checked;
+    if (F && !Array.isArray(inc.list)) {
+      const checked = isIncChecked(fam);
       const stepOpts = STEP_OPTIONS.includes(inc.step) ? STEP_OPTIONS : STEP_OPTIONS.concat([inc.step]).sort((a, b) => a - b);
       const minOpts = MIN_OPTIONS.includes(inc.min) ? MIN_OPTIONS : MIN_OPTIONS.concat([inc.min]).sort((a, b) => a - b);
       const addIdx = F.adds ? Math.max(0, F.adds.findIndex(([arr]) => arr.length === adds.length && arr.every((x, i) => nearEq(x, adds[i])))) : 0;
@@ -3133,7 +3139,8 @@ function renderSettings(focus, keep) {
   const incs = getIncs(), memo = getMem('gymlog_incs');
   const styleRadio = (v, label, sub) => `<label class="seg-opt"><input type="radio" name="style2" value="${v}" ${getStyle() === v ? 'checked' : ''} onchange="setStyle('${v}')"><span style="flex-direction:column;line-height:1.3;padding:6px 4px">${label}<small style="font-size:10px;font-weight:600;opacity:.75">${sub}</small></span></label>`;
   const incRow = ([k, f]) => {
-    const v = incs[k], checked = (memo[k] || {}).checked;
+    const v = incs[k], checked = isIncChecked(k), isList = Array.isArray(v.list);
+    if (isList) return `<div class="set-row"><div class="nm">${f.name}<span class="badge-ok">確認済</span><small>${v.list.join(' → ')} kg</small><small style="font-weight:500;line-height:1.6;margin-top:4px">${f.note || ''}</small></div></div>`;
     const opts = STEP_OPTIONS.includes(v.step) ? STEP_OPTIONS : STEP_OPTIONS.concat([v.step]).sort((a, b) => a - b);
     const mins = MIN_OPTIONS.includes(v.min) ? MIN_OPTIONS : MIN_OPTIONS.concat([v.min]).sort((a, b) => a - b);
     const adds = v.add || [];
@@ -3161,7 +3168,7 @@ function renderSettings(focus, keep) {
         ${styleRadio('full', '全身法', 'A⇄B・脚は別')}${styleRadio('pp', '上半身分割', '押⇄引・脚は別')}${styleRadio('split', '分割法', 'A→B→C')}
       </div>`, focus !== 'data')}
 
-    ${acc('重量の刻み（' + GYM_NAME + '）', Object.keys(INC_FAMILIES).filter(k => !(memo[k] || {}).checked).length ? '要確認あり' : 'すべて確認済', `
+    ${acc('重量の刻み（' + GYM_NAME + '）', Object.keys(INC_FAMILIES).filter(k => !isIncChecked(k)).length ? '要確認あり' : 'すべて確認済', `
       <div style="font-size:12px;color:var(--text-dim);line-height:1.7;margin-bottom:4px">記録の重さは、ここで決めた刻みから選ぶ形になります。初期値はメーカーの公開仕様をもとにしていますが、ピン1枚の重さが公開されていない機種があります。マシンのピンの数字を見て合わせてください。記録画面の重さをタップした先からも直せます。</div>
       ${Object.entries(INC_FAMILIES).map(incRow).join('')}
       <div class="set-row"><div class="nm">ダンベル（ZIVA）<small>1〜10kgは1kg、12〜40kgは2kg刻み</small></div></div>
